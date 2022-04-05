@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of, switchMap } from 'rxjs';
+import { StorageKeys } from '../enums/storage-keys.enum';
 import { User } from '../models/user.model';
+import { StorageUtil } from '../utils/storage.util';
 
 // Create a testuser instead of fetching the user from the API
 const testUser: User= {
@@ -25,7 +27,8 @@ export class LoginService {
   // Login
   public login(email: string): User | undefined {
     if ( email === testUser.email) {
-      console.log(testUser)
+      
+      StorageUtil.storageSave<User>(StorageKeys.User , testUser)
       return testUser
     }
     else {
