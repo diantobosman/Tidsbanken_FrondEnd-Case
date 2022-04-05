@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginPage } from './pages/login/login.page';
@@ -9,6 +10,8 @@ import { VacationRequestPage } from './pages/vacation-request/vacation-request.p
 import { UserProfilePage } from './pages/user-profile/user-profile.page';
 import { AdminAreaPage } from './pages/admin-area/admin-area.page';
 import { VacationHistoryPage } from './pages/vacation-history/vacation-history.page';
+import { LoginFormComponent } from './components/login-form/login-form.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -19,10 +22,13 @@ import { VacationHistoryPage } from './pages/vacation-history/vacation-history.p
     VacationRequestPage,
     UserProfilePage,
     AdminAreaPage,
-    VacationHistoryPage
+    VacationHistoryPage,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],

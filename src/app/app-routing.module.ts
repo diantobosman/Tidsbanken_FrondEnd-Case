@@ -10,6 +10,11 @@ import { VacationRequestPage } from "./pages/vacation-request/vacation-request.p
 const routes: Routes = [
     {
         path: "",
+        pathMatch: "full",
+        redirectTo: "/login"
+    },
+    {
+        path: "login",
         component: LoginPage
     },
     {
