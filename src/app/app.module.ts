@@ -12,7 +12,17 @@ import { AdminAreaPage } from './pages/admin-area/admin-area.page';
 import { VacationHistoryPage } from './pages/vacation-history/vacation-history.page';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { CreateVacationPage } from './pages/create-vacation/create-vacation.page';
 
 @NgModule({
   declarations: [
@@ -23,13 +33,22 @@ import { FormsModule } from '@angular/forms';
     UserProfilePage,
     AdminAreaPage,
     VacationHistoryPage,
-    LoginFormComponent
+    LoginFormComponent,
+    NavbarComponent,
+    CreateVacationPage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

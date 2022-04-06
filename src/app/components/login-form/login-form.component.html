@@ -1,15 +1,15 @@
 <form #loginForm="ngForm" (ngSubmit)="loginSubmit(loginForm)">
-    <fieldset class="mb-3">
-        <label for="email" class="block">Email</label>
-        <input 
-            type="text" 
-            ngModel
-            #email="ngModel"
-            name="email" 
-            id="email" 
-            class="border border-slate-300 p-2 rounded w-full" 
-            placeholder="email"
-        />
-    </fieldset>
-    <button type="submit" class="bg-yellow-500 p-2 rounded">Login</button>
-</form>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Email:</mat-label>
+      <input 
+      type="text"
+      ngModel
+      #username="ngModel"
+      name="email" 
+      matInput placeholder="email"
+      id="email" 
+      >
+    </mat-form-field>
+  
+    <button mat-raised-button color="primary" type="submit">Login</button>
+  </form>
