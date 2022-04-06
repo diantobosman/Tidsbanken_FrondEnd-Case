@@ -23,6 +23,10 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { CreateVacationPage } from './pages/create-vacation/create-vacation.page';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,8 @@ import { CreateVacationPage } from './pages/create-vacation/create-vacation.page
     VacationHistoryPage,
     LoginFormComponent,
     NavbarComponent,
-    CreateVacationPage
+    CreateVacationPage,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +53,10 @@ import { CreateVacationPage } from './pages/create-vacation/create-vacation.page
     MatMenuModule,
     BrowserAnimationsModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
