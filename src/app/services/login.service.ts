@@ -8,6 +8,7 @@ import { User } from '../models/user.model';
 const testUser: User= {
   id: 1,
   email: 'foo@gmail.com',
+  name: 'foo',
   profilePicture: 'test.png', 
   adminId: 2,
   isAdmin: true

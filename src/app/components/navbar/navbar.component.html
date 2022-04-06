@@ -1,0 +1,23 @@
+<mat-toolbar>
+
+  <ng-container *ngIf="user!== undefined">
+    <button mat-icon-button [matMenuTriggerFor]="menu">Menu</button>
+    <mat-menu #menu="matMenu">
+      <button (click)="goToCalendarButton()" mat-menu-item>Calendar Dashboard</button>
+      <button (click)="goToViewHistoryButton()" mat-menu-item>View History</button>
+      <button (click)="goToUserProfileButton()" mat-menu-item>User Profile</button>
+      <button (click)="goToAdminAreaButton()" mat-menu-item>Admin Area</button>
+      <button (click)="goToLogoutButton()" mat-menu-item>Logout</button>
+    </mat-menu>
+  </ng-container>
+
+  <span class="example-spacer"></span>
+  <span>Tidsbanken</span>
+  <span class="example-spacer"></span>
+
+  <ng-container *ngIf="user!== undefined">
+    <mat-icon>account_circle</mat-icon>
+    <span id="name">{{user.name}} </span>
+  </ng-container>
+
+  </mat-toolbar>
