@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AuthGuard } from "./guards/auth.guard";
 import { AdminAreaPage } from "./pages/admin-area/admin-area.page";
 import { CalendarDashboardPage } from "./pages/calendar-dashboard/calendar-dashboard.page";
 import { LoginPage } from "./pages/login/login.page";
@@ -19,23 +20,28 @@ const routes: Routes = [
     },
     {
         path: "calendar",
-        component: CalendarDashboardPage 
+        component: CalendarDashboardPage,
+        canActivate: [ AuthGuard]
     },
     {
         path: "vacation-request",
-        component: VacationRequestPage
+        component: VacationRequestPage,
+        canActivate: [ AuthGuard ]
     },
     {
         path: "vacation-history",
-        component: VacationHistoryPage
+        component: VacationHistoryPage,
+        canActivate: [ AuthGuard]
     },
     {
         path: "user-profile",
-        component: UserProfilePage
+        component: UserProfilePage,
+        canActivate: [ AuthGuard ]
     },
     {
         path: "admin-area",
-        component: AdminAreaPage
+        component: AdminAreaPage,
+        canActivate: [ AuthGuard ]
     }
 ]
 
