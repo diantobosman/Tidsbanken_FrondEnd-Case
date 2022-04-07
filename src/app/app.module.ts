@@ -19,6 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -27,6 +28,10 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NewVacationComponent } from './components/new-vacation/new-vacation.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +45,8 @@ import { MatCardModule } from '@angular/material/card';
     LoginFormComponent,
     NavbarComponent,
     CreateVacationPage,
-    CalendarComponent
+    CalendarComponent,
+    NewVacationComponent
   ],
   imports: [
     BrowserModule,
@@ -56,8 +62,12 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatCardModule
-  ],
+    MatCardModule,
+    NoopAnimationsModule,
+    MatAutocompleteModule,
+    MatGridListModule,
+    ReactiveFormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
