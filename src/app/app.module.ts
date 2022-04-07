@@ -32,6 +32,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NewVacationComponent } from './components/new-vacation/new-vacation.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { HistoryComponent } from './components/history/history.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,10 @@ import { NewVacationComponent } from './components/new-vacation/new-vacation.com
     NavbarComponent,
     CreateVacationPage,
     CalendarComponent,
-    NewVacationComponent
+    NewVacationComponent,
+    ProfileComponent,
+    AdminComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

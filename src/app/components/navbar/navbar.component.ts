@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageKeys } from 'src/app/enums/storage-keys.enum';
-import { User } from 'src/app/models/user.model';
-import { UserService } from 'src/app/services/user.service';
+import { Employee } from 'src/app/models/employee.model';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,12 +12,12 @@ import { UserService } from 'src/app/services/user.service';
 export class NavbarComponent implements OnInit {
 
   constructor(
-    private readonly userService: UserService,
+    private readonly employeeService: EmployeeService,
     private readonly router: Router
   ) { }
 
-    get user(): User | undefined {
-      return this.userService.user;
+    get user(): Employee | undefined {
+      return this.employeeService.employee;
     }
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
   }
 
   goToLogoutButton() {
-    sessionStorage.removeItem(StorageKeys.User)
+    sessionStorage.removeItem(StorageKeys.Employee)
     this.router.navigateByUrl("/login")
   }
 

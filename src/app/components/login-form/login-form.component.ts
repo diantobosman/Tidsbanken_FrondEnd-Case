@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
+import { Employee } from 'src/app/models/employee.model';
 import { LoginService } from 'src/app/services/login.service';
-import { UserService } from 'src/app/services/user.service';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 
 @Component({
@@ -18,14 +18,14 @@ export class LoginFormComponent {
   constructor( 
     private readonly router: Router,
     private readonly loginService: LoginService,
-    private readonly userService: UserService
+    private readonly employeeService: EmployeeService
     ) { }
 
   public loginSubmit(loginForm: NgForm): void {
 
     const { email } = loginForm.value;
-    let user = this.loginService.login(email)
-    this.userService.user = user;
+    let employee = this.loginService.login(email)
+    this.employeeService.employee = employee;
     this.login.emit();
 
     // this.loginService.login(email)

@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of, switchMap } from 'rxjs';
-import { User } from '../models/user.model';
+import { Employee } from '../models/employee.model';
 
 
 // Create a testuser instead of fetching the user from the API
-const testUser: User= {
+const testUser: Employee= {
   id: 1,
   email: 'foo@gmail.com',
   name: 'foo',
@@ -25,7 +25,7 @@ export class LoginService {
   }
 
   // Login
-  public login(email: string): User | undefined {
+  public login(email: string): Employee | undefined {
     if ( email === testUser.email) {
       
       return testUser
