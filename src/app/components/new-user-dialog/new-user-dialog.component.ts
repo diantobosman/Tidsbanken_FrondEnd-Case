@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { RegisterService } from 'src/app/services/register.service';
 
 @Component({
   selector: 'app-new-user-dialog',
@@ -16,13 +17,14 @@ export class NewUserDialogComponent {
   constructor( 
     private readonly router: Router,
     private readonly loginService: LoginService,
-    private readonly employeeService: EmployeeService
+    private readonly employeeService: EmployeeService,
+    private readonly registerService: RegisterService
     ) { }
 
   public registerSubmit(loginForm: NgForm) {
     const { username } = loginForm.value;
     const { password } = loginForm.value;
 
-    console.log("lets go")
+   this.registerService.register()
   }
 }
