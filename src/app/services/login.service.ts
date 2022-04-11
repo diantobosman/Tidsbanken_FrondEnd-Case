@@ -13,6 +13,7 @@ import { StorageUtil } from '../utils/storage.util';
 
 export class LoginService {
   private _employee: Employee = {
+    id: 0,
     preferred_username: "none",
     fullName: "none",
     firstName: "none",
@@ -42,10 +43,8 @@ export class LoginService {
       "Content-Type": "application/x-www-form-urlencoded"
     })
 
-    console.log(username)
-    console.log(password)
     var urlencoded = new URLSearchParams();
-    urlencoded.append("client_id", "tidsbanken-frontend");
+    urlencoded.append("client_id", "tidsbanken-id");
     urlencoded.append("username", username);
     urlencoded.append("password", password);
     urlencoded.append("grant_type", "password");
@@ -63,13 +62,13 @@ export class LoginService {
        next: (result)=>{
         sessionStorage.setItem('authToken', result.access_token)
          this._employee = {
-             preferred_username: result.decodedToken.preferred_username,
-             fullName: result.decodedToken.name,
-             firstName: result.decodedToken.given_name,
-             lastName:result.decodedToken.family_name,
-             email:result.decodedToken.email
+           id: result.decodedToken.sub,
+           preferred_username: result.decodedToken.preferred_username,
+           fullName: result.decodedToken.name,
+           firstName: result.decodedToken.given_name,
+           lastName:result.decodedToken.family_name,
+           email:result.decodedToken.email
          }
-         console.log(this._employee)
          StorageUtil.storageSave<Employee>(StorageKeys.Employee, this._employee)
          this.router.navigateByUrl('/calendar')
          

@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Create New User</h2>
+<form #registerForm="ngForm" (ngSubmit)="registerSubmit(registerForm)">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Username:</mat-label>
+      <input 
+      type="text"
+      ngModel
+      #username="ngModel"
+      name="username" 
+      matInput placeholder="username"
+      id="username" 
+      >
+
+    </mat-form-field>
+    <br>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Password:</mat-label>
+      <input 
+      type="text"
+      ngModel
+      #password="ngModel"
+      name="password" 
+      matInput placeholder="*****"
+      id="password" 
+      >
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" type="submit">Register</button>
+  </form>

@@ -35,6 +35,9 @@ import { NewVacationComponent } from './components/new-vacation/new-vacation.com
 import { ProfileComponent } from './components/profile/profile.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { HistoryComponent } from './components/history/history.component';
+import { NewUserComponent } from './components/new-user/new-user.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NewUserDialogComponent } from './components/new-user-dialog/new-user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,9 @@ import { HistoryComponent } from './components/history/history.component';
     NewVacationComponent,
     ProfileComponent,
     AdminComponent,
-    HistoryComponent
+    HistoryComponent,
+    NewUserComponent,
+    NewUserDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +77,8 @@ import { HistoryComponent } from './components/history/history.component';
     NoopAnimationsModule,
     MatAutocompleteModule,
     MatGridListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
     ],
   providers: [],
   bootstrap: [AppComponent]
