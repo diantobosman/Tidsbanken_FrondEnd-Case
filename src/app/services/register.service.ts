@@ -1,12 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-import { Employee } from '../models/employee.model';
-
-const credentials = {
-  username: 'test',
-  email: 'test2'
-}
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +10,16 @@ export class RegisterService {
 
   constructor(private readonly http: HttpClient) { }
 
-  //-- Below is to register
+  //-- Register the user
   public registerUp(username: string, email: string, lastName: string, firstName: string, masterToken: string) {
-    console.log("User details:")
-    console.log(username)
-    console.log(lastName)
-    console.log(email)
-    console.log(firstName)
-
+    
+    //-- Define the headers
     const headers = new HttpHeaders ({
       "Content-Type": "application/json",
       "Authorization": `Bearer ${masterToken}`
     })
     
+    //-- Define the body
     var body = {
       "username": username,
       "email": email,
@@ -38,27 +30,31 @@ export class RegisterService {
       // }]
     }
 
-    this.http.post<any>('https://keycloak-tidsbanken-case.herokuapp.com/auth/admin/realms/tidsbankencase/users', body, {headers} )
+    //-- Post the new user
+    this.http.post<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users`, body, {headers} )
     .subscribe({
       next: (result)=>{console.log(result)},
       error:(error)=> {console.log(error)}
     })
   }
 
-  //-- Below is to get the token 
+  //-- Register but first get the token 
   public register(username: string, email: string, lastName: string, firstName: string) {
 
+    //-- Define the header
     const headers = new HttpHeaders ({
       "Content-Type": "application/x-www-form-urlencoded"
     })
 
+    //-- Define the body
     var urlencoded = new URLSearchParams();
     urlencoded.append("client_id", "admin-cli");
     urlencoded.append("username", "admin");
     urlencoded.append("password", "admin");
     urlencoded.append("grant_type", "password");
 
-    this.http.post<any>('https://keycloak-tidsbanken-case.herokuapp.com/auth/realms/master/protocol/openid-connect/token', urlencoded, { headers })
+    //-- Fetch the token from the master realm
+    this.http.post<any>(environment.herokuURL + `auth/realms/master/protocol/openid-connect/token`, urlencoded, { headers })
     .pipe(
         map(kcResult => {
           return {
@@ -69,7 +65,8 @@ export class RegisterService {
       )
       .subscribe({
        next: (result)=>{
-        this.registerUp(username, email, lastName, firstName, result.access_token)
+         //-- Register the user with the fetched token
+         this.registerUp(username, email, lastName, firstName, result.access_token)
        },
        error:(error) => {console.log("hello", error)}
      })

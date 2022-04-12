@@ -11,10 +11,12 @@ export class EmployeeService {
 
   private _employee?: Employee;
 
+  //-- Getter
   get employee(): Employee | undefined {
     return this._employee;
   }
 
+  //-- Setter
   set employee(employee: Employee | undefined) {
     StorageUtil.storageSave<Employee>(StorageKeys.Employee, employee!)
     this._employee = employee;

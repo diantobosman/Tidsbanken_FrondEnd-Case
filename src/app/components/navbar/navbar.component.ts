@@ -41,6 +41,7 @@ export class NavbarComponent implements OnInit {
 
   goToLogoutButton() {
     sessionStorage.removeItem(StorageKeys.Employee)
+    sessionStorage.removeItem(StorageKeys.AuthKey)
     this.router.navigateByUrl("/login")
   }
 
