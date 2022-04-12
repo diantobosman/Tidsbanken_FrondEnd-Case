@@ -29,6 +29,6 @@ export class NewUserDialogComponent {
 
     const { password } = loginForm.value;
 
-   this.registerService.register(username, email, lastName, firstName)
+   this.registerService.register(username, email, lastName, firstName, password)
   }
 }

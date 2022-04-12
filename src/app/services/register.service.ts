@@ -11,7 +11,7 @@ export class RegisterService {
   constructor(private readonly http: HttpClient) { }
 
   //-- Register the user
-  public registerUp(username: string, email: string, lastName: string, firstName: string, masterToken: string) {
+  public registerUp(username: string, email: string, lastName: string, firstName: string, password: string, masterToken: string) {
     
     //-- Define the headers
     const headers = new HttpHeaders ({
@@ -25,9 +25,14 @@ export class RegisterService {
       "email": email,
       "lastName": lastName,
       "firstName": firstName,
-      // "credentials":[{
-      //   "password": "try"
-      // }]
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": password,
+          "temporary": false
+        }
+      ]
     }
 
     //-- Post the new user
@@ -39,7 +44,7 @@ export class RegisterService {
   }
 
   //-- Register but first get the token 
-  public register(username: string, email: string, lastName: string, firstName: string) {
+  public register(username: string, email: string, lastName: string, firstName: string, password: string) {
 
     //-- Define the header
     const headers = new HttpHeaders ({
@@ -66,7 +71,7 @@ export class RegisterService {
       .subscribe({
        next: (result)=>{
          //-- Register the user with the fetched token
-         this.registerUp(username, email, lastName, firstName, result.access_token)
+         this.registerUp(username, email, lastName, firstName, password, result.access_token)
        },
        error:(error) => {console.log("hello", error)}
      })
