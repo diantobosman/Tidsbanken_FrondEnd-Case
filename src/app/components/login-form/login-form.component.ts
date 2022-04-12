@@ -21,23 +21,10 @@ export class LoginFormComponent {
     private readonly employeeService: EmployeeService
     ) { }
 
-  public loginSubmit(loginForm: NgForm): void {
+  public loginSubmit(loginForm: NgForm) {
+    const { username } = loginForm.value;
+    const { password } = loginForm.value;
 
-    const { email } = loginForm.value;
-    let employee = this.loginService.login(email)
-    this.employeeService.employee = employee;
-    this.login.emit();
-
-    // this.loginService.login(email)
-    //   .subscribe({
-    //     next: (user: User) => {
-    //       this.userService.user = user;
-    //       this.login.emit();
-    //     },
-    //     error: () => {
-
-    //     }
-    //   })
-    // }
+    this.loginService.login(username, password)
   }
 }

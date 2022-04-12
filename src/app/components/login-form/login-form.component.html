@@ -1,15 +1,28 @@
 <form #loginForm="ngForm" (ngSubmit)="loginSubmit(loginForm)">
     <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Email:</mat-label>
+      <mat-label>Username:</mat-label>
       <input 
       type="text"
       ngModel
       #username="ngModel"
-      name="email" 
-      matInput placeholder="email"
-      id="email" 
+      name="username" 
+      matInput placeholder="username"
+      id="username" 
+      >
+
+    </mat-form-field>
+    <br>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Password:</mat-label>
+      <input 
+      type="text"
+      ngModel
+      #password="ngModel"
+      name="password" 
+      matInput placeholder="*****"
+      id="password" 
       >
     </mat-form-field>
-  
+    <br>
     <button mat-raised-button color="primary" type="submit">Login</button>
   </form>
