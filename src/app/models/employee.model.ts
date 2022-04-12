@@ -1,6 +1,6 @@
 export interface Employee{
     id: number,
-    preferred_username: string,
+    username: string,
     fullName: string,
     firstName:string,
     email: string,

@@ -23,8 +23,12 @@ export class NewUserDialogComponent {
 
   public registerSubmit(loginForm: NgForm) {
     const { username } = loginForm.value;
+    const { email } = loginForm.value;
+    const { lastName } = loginForm.value;
+    const { firstName } = loginForm.value;
+
     const { password } = loginForm.value;
 
-   this.registerService.register()
+   this.registerService.register(username, email, lastName, firstName)
   }
 }

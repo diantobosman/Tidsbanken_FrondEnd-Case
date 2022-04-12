@@ -10,8 +10,51 @@
       matInput placeholder="username"
       id="username" 
       >
-
     </mat-form-field>
+
+    <br>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>First Name:</mat-label>
+      <input 
+      type="text"
+      ngModel
+      #firstName="ngModel"
+      name="firstName" 
+      matInput placeholder="First Name"
+      id="firstName" 
+      >
+    </mat-form-field>
+    <br>
+
+    <br>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Last Name:</mat-label>
+      <input 
+      type="text"
+      ngModel
+      #lastName="ngModel"
+      name="lastName" 
+      matInput placeholder="Last Name"
+      id="lastName" 
+      >
+    </mat-form-field>
+    <br>
+
+    <br>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Email:</mat-label>
+      <input 
+      type="text"
+      ngModel
+      #email="ngModel"
+      name="email" 
+      matInput placeholder="email"
+      id="email" 
+      >
+    </mat-form-field>
+    <br>
+
+
     <br>
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Password:</mat-label>
@@ -25,5 +68,8 @@
       >
     </mat-form-field>
     <br>
+
+
+    
     <button mat-raised-button color="primary" type="submit">Register</button>
   </form>

@@ -14,7 +14,7 @@ import { StorageUtil } from '../utils/storage.util';
 export class LoginService {
   private _employee: Employee = {
     id: 0,
-    preferred_username: "none",
+    username: "none",
     fullName: "none",
     firstName: "none",
     email: "none@none",
@@ -63,7 +63,7 @@ export class LoginService {
         sessionStorage.setItem('authToken', result.access_token)
          this._employee = {
            id: result.decodedToken.sub,
-           preferred_username: result.decodedToken.preferred_username,
+           username: result.decodedToken.preferred_username,
            fullName: result.decodedToken.name,
            firstName: result.decodedToken.given_name,
            lastName:result.decodedToken.family_name,

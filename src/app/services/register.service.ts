@@ -16,18 +16,29 @@ export class RegisterService {
   constructor(private readonly http: HttpClient) { }
 
   //-- Below is to register
-  public registerUp(masterToken: string) {
+  public registerUp(username: string, email: string, lastName: string, firstName: string, masterToken: string) {
+    console.log("User details:")
+    console.log(username)
+    console.log(lastName)
+    console.log(email)
+    console.log(firstName)
 
     const headers = new HttpHeaders ({
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": masterToken,
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${masterToken}`
     })
+    
+    var body = {
+      "username": username,
+      "email": email,
+      "lastName": lastName,
+      "firstName": firstName,
+      // "credentials":[{
+      //   "password": "try"
+      // }]
+    }
 
-    var urlencoded = new URLSearchParams();
-    urlencoded.append("client_id", "tidsbanken-id");
-    urlencoded.append("username", "TRYY");
-
-    this.http.post<any>('https://keycloak-auth-service.herokuapp.com/auth/admin/realms/tidsbankencase/users', urlencoded, { headers })
+    this.http.post<any>('https://keycloak-tidsbanken-case.herokuapp.com/auth/admin/realms/tidsbankencase/users', body, {headers} )
     .subscribe({
       next: (result)=>{console.log(result)},
       error:(error)=> {console.log(error)}
@@ -35,7 +46,7 @@ export class RegisterService {
   }
 
   //-- Below is to get the token 
-  public register() {
+  public register(username: string, email: string, lastName: string, firstName: string) {
 
     const headers = new HttpHeaders ({
       "Content-Type": "application/x-www-form-urlencoded"
@@ -58,7 +69,7 @@ export class RegisterService {
       )
       .subscribe({
        next: (result)=>{
-        this.registerUp(result.access_token)
+        this.registerUp(username, email, lastName, firstName, result.access_token)
        },
        error:(error) => {console.log("hello", error)}
      })

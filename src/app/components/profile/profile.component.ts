@@ -11,16 +11,10 @@ export class ProfileComponent {
 
   constructor(
     private readonly employeeService: EmployeeService
-  ) {
-
-
-   }
+  ) {}
 
    get user(): Employee | undefined {
     return this.employeeService.employee;
   }
-
-
-
 
 }
