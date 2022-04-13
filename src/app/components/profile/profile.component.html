@@ -1,8 +1,8 @@
 <ng-container *ngIf="employee!== undefined">
 <h2>Profile</h2>
 
-<p>Name: {{employee.fullName}}</p>
-<p>Email: {{employee.email}}</p>
+<p>Name: {{employee.first_name}}</p>
+<p>Email: {{employee.emailAddress}}</p>
 
 <button mat-raised-button (click)="openDialogChangeProfileDetails()">Change profile details</button>
 <button mat-raised-button (click)="openDialogChangeAdminRights()">Give admin rights</button>

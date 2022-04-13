@@ -13,7 +13,7 @@ export class RegisterService {
   constructor(private readonly http: HttpClient) { }
 
   //-- Register the user
-  public register(username: string, email: string, lastName: string, firstName: string, password: string) {
+  public registerKeyCloak(username: string, email: string, lastName: string, firstName: string, password: string) {
     
     // Get the mastertoken
     const masterToken = StorageUtil.storageRead(StorageKeys.AuthKeyMaster)
@@ -43,8 +43,36 @@ export class RegisterService {
     //-- Post the new user
     this.http.post<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users`, body, {headers} )
     .subscribe({
+      next: (result)=>{result},
+      error:(error)=> {console.log(error)}
+    })
+  }
+
+  public registerAPI(firstName: string, lastName: string, email: string) {
+
+    // Get the mastertoken
+    const employeeToken = StorageUtil.storageRead(StorageKeys.AuthKey)
+
+    //-- Define the headers
+    const headers = new HttpHeaders ({
+      "accept": "*/*",
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${employeeToken}`
+      })
+
+    var body = {
+      "employeeId": "testId",
+      "first_name": firstName,
+      "last_name": lastName,
+      "emailAddress": email
+    }
+
+    //-- Post the new user
+    this.http.post<any>(environment.APIURL + `employee/register`, body, {headers})
+    .subscribe({
       next: (result)=>{console.log(result)},
       error:(error)=> {console.log(error)}
     })
+
   }
 }

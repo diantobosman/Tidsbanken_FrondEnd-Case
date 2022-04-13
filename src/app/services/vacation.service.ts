@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StorageKeys } from '../enums/storage-keys.enum';
-import { Employee } from '../models/employee.model';
 import { Vacation } from '../models/vacation.model';
-import { StorageUtil } from '../utils/storage.util';
 
 const testVacation: Vacation= {
   requestId:  1,

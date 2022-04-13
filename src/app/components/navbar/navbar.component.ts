@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageKeys } from 'src/app/enums/storage-keys.enum';
 import { Employee } from 'src/app/models/employee.model';
+import { User } from 'src/app/models/user.model';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,11 +15,12 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private readonly employeeService: EmployeeService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly loginService: LoginService
   ) { }
 
-    get user(): Employee | undefined {
-      return this.employeeService.employee;
+    get user(): User | undefined {
+      return this.loginService.user;
     }
 
   ngOnInit(): void {

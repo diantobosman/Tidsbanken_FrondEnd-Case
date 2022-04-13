@@ -1,17 +1,14 @@
 export interface Employee{
-    id: number,
-    username: string,
-    fullName: string,
-    firstName:string,
-    email: string,
-    lastName: string
+    employeeId: string,
+    first_name: string,
+    last_name: string,
+    emailAddress: string,
+    // profilePic: string,
+    // get_vacation_request:[
+    //     string
+    // ],
+    // get_comments: [
+    //     string
+    // ],
+    // admin: boolean
 }
-
-// export interface Employee {
-//     id: number;
-//     email: string;
-//     username: String;
-//     profilePicture: string; 
-//     adminId: number;
-//     isAdmin: boolean;
-// }

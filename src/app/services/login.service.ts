@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, Observable, of, switchMap } from 'rxjs';
 import { StorageKeys } from '../enums/storage-keys.enum';
-import { Employee } from '../models/employee.model';
+import { User } from '../models/user.model';
 import { StorageUtil } from '../utils/storage.util';
 import { environment } from 'src/environments/environment';
+import { RegisterService } from './register.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,28 +15,26 @@ import { environment } from 'src/environments/environment';
 export class LoginService {
 
   //-- Define initial employee (Deans demo)
-  private _employee: Employee = {
+  private _user: User = {
     id: 0,
-    username: "none",
-    fullName: "none",
-    firstName: "none",
-    email: "none@none",
-    lastName: "none"
+    username: "none"
   }
 
   constructor(
     private readonly router: Router,
-    private readonly http: HttpClient) { 
+    private readonly http: HttpClient,
+    private readonly registerService: RegisterService
+    ) { 
   }
 
   //-- Getter
-  get employee(){
-    return this._employee
+  get user(){
+    return this._user
   }
 
   //-- Setter
-  set employee(employee:Employee){
-    this._employee = employee
+  set user(user: User){
+    this._user = user
   }
 
   // Login
@@ -65,28 +64,58 @@ export class LoginService {
       )
       .subscribe({
        next: (result)=>{
+         console.log("This login is working")
+         console.log(result)
+
+         //-- If the user exists here but not in the api, then register the user in the api.
+         //this.registerService.registerAPI(firstName, lastName, email)
+
          //-- Define the logged in employee
-         this._employee = {
+         this._user = {
            id: result.decodedToken.sub,
-           username: result.decodedToken.preferred_username,
-           fullName: result.decodedToken.name,
-           firstName: result.decodedToken.given_name,
-           lastName:result.decodedToken.family_name,
-           email:result.decodedToken.email
+           username: result.decodedToken.preferred_username
           }
+
+          // 
+          //this.getUserAPI(result.decodedToken.sub, result.acces_token)
           //-- Navigate to the calendar page and store they the employee and the key in sessionstorage
-          this.router.navigateByUrl('/calendar')
-          StorageUtil.storageSave<Employee>(StorageKeys.Employee, this._employee)
+          StorageUtil.storageSave<User>(StorageKeys.User, this._user)
           StorageUtil.storageSave(StorageKeys.AuthKey, result.access_token)
-         
+          this.router.navigateByUrl('/calendar')
        },
        error:(error) => {console.log("This user does not exist:", error)}
      })
   }
 
-  public loginAPI() {
+  // public getEmployeeAPI(id: string, employeeToken: string) {
 
-  }
+  //   //-- Define the headers
+  //   const headers = new HttpHeaders ({
+  //     "accept": "*/*",
+  //     })
+
+  //   var body = {
+  //     "employeeId": id,
+  //   }
+
+  //   //-- Post the new user
+  //   this.http.post<any>(environment.APIURL + `employee/`, body, {headers})
+  //   .subscribe({
+  //     next: (result)=>{
+  //       this._employee = {
+  //         id: result.decodedToken.sub,
+  //         username: result.decodedToken.preferred_username,
+  //         fullName: result.decodedToken.name,
+  //         firstName: result.decodedToken.given_name,
+  //         lastName:result.decodedToken.family_name,
+  //         email:result.decodedToken.email
+  //        }
+        
+  //       console.log(result)},
+  //     error:(error)=> {console.log(error)}
+  //   })
+  // }
+
 
   //-- This function is to get the master token in session storage
   public getMasterToken() {
