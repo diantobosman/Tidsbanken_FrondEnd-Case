@@ -5,6 +5,7 @@ import { Employee } from 'src/app/models/employee.model';
 import { User } from 'src/app/models/user.model';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { LoginService } from 'src/app/services/login.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,11 +17,11 @@ export class NavbarComponent implements OnInit {
   constructor(
     private readonly employeeService: EmployeeService,
     private readonly router: Router,
-    private readonly loginService: LoginService
+    private readonly userService: UserService
   ) { }
 
     get user(): User | undefined {
-      return this.loginService.user;
+      return this.userService.user;
     }
 
   ngOnInit(): void {
@@ -46,6 +47,7 @@ export class NavbarComponent implements OnInit {
     sessionStorage.removeItem(StorageKeys.Employee)
     sessionStorage.removeItem(StorageKeys.AuthKey)
     sessionStorage.removeItem(StorageKeys.AuthKeyMaster)
+    sessionStorage.removeItem(StorageKeys.User)
     this.router.navigateByUrl("/login")
   }
 

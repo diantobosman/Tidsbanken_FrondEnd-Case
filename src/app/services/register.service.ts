@@ -27,9 +27,6 @@ export class RegisterService {
     //-- Define the body
     var body = {
       "username": username,
-      "email": email,
-      "lastName": lastName,
-      "firstName": firstName,
       "enabled": true,
       "credentials": [
         {
