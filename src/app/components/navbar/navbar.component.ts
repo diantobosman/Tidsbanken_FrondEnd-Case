@@ -48,6 +48,7 @@ export class NavbarComponent implements OnInit {
     sessionStorage.removeItem(StorageKeys.AuthKey)
     sessionStorage.removeItem(StorageKeys.AuthKeyMaster)
     sessionStorage.removeItem(StorageKeys.User)
+    this.userService.user = undefined
     this.router.navigateByUrl("/login")
   }
 
