@@ -1,5 +1,6 @@
 export enum StorageKeys {
     Employee = "current-employee",
     Vacation = "current-vacation",
-    AuthKey = "authToken"
+    AuthKey = "authToken",
+    AuthKeyMaster = "AuthTokenMaster"
 }

@@ -39,7 +39,7 @@ export class LoginService {
   }
 
   // Login
-  public login(username: string, password: string) {
+  public loginKeyCloak(username: string, password: string) {
 
     //-- Define the header
     const headers = new HttpHeaders ({
@@ -83,4 +83,47 @@ export class LoginService {
        error:(error) => {console.log("This user does not exist:", error)}
      })
   }
+
+  public loginAPI() {
+
+  }
+
+  //-- This function is to get the master token in session storage
+  public getMasterToken() {
+
+    //-- Define the header
+    const headers = new HttpHeaders ({
+      "Content-Type": "application/x-www-form-urlencoded"
+    })
+
+    //-- Define the body
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("client_id", "admin-cli");
+    urlencoded.append("username", "admin");
+    urlencoded.append("password", "admin");
+    urlencoded.append("grant_type", "password");
+
+    //-- Fetch the token from the master realm
+    this.http.post<any>(environment.herokuURL + `auth/realms/master/protocol/openid-connect/token`, urlencoded, { headers })
+    .pipe(
+        map(kcResult => {
+          return {
+            ...kcResult,
+            decodedToken: JSON.parse(atob(kcResult.access_token.split('.')[1]))
+           }
+         })
+      )
+      .subscribe({
+       next: (result)=>{
+        //-- Put masterToken in session storage
+        StorageUtil.storageSave(StorageKeys.AuthKeyMaster, result.access_token)
+       },
+       error:(error) => {console.log("hello", error)}
+     })
+  }
+
+
+
+
+
 }

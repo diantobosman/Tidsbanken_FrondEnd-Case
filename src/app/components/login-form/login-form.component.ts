@@ -25,6 +25,15 @@ export class LoginFormComponent {
     const { username } = loginForm.value;
     const { password } = loginForm.value;
 
-    this.loginService.login(username, password)
+    //-- First store the master token in de session storage
+    this.loginService.getMasterToken()
+
+    //-- Then login
+    this.loginService.loginKeyCloak(username, password)
+    //-- Here login to api too
+
+
+
+    
   }
 }

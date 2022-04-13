@@ -29,6 +29,7 @@ export class NewUserDialogComponent {
 
     const { password } = loginForm.value;
 
-   this.registerService.register(username, email, lastName, firstName, password)
+    console.log(this.loginService.getMasterToken())
+    this.registerService.register(username, email, lastName, firstName, password)
   }
 }

@@ -38,6 +38,8 @@ import { HistoryComponent } from './components/history/history.component';
 import { NewUserComponent } from './components/new-user/new-user.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NewUserDialogComponent } from './components/new-user-dialog/new-user-dialog.component';
+import { ProfileNewPasswordDialogComponent } from './components/profile-new-password-dialog/profile-new-password-dialog.component';
+import { ProfileChangeProfileDialogComponent } from './components/profile-change-profile-dialog/profile-change-profile-dialog.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,9 @@ import { NewUserDialogComponent } from './components/new-user-dialog/new-user-di
     AdminComponent,
     HistoryComponent,
     NewUserComponent,
-    NewUserDialogComponent
+    NewUserDialogComponent,
+    ProfileNewPasswordDialogComponent,
+    ProfileChangeProfileDialogComponent
   ],
   imports: [
     BrowserModule,

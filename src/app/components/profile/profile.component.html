@@ -1,3 +1,9 @@
-<ng-container *ngIf="user!== undefined">
-<p>profile works ser! Your name is {{user.username}} and your email is {{user.email}} Hieronder buttons maken om dingen aan te passen voor de user.</p>
+<ng-container *ngIf="employee!== undefined">
+<h2>Profile</h2>
+
+<p>Name: {{employee.fullName}}</p>
+<p>Email: {{employee.email}}</p>
+
+<button mat-raised-button (click)="openDialogChangeProfileDetails()">Change profile details</button>
+<button mat-raised-button (click)="openDialogChangeAdminRights()">Give admin rights</button>
 </ng-container>
