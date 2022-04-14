@@ -1,6 +1,6 @@
 <mat-toolbar>
 
-  <ng-container *ngIf="user!== undefined">
+  <ng-container *ngIf="user !== undefined">
     <button mat-icon-button [matMenuTriggerFor]="menu">Menu</button>
     <mat-menu #menu="matMenu">
       <button (click)="goToCalendarButton()" mat-menu-item>Calendar Dashboard</button>
@@ -15,7 +15,7 @@
   <span>Tidsbanken</span>
   <span class="example-spacer"></span>
 
-  <ng-container *ngIf="user!== undefined">
+  <ng-container *ngIf="user !== undefined">
     <mat-icon>account_circle</mat-icon>
     <span id="name">{{user.username}} </span>
   </ng-container>
