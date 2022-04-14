@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Employee } from 'src/app/models/employee.model';
 import { LoginService } from 'src/app/services/login.service';
 import { EmployeeService } from 'src/app/services/employee.service';
-
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-login-form',
@@ -21,19 +21,14 @@ export class LoginFormComponent {
     private readonly employeeService: EmployeeService
     ) { }
 
-  public loginSubmit(loginForm: NgForm) {
+  public loginSubmit(loginForm: NgForm): void {
     const { username } = loginForm.value;
     const { password } = loginForm.value;
 
     //-- First store the master token in de session storage
-    this.loginService.getMasterToken()
+    this.loginService.getMasterToken();
 
     //-- Then login
-    this.loginService.loginKeyCloak(username, password)
-    //-- Here login to api too
-
-
-
-    
+    this.loginService.loginKeyCloak(username, password);
   }
 }

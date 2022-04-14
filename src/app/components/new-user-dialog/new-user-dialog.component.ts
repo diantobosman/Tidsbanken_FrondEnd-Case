@@ -21,7 +21,7 @@ export class NewUserDialogComponent {
     private readonly registerService: RegisterService
     ) { }
 
-  public registerSubmit(loginForm: NgForm) {
+  public async registerSubmit(loginForm: NgForm) {
     const { username } = loginForm.value;
     const { email } = loginForm.value;
     const { lastName } = loginForm.value;
@@ -30,6 +30,9 @@ export class NewUserDialogComponent {
     const { password } = loginForm.value;
 
     console.log(this.loginService.getMasterToken())
-    this.registerService.register(username, email, lastName, firstName, password)
+    let registereduser = this.registerService.registerKeyCloak(username, email, lastName, firstName, password)
+    console.log("------ RegisteredUser is:")
+    console.log(registereduser)
+    this.registerService.registerAPI(firstName, lastName, email)
   }
 }
