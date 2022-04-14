@@ -16,7 +16,7 @@ import { Employee } from '../models/employee.model';
 export class LoginService {
 
   //-- Define initial employee (Deans demo)
-  private _user: User = {
+  public _user: User = {
     id: 0,
     username: "none"
   }
@@ -54,7 +54,7 @@ export class LoginService {
   }
 
   // Login
-  public loginKeyCloak(username: string, password: string) {
+  public loginKeyCloak(username: string, password: string): Observable<any> {
 
     //-- Define the header
     const headers = new HttpHeaders ({
@@ -69,7 +69,7 @@ export class LoginService {
     urlencoded.append("grant_type", "password");
 
     //-- Fetch
-    this.http.post<any>(environment.herokuURL + `auth/realms/tidsbankencase/protocol/openid-connect/token`, urlencoded, { headers })
+    return this.http.post<any>(environment.herokuURL + `auth/realms/tidsbankencase/protocol/openid-connect/token`, urlencoded, { headers })
     .pipe(
         map(kcResult => {
           return {
@@ -78,27 +78,11 @@ export class LoginService {
            }
          })
       )
-      .subscribe({
-       next: (result)=>{
-
-        //-- Get the employee from the database
-        this.getEmployeeAPI(result.decodedToken.sub, result.decodedToken)
-        
-         //-- Define the logged in employee
-        this._user = {
-          id: result.decodedToken.sub,
-          username: result.decodedToken.preferred_username
-        }
-
-        //-- Navigate to the calendar page and store they the employee and the key in sessionstorage
-        StorageUtil.storageSave<User>(StorageKeys.User, this._user)
-        StorageUtil.storageSave(StorageKeys.AuthKey, result.access_token)
-        this.router.navigateByUrl('/calendar')
-
-       },
-       error:(error) => {console.log("This user does not exist:", error)}
-     })
   }
+
+
+
+
 
   public getEmployeeAPI(id: string, employeeToken: string) {
 
