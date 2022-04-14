@@ -21,8 +21,8 @@ const routes: Routes = [
     },
     {
         path: "calendar",
-        component: CalendarDashboardPage
-        // canActivate: [ AuthGuard]
+        component: CalendarDashboardPage,
+        canActivate: [ AuthGuard ]
     },
     {
         path: "vacation-request",
