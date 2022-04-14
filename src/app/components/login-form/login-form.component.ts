@@ -21,7 +21,6 @@ export class LoginFormComponent {
   constructor( 
     private readonly router: Router,
     private readonly loginService: LoginService,
-    private readonly employeeService: EmployeeService
     ) { }
 
   public loginSubmit(loginForm: NgForm): void {
