@@ -6,23 +6,26 @@ import { EmployeeService } from '../services/employee.service';
 @Injectable({
   providedIn: 'root'
 })
-
-export class AuthGuard implements CanActivate {
-
+export class LoginGuard implements CanActivate {
+  
   constructor(
     private readonly router: Router,
     private readonly employeeService: EmployeeService
-  ) { }
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.employeeService.employee) {
-      return true;
-    }
-    else {
-      this.router.navigateByUrl("/")
-      return false;
-    }
+      if (this.employeeService.employee && this.router.url === "/") {
+        this.router.navigateByUrl("/calendar");
+        return false;
+      } else {
+        return true;
+      }
+        
+      
+
+
   }
+  
 }

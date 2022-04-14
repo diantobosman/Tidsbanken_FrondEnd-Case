@@ -8,6 +8,7 @@ import { UserProfilePage } from "./pages/user-profile/user-profile.page";
 import { VacationHistoryPage } from "./pages/vacation-history/vacation-history.page";
 import { VacationRequestPage } from "./pages/vacation-request/vacation-request.page";
 import { CreateVacationPage } from "./pages/create-vacation/create-vacation.page";
+import { LoginGuard } from "./guards/login.guard";
 
 const routes: Routes = [
     {
@@ -22,7 +23,7 @@ const routes: Routes = [
     {
         path: "calendar",
         component: CalendarDashboardPage,
-        canActivate: [ AuthGuard ]
+        canActivate: [ LoginGuard ]
     },
     {
         path: "vacation-request",

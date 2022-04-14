@@ -51,7 +51,6 @@ export class LoginFormComponent {
 
         console.log("WORKS! :D");
         console.log(this.loginService._user);
-        this.router.navigateByUrl("/calendar")
         this.login.emit();
 
         },
