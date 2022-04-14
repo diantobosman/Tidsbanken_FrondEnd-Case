@@ -18,7 +18,8 @@ export class LoginService {
   //-- Define initial employee (Deans demo)
   public _user: User = {
     id: 0,
-    username: "none"
+    username: "none",
+    email: "none"
   }
 
   private _employee: Employee = {
@@ -109,7 +110,6 @@ export class LoginService {
       }
     })
   }
-
 
   //-- This function is to get the master token in session storage
   public getMasterToken() {

@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../enums/storage-keys.enum';
+import { User } from '../models/user.model';
 import { StorageUtil } from '../utils/storage.util';
 
 @Injectable({
@@ -45,10 +46,15 @@ export class RegisterService {
     })
   }
 
-  public registerAPI(firstName: string, lastName: string, email: string) {
+  //-- Register the employee in the API storage
+  public async registerAPI(firstName: string, lastName: string, email: string): Promise<any> {
 
     // Get the mastertoken
     const employeeToken = StorageUtil.storageRead(StorageKeys.AuthKey)
+
+    const id = StorageUtil.storageRead(StorageKeys.NewUserID)
+
+    console.log("The new ID from keycloak is: " + id)
 
     //-- Define the headers
     const headers = new HttpHeaders ({
@@ -58,7 +64,7 @@ export class RegisterService {
       })
 
     var body = {
-      "employeeId": "testIddtht",
+      "employeeId": id,
       "first_name": firstName,
       "last_name": lastName,
       "emailAddress": email
@@ -70,6 +76,32 @@ export class RegisterService {
       next: (result)=>{"Posted API succes"},
       error:(error)=> {console.log(error)}
     })
+  }
+
+  public async getUserByIdKeycloak(email: string): Promise<any> {
+
+    const masterToken = StorageUtil.storageRead(StorageKeys.AuthKeyMaster)
+
+    //-- Define the headers
+    const headers = new HttpHeaders ({
+      "Accept": "*/*",
+      "Authorization": `Bearer ${masterToken}`
+      })
+
+    //-- Post the new user
+    this.http.get<any>("https://keycloak-tidsbanken-case.herokuapp.com/auth/admin/realms/tidsbankencase/users", {headers})
+    .subscribe({
+      next: (result) => {
+        const idEmployee = filterByValue(result, email)[0].id
+        console.log("The ID of the employee is:" + filterByValue(result, email)[0].id)
+        
+        StorageUtil.storageSave(StorageKeys.NewUserID, idEmployee)
+      }
+    })
 
   }
+}
+
+function filterByValue(array: any[], value: string) {
+  return array.filter((data) =>  JSON.stringify(data).toLowerCase().indexOf(value.toLowerCase()) !== -1);
 }

@@ -29,10 +29,17 @@ export class NewUserDialogComponent {
 
     const { password } = loginForm.value;
 
-    console.log(this.loginService.getMasterToken())
-    let registereduser = this.registerService.registerKeyCloak(username, email, lastName, firstName, password)
-    console.log("------ RegisteredUser is:")
-    console.log(registereduser)
-    this.registerService.registerAPI(firstName, lastName, email)
+
+    //-- First register in keycloak
+    this.registerService.registerKeyCloak(username, email, lastName, firstName, password)
+
+    //-- Then get the userID and store it in session
+    this.registerService.getUserByIdKeycloak(email)
+  
+    //-- Then use that userID to register in the API
+    this.registerService.registerAPI(firstName, lastName, email)     
+    
+    
+
   }
 }
