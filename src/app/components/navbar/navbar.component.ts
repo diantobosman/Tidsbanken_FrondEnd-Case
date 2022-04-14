@@ -10,12 +10,19 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
+
+export class NavbarComponent implements OnInit {
+
 
   constructor(
     private readonly router: Router,
     private readonly userService: UserService
   ) { }
+
+  ngOnInit(): void {
+    
+    console.log("test")
+  }
 
     get user(): User | undefined {
       return this.userService.user;
