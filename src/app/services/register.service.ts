@@ -40,7 +40,7 @@ export class RegisterService {
     //-- Post the new user
     this.http.post<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users`, body, {headers} )
     .subscribe({
-      next: (result)=>{result},
+      next: (result)=>{console.log(result)},
       error:(error)=> {console.log(error)}
     })
   }
@@ -58,7 +58,7 @@ export class RegisterService {
       })
 
     var body = {
-      "employeeId": "testId",
+      "employeeId": "testIddtht",
       "first_name": firstName,
       "last_name": lastName,
       "emailAddress": email
@@ -67,7 +67,7 @@ export class RegisterService {
     //-- Post the new user
     this.http.post<any>(environment.APIURL + `employee/register`, body, {headers})
     .subscribe({
-      next: (result)=>{console.log(result)},
+      next: (result)=>{"Posted API succes"},
       error:(error)=> {console.log(error)}
     })
 

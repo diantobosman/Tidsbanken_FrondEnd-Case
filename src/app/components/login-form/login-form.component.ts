@@ -36,9 +36,8 @@ export class LoginFormComponent {
     this.loginService.loginKeyCloak(username, password)
       .subscribe ({
         next: (result) => {
-          console.log("RESULT: " + result)
           //-- Get the employee from the database
-          //this.loginService.getEmployeeAPI(result.decodedToken.sub, result.decodedToken)
+          this.loginService.getEmployeeByIdAPI(result.decodedToken.sub, result.access_token)
 
           //-- Define the logged in employee
           this.userService.user = {

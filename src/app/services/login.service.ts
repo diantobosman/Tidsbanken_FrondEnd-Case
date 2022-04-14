@@ -81,22 +81,16 @@ export class LoginService {
   }
 
 
-
-
-
-  public getEmployeeAPI(id: string, employeeToken: string) {
-
+  public getEmployeeByIdAPI(id: string, employeeToken: string) {
+  
     //-- Define the headers
     const headers = new HttpHeaders ({
       "accept": "*/*",
+      "Authorization": `Bearer ${employeeToken}`
       })
 
-    var body = {
-      "employeeId": id,
-    }
-
     //-- Post the new user
-    this.http.post<any>(environment.APIURL + `employee/`, body, {headers})
+    this.http.get<any>(environment.APIURL + `employee/` + id, {headers})
     .subscribe({
       next: (result)=>{
         //-- If the user exists then save it
@@ -107,7 +101,6 @@ export class LoginService {
           emailAddress: result.emailAddress
          }
         
-        console.log(result)
         StorageUtil.storageSave<Employee>(StorageKeys.Employee, this._employee)
       },
       error:(error)=> {
@@ -151,6 +144,7 @@ export class LoginService {
        error:(error) => {console.log("hello", error)}
      })
   }
+
 
 
 
