@@ -1,20 +1,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../enums/storage-keys.enum';
-import { User } from '../models/user.model';
 import { StorageUtil } from '../utils/storage.util';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class RegisterService {
 
   constructor(private readonly http: HttpClient) { }
 
   //-- Register the user
-  public registerKeyCloak(username: string, email: string, lastName: string, firstName: string, password: string) {
+  public async registerKeyCloak(username: string, email: string, lastName: string, firstName: string, password: string) {
     
     // Get the mastertoken
     const masterToken = StorageUtil.storageRead(StorageKeys.AuthKeyMaster)
@@ -40,21 +40,13 @@ export class RegisterService {
 
     //-- Post the new user
     this.http.post<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users`, body, {headers} )
-    .subscribe({
-      next: (result)=>{console.log(result)},
-      error:(error)=> {console.log(error)}
-    })
   }
 
   //-- Register the employee in the API storage
-  public async registerAPI(firstName: string, lastName: string, email: string): Promise<any> {
+  public async registerAPI(id: string, firstName: string, lastName: string, email: string) {
 
     // Get the mastertoken
     const employeeToken = StorageUtil.storageRead(StorageKeys.AuthKey)
-
-    const id = StorageUtil.storageRead(StorageKeys.NewUserID)
-
-    console.log("The new ID from keycloak is: " + id)
 
     //-- Define the headers
     const headers = new HttpHeaders ({
@@ -73,12 +65,12 @@ export class RegisterService {
     //-- Post the new user
     this.http.post<any>(environment.APIURL + `employee/register`, body, {headers})
     .subscribe({
-      next: (result)=>{"Posted API succes"},
-      error:(error)=> {console.log(error)}
+      next: (result)=>{console.log("Posted API succes: " + result)},
+      error:(error)=> {console.log("Post API not succesfull: " + error)}
     })
   }
 
-  public async getUserByIdKeycloak(email: string): Promise<any> {
+  public getUserByAnyKeycloak(): Observable<any> {
 
     const masterToken = StorageUtil.storageRead(StorageKeys.AuthKeyMaster)
 
@@ -89,19 +81,6 @@ export class RegisterService {
       })
 
     //-- Post the new user
-    this.http.get<any>("https://keycloak-tidsbanken-case.herokuapp.com/auth/admin/realms/tidsbankencase/users", {headers})
-    .subscribe({
-      next: (result) => {
-        const idEmployee = filterByValue(result, email)[0].id
-        console.log("The ID of the employee is:" + filterByValue(result, email)[0].id)
-        
-        StorageUtil.storageSave(StorageKeys.NewUserID, idEmployee)
-      }
-    })
-
+    return this.http.get<any>("https://keycloak-tidsbanken-case.herokuapp.com/auth/admin/realms/tidsbankencase/users", {headers})
   }
-}
-
-function filterByValue(array: any[], value: string) {
-  return array.filter((data) =>  JSON.stringify(data).toLowerCase().indexOf(value.toLowerCase()) !== -1);
 }

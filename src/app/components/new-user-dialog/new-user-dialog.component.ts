@@ -1,9 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { LoginService } from 'src/app/services/login.service';
-import { EmployeeService } from 'src/app/services/employee.service';
 import { RegisterService } from 'src/app/services/register.service';
+import { functionUtil } from 'src/app/utils/functions.util';
 
 @Component({
   selector: 'app-new-user-dialog',
@@ -15,31 +13,38 @@ export class NewUserDialogComponent {
   @Output() login: EventEmitter<void> = new EventEmitter();
 
   constructor( 
-    private readonly router: Router,
-    private readonly loginService: LoginService,
-    private readonly employeeService: EmployeeService,
     private readonly registerService: RegisterService
     ) { }
 
-  public async registerSubmit(loginForm: NgForm) {
+  //-- This function does only work once per login. This bug should be solved.
+  public async registerSubmit(loginForm: NgForm): Promise<void> {
     const { username } = loginForm.value;
     const { email } = loginForm.value;
     const { lastName } = loginForm.value;
     const { firstName } = loginForm.value;
-
     const { password } = loginForm.value;
-
 
     //-- First register in keycloak
     this.registerService.registerKeyCloak(username, email, lastName, firstName, password)
+      .then(() => {
+        getUserAndRegister()
+      })
 
     //-- Then get the userID and store it in session
-    this.registerService.getUserByIdKeycloak(email)
-  
-    //-- Then use that userID to register in the API
-    this.registerService.registerAPI(firstName, lastName, email)     
-    
-    
+    const getUserAndRegister = (): any => {
+    this.registerService.getUserByAnyKeycloak()
+      .subscribe({
+        next: (result) => {
+          //-- Filter the id from the user with certain email
+          const idNewEmployee = functionUtil.filterByValue(result, email)[0].id
 
+          //-- Then use that userID to register in the API
+          this.registerService.registerAPI(idNewEmployee, firstName, lastName, email) 
+        },
+        error: (error) => {
+          console.log(error)
+        }
+      })
+    }
   }
 }
