@@ -14,7 +14,7 @@ export class RegisterService {
   constructor(private readonly http: HttpClient) { }
 
   //-- Register the user
-  public async registerKeyCloak(username: string, email: string, lastName: string, firstName: string, password: string) {
+  public async registerKeyCloak(username: string, password: string) {
     
     // Get the mastertoken
     const masterToken = StorageUtil.storageRead(StorageKeys.AuthKeyMaster)
@@ -39,7 +39,7 @@ export class RegisterService {
     }
 
     //-- Post the new user
-    this.http.post<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users`, body, {headers} )
+    return this.http.post<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users`, body, {headers} )
   }
 
   //-- Register the employee in the API storage
@@ -63,9 +63,9 @@ export class RegisterService {
     }
 
     //-- Post the new user
-    this.http.post<any>(environment.APIURL + `employee/register`, body, {headers})
+    return this.http.post<any>(environment.APIURL + `employee/register`, body, {headers})
     .subscribe({
-      next: (result)=>{console.log("Posted API succes: " + result)},
+      next: (result)=>{console.log("Posted API succes: " + JSON.stringify(result))},
       error:(error)=> {console.log("Post API not succesfull: " + error)}
     })
   }

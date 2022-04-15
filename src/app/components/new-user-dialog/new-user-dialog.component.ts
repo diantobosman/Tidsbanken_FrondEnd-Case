@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { RegisterService } from 'src/app/services/register.service';
-import { functionUtil } from 'src/app/utils/functions.util';
+import { FunctionUtil } from 'src/app/utils/functions.util';
 
 @Component({
   selector: 'app-new-user-dialog',
@@ -24,27 +24,36 @@ export class NewUserDialogComponent {
     const { firstName } = loginForm.value;
     const { password } = loginForm.value;
 
-    //-- First register in keycloak
-    this.registerService.registerKeyCloak(username, email, lastName, firstName, password)
-      .then(() => {
-        getUserAndRegister()
-      })
 
-    //-- Then get the userID and store it in session
-    const getUserAndRegister = (): any => {
-    this.registerService.getUserByAnyKeycloak()
+    (await this.registerService.registerKeyCloak(username, password))
       .subscribe({
-        next: (result) => {
-          //-- Filter the id from the user with certain email
-          const idNewEmployee = functionUtil.filterByValue(result, email)[0].id
+        next: async () => {
 
-          //-- Then use that userID to register in the API
-          this.registerService.registerAPI(idNewEmployee, firstName, lastName, email) 
+          console.log("Registering the user in keycloak...")
+          await new Promise(resolve => setTimeout(resolve, 5000));
+          this.getUserAndRegister(firstName, lastName, email)
         },
         error: (error) => {
-          console.log(error)
+          console.log("Error while registering in keycloak:" + error)
         }
       })
     }
+  
+    public async getUserAndRegister(firstName: string, lastName: string, email: string) {
+      this.registerService.getUserByAnyKeycloak()
+        .subscribe({
+          next: async (result) => {
+            console.log("Registered succesfully... Register in the API now...")
+            //-- Get the id of the employee and then register in the API
+            const idNewEmployee = FunctionUtil.filterByValue(result, email)[0].id
+
+            this.registerService.registerAPI(idNewEmployee, firstName, lastName, email)
+          },
+          error: (error) => {
+            console.log("Error while getUserAndRegister" + error)
+          }
+        })
+    }
   }
-}
+
+
