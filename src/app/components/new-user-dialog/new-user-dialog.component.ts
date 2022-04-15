@@ -1,9 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { LoginService } from 'src/app/services/login.service';
-import { EmployeeService } from 'src/app/services/employee.service';
 import { RegisterService } from 'src/app/services/register.service';
+import { FunctionUtil } from 'src/app/utils/functions.util';
 
 @Component({
   selector: 'app-new-user-dialog',
@@ -15,24 +13,47 @@ export class NewUserDialogComponent {
   @Output() login: EventEmitter<void> = new EventEmitter();
 
   constructor( 
-    private readonly router: Router,
-    private readonly loginService: LoginService,
-    private readonly employeeService: EmployeeService,
     private readonly registerService: RegisterService
     ) { }
 
-  public async registerSubmit(loginForm: NgForm) {
+  //-- This function does only work once per login. This bug should be solved.
+  public async registerSubmit(loginForm: NgForm): Promise<void> {
     const { username } = loginForm.value;
     const { email } = loginForm.value;
     const { lastName } = loginForm.value;
     const { firstName } = loginForm.value;
-
     const { password } = loginForm.value;
 
-    console.log(this.loginService.getMasterToken())
-    let registereduser = this.registerService.registerKeyCloak(username, email, lastName, firstName, password)
-    console.log("------ RegisteredUser is:")
-    console.log(registereduser)
-    this.registerService.registerAPI(firstName, lastName, email)
+
+    (await this.registerService.registerKeyCloak(username, password))
+      .subscribe({
+        next: async () => {
+
+          console.log("Registering the user in keycloak...")
+          await new Promise(resolve => setTimeout(resolve, 5000));
+          this.getUserAndRegister(firstName, lastName, email)
+        },
+        error: (error) => {
+          console.log("Error while registering in keycloak:" + error)
+        }
+      })
+    }
+  
+    public async getUserAndRegister(firstName: string, lastName: string, email: string) {
+      this.registerService.getUserByAnyKeycloak()
+        .subscribe({
+          next: async (result) => {
+            console.log("Registered succesfully... Register in the API now...")
+            //-- Get the id of the employee and then register in the API
+            const idNewEmployee = FunctionUtil.filterByValue(result, email)[0].id
+
+            this.registerService.registerAPI(idNewEmployee, firstName, lastName, email)
+          },
+          error: (error) => {
+            console.log("Error while getUserAndRegister" + error)
+          }
+        })
+    }
   }
-}
+
+
