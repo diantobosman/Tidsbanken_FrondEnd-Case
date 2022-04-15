@@ -30,7 +30,7 @@ export class NewUserDialogComponent {
         next: async () => {
 
           console.log("Registering the user in keycloak...")
-          await new Promise(resolve => setTimeout(resolve, 5000));
+          await new Promise(resolve => setTimeout(resolve, 3000));
           this.getUserAndRegister(firstName, lastName, email)
         },
         error: (error) => {
