@@ -1,2 +1,12 @@
-<app-navbar></app-navbar>
-<router-outlet></router-outlet>
+<mat-sidenav-container class="min-vh-100">
+    <mat-sidenav class="bc" #sidenav mode="side" opened>
+        <!--navbar-->
+        <app-navbar></app-navbar>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+        <!--content-->
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+  

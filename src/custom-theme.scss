@@ -1,0 +1,93 @@
+
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+
+$md-primary: (
+    50 : #e0ebec,
+    100 : #b3ccd0,
+    200 : #80abb1,
+    300 : #4d8991,
+    400 : #266f7a,
+    500 : #005662,
+    600 : #004f5a,
+    700 : #004550,
+    800 : #003c46,
+    900 : #002b34,
+    A100 : #6cdfff,
+    A200 : #39d4ff,
+    A400 : #06c9ff,
+    A700 : #00b9eb,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$md-accent: (
+    50 : #eaeeef,
+    100 : #cad4d7,
+    200 : #a6b8bd,
+    300 : #829ba2,
+    400 : #68858e,
+    500 : #4d707a,
+    600 : #466872,
+    700 : #3d5d67,
+    800 : #34535d,
+    900 : #25414a,
+    A100 : #91e3ff,
+    A200 : #5ed6ff,
+    A400 : #2bc9ff,
+    A700 : #12c2ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
+
+$my-primary: mat.define-palette($md-primary, 500);
+$my-accent: mat.define-palette($md-accent, 500);
+
+
+$my-warn: mat.define-palette(mat.$red-palette);
+
+
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warn,
+  )
+));
+
+
+@include mat.all-component-themes($my-theme);
+

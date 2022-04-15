@@ -27,6 +27,15 @@ export class LoginFormComponent {
     private readonly registerService: RegisterService
     ) { }
 
+  public togglePassword(): void {
+    let p = <HTMLInputElement>document.getElementById("password");
+    if (p.type === "password") {
+      p.type = "text";
+    } else {
+      p.type = "password";
+    }
+  }
+
   public loginSubmit(loginForm: NgForm): void {
     const { username } = loginForm.value;
     const { password } = loginForm.value;
