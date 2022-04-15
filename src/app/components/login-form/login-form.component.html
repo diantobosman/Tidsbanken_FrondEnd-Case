@@ -1,28 +1,39 @@
-<form #loginForm="ngForm" (ngSubmit)="loginSubmit(loginForm)">
-    <mat-form-field class="example-full-width" appearance="fill">
+
+<main class="mt-5 container d-flex justify-content-center">
+
+  
+
+  <form #loginForm="ngForm" (ngSubmit)="loginSubmit(loginForm)" class="mt-5 d-flex flex-column w-50">
+
+    <div class="text-center d-flex flex-column">
+      <span class="material-icons md-72 mycyan m-0">beach_access</span>
+      <p class="fs-3 fw-bolder mb-4">Tidsbanken</p>
+    </div>
+
+    <mat-form-field appearance="fill">
       <mat-label>Username:</mat-label>
       <input 
       type="text"
       ngModel
       #username="ngModel"
       name="username" 
-      matInput placeholder="username"
+      matInput
       id="username" 
       >
-
     </mat-form-field>
-    <br>
-    <mat-form-field class="example-full-width" appearance="fill">
+   
+    <mat-form-field appearance="fill">
       <mat-label>Password:</mat-label>
       <input 
-      type="text"
+      type="password"
       ngModel
       #password="ngModel"
       name="password" 
-      matInput placeholder="*****"
+      matInput
       id="password" 
       >
     </mat-form-field>
-    <br>
+    <mat-checkbox (click)="togglePassword()" class="mb-2">Show Password</mat-checkbox>
     <button mat-raised-button color="primary" type="submit">Login</button>
   </form>
+</main>

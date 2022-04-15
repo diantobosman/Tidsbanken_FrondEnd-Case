@@ -1,23 +1,72 @@
-<mat-toolbar>
+<main class="d-flex flex-column" *ngIf="user !== undefined">
+  <div>
+    <p class="text-light text-center mt-3">Welcome, {{user.username}}!</p>
+  </div>
 
-  <ng-container *ngIf="user !== undefined">
+  <!--Logo-->
+  <div class="text-center d-flex flex-column">
+    <span class="material-icons md-48 text-light mt-4">beach_access</span>
+    <p class="fs-5 fw-bolder mb-5 me-5 ms-5 text-light">Tidsbanken</p>
+  </div>
+
+  <!--Dashboard link-->
+  <div class="card mx-4 m-2 mt-4 bg">
+    <a class="m-3 text-light d-flex align-items-end linkhover" routerLink="/calendar">
+      <span class="material-icons me-2">home</span>
+      Calendar Dashboard
+    </a>
+  </div>
+
+  <!--History link-->
+  <div class="card mx-4 m-2 bg">
+    <a class="m-3 text-light d-flex align-items-end " routerLink="/vacation-history">
+      <span class="material-icons me-2">history</span>
+      View History
+    </a>
+  </div>
+
+  <!--User profile link-->
+  <div class="card mx-4 m-2 bg">
+    <a class="m-3 text-light d-flex align-items-end" routerLink="/user-profile">
+      <span class="material-icons me-2">person</span>
+      User Profile
+    </a>
+  </div>
+
+  <!--Admin link-->
+  <div class="card mx-4 m-2 bg">
+    <a class="m-3 text-light d-flex align-items-end" routerLink="/admin-area">
+      <span class="material-icons me-2">admin_panel_settings</span>
+      Admin Area
+    </a>
+  </div>
+
+  <!--logout link-->
+  <div class="card mx-4 m-2 bg">
+    <a class="m-3 text-light d-flex align-items-end" routerLink="/login" (click)="goToLogoutButton()">
+      <span class="material-icons me-2">logout</span>
+      Logout
+    </a>
+  </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+
+      
+</main>
+
+  <!-- <ng-container >
     <button mat-icon-button [matMenuTriggerFor]="menu">Menu</button>
     <mat-menu #menu="matMenu">
-      <button (click)="goToCalendarButton()" mat-menu-item>Calendar Dashboard</button>
-      <button (click)="goToViewHistoryButton()" mat-menu-item>View History</button>
-      <button (click)="goToUserProfileButton()" mat-menu-item>User Profile</button>
-      <button (click)="goToAdminAreaButton()" mat-menu-item>Admin Area</button>
-      <button (click)="goToLogoutButton()" mat-menu-item>Logout</button>
+      
     </mat-menu>
-  </ng-container>
 
-  <span class="example-spacer"></span>
-  <span>Tidsbanken</span>
-  <span class="example-spacer"></span>
-
-  <ng-container *ngIf="user !== undefined">
-    <mat-icon>account_circle</mat-icon>
-    <span id="name">{{user.username}} </span>
-  </ng-container>
-
-  </mat-toolbar>
+    
+  </ng-container> -->
