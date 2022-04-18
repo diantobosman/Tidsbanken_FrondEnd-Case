@@ -3,13 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { Employee } from 'src/app/models/employee.model';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ProfileChangeProfileDialogComponent } from '../profile-change-profile-dialog/profile-change-profile-dialog.component';
-import { ProfileNewPasswordDialogComponent } from '../profile-new-password-dialog/profile-new-password-dialog.component';
+import { ProfileGiveAdminRightsComponent } from '../profile-give-admin-rights/profile-give-admin-rights.component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
+
 export class ProfileComponent {
 
   constructor(
@@ -26,7 +27,7 @@ export class ProfileComponent {
   }
 
   openDialogChangeAdminRights() {
-    this.dialog.open(ProfileNewPasswordDialogComponent);
+    this.dialog.open(ProfileGiveAdminRightsComponent);
   }
 }
 

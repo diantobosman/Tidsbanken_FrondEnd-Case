@@ -1,1 +1,20 @@
-<p>profile-change-profile-dialog works!</p>
+
+<main class="mt-5 container d-flex justify-content-center">
+
+    <form #loginForm="ngForm" (ngSubmit)="newPassWordSubmit(loginForm)" class="mt-5 d-flex flex-column w-50">
+    <h3>Change you password</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>New password:</mat-label>
+        <input 
+        type="password"
+        ngModel
+        #password="ngModel"
+        name="password" 
+        matInput
+        id="password" 
+        >
+      </mat-form-field>
+      <mat-checkbox (click)="togglePassword()" class="mb-2">Show Password</mat-checkbox>
+      <button mat-raised-button color="primary" type="submit">Submit new password</button>
+    </form>
+  </main>
