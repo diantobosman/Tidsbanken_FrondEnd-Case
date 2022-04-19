@@ -8,6 +8,7 @@ import { User } from 'src/app/models/user.model';
 import { StorageUtil } from 'src/app/utils/storage.util';
 import { StorageKeys } from 'src/app/enums/storage-keys.enum';
 import { UserService } from 'src/app/services/user.service';
+import { RegisterService } from 'src/app/services/register.service';
 
 @Component({
   selector: 'app-login-form',
@@ -22,7 +23,8 @@ export class LoginFormComponent {
   constructor( 
     private readonly router: Router,
     private readonly loginService: LoginService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly registerService: RegisterService
     ) { }
 
   public togglePassword(): void {
@@ -46,18 +48,19 @@ export class LoginFormComponent {
       .subscribe ({
         next: (result) => {
           //-- Get the employee from the database
-          //this.loginService.getEmployeeAPI(result.decodedToken.sub, result.decodedToken)
+          this.loginService.getEmployeeByIdAPI(result.decodedToken.sub, result.access_token)
 
           //-- Define the logged in employee
           this.userService.user = {
             id: result.decodedToken.sub,
-            username: result.decodedToken.preferred_username
+            username: result.decodedToken.preferred_username,
+            email: result.decodedToken.email
         }
 
         //-- Navigate to the calendar page and store they the employee and the key in sessionstorage
         StorageUtil.storageSave<User>(StorageKeys.User, this.userService.user)
         StorageUtil.storageSave(StorageKeys.AuthKey, result.access_token)
-
+        
         this.login.emit();
 
         },
