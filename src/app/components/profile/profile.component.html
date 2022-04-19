@@ -1,9 +1,14 @@
-<ng-container *ngIf="employee!== undefined">
-<h2>Profile</h2>
-
-<p>Name: {{employee.first_name}}</p>
-<p>Email: {{employee.emailAddress}}</p>
-
-<button mat-raised-button (click)="openDialogChangeProfileDetails()">Change profile details</button>
-<button mat-raised-button (click)="openDialogChangeAdminRights()">Give admin rights</button>
-</ng-container>
+<main class="container mainbgcolor mt-5 p-5 d-flex flex-column text-center align-items-center">
+    <ng-container *ngIf="employee!== undefined">
+        <h2>Profile</h2>
+        
+        <p>Name: {{employee.first_name}}</p>
+        <p>Email: {{employee.emailAddress}}</p>
+        
+        <div class="row mt-3" style="width: 200px;" >
+                <button class="mb-3" mat-raised-button color="primary" (click)="openDialogChangeProfileDetails()" >Change profile details</button>
+                <button mat-raised-button color="primary" (click)="openDialogChangeAdminRights()">Give admin rights</button>
+        </div>
+        
+        </ng-container>
+</main>

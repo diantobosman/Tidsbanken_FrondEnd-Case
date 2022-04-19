@@ -10,6 +10,13 @@
       <p class="fs-3 fw-bolder mb-4">Tidsbanken</p>
     </div>
 
+    <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="error">
+      <span class="material-icons mx-2">error</span>
+      <div class="mx-2">
+        The username and password you entered did not match our records. Please double-check and try again.
+      </div>
+    </div>
+
     <mat-form-field appearance="fill">
       <mat-label>Username:</mat-label>
       <input 

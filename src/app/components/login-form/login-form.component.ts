@@ -18,6 +18,8 @@ import { RegisterService } from 'src/app/services/register.service';
 
 export class LoginFormComponent {
 
+  public error: boolean = false;
+
   @Output() login: EventEmitter<void> = new EventEmitter();
 
   constructor( 
@@ -65,7 +67,7 @@ export class LoginFormComponent {
 
         },
         error: (error) => {
-          console.log("Error: " + error) // geeft Error: [object Object] weer
+          this.error = true;
         }
       })
   }
