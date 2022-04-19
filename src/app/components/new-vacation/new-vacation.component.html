@@ -1,13 +1,45 @@
-<mat-form-field appearance="fill">
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-      <input matStartDate formControlName="start" placeholder="Start date">
-      <input matEndDate formControlName="end" placeholder="End date">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  
-    <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">Invalid start date</mat-error>
-    <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
-</mat-form-field>
-<p>Selected range: {{range.value | json}}</p>
+
+<main class="container mainbgcolor mt-5 p-5 d-flex flex-column text-center align-items-center">
+  <h2>New Vacation Request</h2>
+  <form #newRequest="ngForm" (ngSubmit)="newRequestSubmit(newRequest)" class="mt-5 container d-flex flex-column align-items-center text-center">
+
+    <mat-form-field appearance="fill" style="width: 280px;">
+      <mat-label>Title:</mat-label>
+      <input 
+      type="text"
+      ngModel
+      #title="ngModel"
+      name="title" 
+      matInput
+      id="title" 
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 280px;">
+      <mat-label>Start and end date:</mat-label>
+      <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date">
+        <input matEndDate formControlName="end" placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    
+      <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">Invalid start date</mat-error>
+      <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 280px;">
+    <mat-label>Comment:</mat-label>
+    <textarea 
+    type="text"
+    ngModel
+    #comment="ngModel"
+    name="comment" 
+    matInput
+    id="comment" 
+    ></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Submit vacation request</button>
+  </form>
+</main>
