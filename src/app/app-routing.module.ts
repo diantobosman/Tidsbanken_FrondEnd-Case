@@ -19,12 +19,13 @@ const routes: Routes = [
     },
     {
         path: "login",
-        component: LoginPage
+        component: LoginPage,
+        canActivate: [ LoginGuard ]
     },
     {
         path: "calendar",
         component: CalendarDashboardPage,
-        canActivate: [ LoginGuard ]
+        canActivate: [ AuthGuard ]
     },
     {
         path: "vacation-request",
