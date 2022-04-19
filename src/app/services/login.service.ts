@@ -26,7 +26,8 @@ export class LoginService {
     employeeId: "a",
     first_name: "none",
     last_name: "none",
-    emailAddress: "none"
+    emailAddress: "none",
+    admin: false
   }
 
   constructor(
@@ -99,7 +100,8 @@ export class LoginService {
           employeeId: result.employeeId,
           first_name: result.first_name,
           last_name: result.last_name,
-          emailAddress: result.emailAddress
+          emailAddress: result.emailAddress,
+          admin: result.admin
          }
         
         StorageUtil.storageSave<Employee>(StorageKeys.Employee, this._employee)

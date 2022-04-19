@@ -42,7 +42,7 @@ import { NewUserComponent } from './components/new-user/new-user.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NewUserDialogComponent } from './components/new-user-dialog/new-user-dialog.component';
 import { ProfileChangeProfileDialogComponent } from './components/profile-change-profile-dialog/profile-change-profile-dialog.component';
-import { ProfileGiveAdminRightsComponent } from './components/profile-give-admin-rights/profile-give-admin-rights.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -63,9 +63,8 @@ import { ProfileGiveAdminRightsComponent } from './components/profile-give-admin
     HistoryComponent,
     NewUserComponent,
     NewUserDialogComponent,
-    ProfileChangeProfileDialogComponent,
-    ProfileGiveAdminRightsComponent
-  ],
+    ProfileChangeProfileDialogComponent
+    ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -89,6 +88,7 @@ import { ProfileGiveAdminRightsComponent } from './components/profile-give-admin
     MatCheckboxModule,
     MatSidenavModule,
     MatChipsModule,
+    MatSlideToggleModule
     ],
   providers: [],
   bootstrap: [AppComponent]
