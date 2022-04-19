@@ -23,6 +23,7 @@ export class CalendarComponent {
     dateClick: this.handleDateClick.bind(this), // bind is important!
     events: [
       { 
+        
         title: 'Vacation Savannah', 
         allDay: true,
         start: '2022-04-01',
