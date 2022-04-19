@@ -45,7 +45,6 @@ export class LoginFormComponent {
     this.loginService.loginKeyCloak(username, password)
       .subscribe ({
         next: (result) => {
-          console.log("RESULT: " + result)
           //-- Get the employee from the database
           //this.loginService.getEmployeeAPI(result.decodedToken.sub, result.decodedToken)
 
@@ -63,7 +62,7 @@ export class LoginFormComponent {
 
         },
         error: (error) => {
-          console.log("Error: " + error)
+          console.log("Error: " + error) // geeft Error: [object Object] weer
         }
       })
   }
