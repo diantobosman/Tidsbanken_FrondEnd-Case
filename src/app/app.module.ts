@@ -109,7 +109,7 @@ FullCalendarModule.registerPlugins([
     MatSidenavModule,
     MatChipsModule,
     MatSlideToggleModule,
-    FullCalendarModule,
+    FullCalendarModule
     ],
   providers: [],
   bootstrap: [AppComponent]
