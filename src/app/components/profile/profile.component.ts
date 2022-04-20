@@ -56,6 +56,7 @@ export class ProfileComponent {
     const id = user?.id
     const username = user?.username
     const groupId = "a045b089-8caa-4c96-83f0-ef77243cbd9c"
+    
     //-- Define the headers
     const headers = new HttpHeaders ({
       "Content-Type": "application/json",
