@@ -23,9 +23,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatChipsModule } from '@angular/material/chips';
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction'
+
 import { CreateVacationPage } from './pages/create-vacation/create-vacation.page';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -43,6 +46,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NewUserDialogComponent } from './components/new-user-dialog/new-user-dialog.component';
 import { ProfileChangeProfileDialogComponent } from './components/profile-change-profile-dialog/profile-change-profile-dialog.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  interactionPlugin,
+])
 
 @NgModule({
   declarations: [
@@ -88,7 +96,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatCheckboxModule,
     MatSidenavModule,
     MatChipsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    FullCalendarModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

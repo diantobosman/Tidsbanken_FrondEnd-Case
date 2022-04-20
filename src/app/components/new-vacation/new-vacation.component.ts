@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { VacationService } from 'src/app/services/vacation.service';
 
 @Component({
@@ -13,6 +13,10 @@ export class NewVacationComponent {
     private readonly vacationService: VacationService
   ) {
     
+  }
+
+  public newRequestSubmit(newRequest: NgForm): void {
+    const { title } = newRequest.value;
   }
 
   range = new FormGroup({

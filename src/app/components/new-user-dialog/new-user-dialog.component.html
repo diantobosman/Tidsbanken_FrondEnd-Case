@@ -1,6 +1,7 @@
-<h2 mat-dialog-title>Create New User</h2>
-<form class="container" #registerForm="ngForm" (ngSubmit)="registerSubmit(registerForm)">
+<h2 mat-dialog-title class="text-center">Create New User</h2>
+<form class="container d-flex flex-column" #registerForm="ngForm" (ngSubmit)="registerSubmit(registerForm)">
     <mat-form-field class="example-full-width" appearance="fill">
+
       <mat-label>Username:</mat-label>
       <input 
       type="text"
@@ -12,8 +13,7 @@
       >
     </mat-form-field>
 
-    <br>
-    <mat-form-field class="example-full-width" appearance="fill">
+    <mat-form-field appearance="fill">
       <mat-label>First Name:</mat-label>
       <input 
       type="text"
@@ -24,10 +24,8 @@
       id="firstName" 
       >
     </mat-form-field>
-    <br>
-
-    <br>
-    <mat-form-field class="example-full-width" appearance="fill">
+   
+    <mat-form-field appearance="fill">
       <mat-label>Last Name:</mat-label>
       <input 
       type="text"
@@ -38,10 +36,8 @@
       id="lastName" 
       >
     </mat-form-field>
-    <br>
 
-    <br>
-    <mat-form-field class="example-full-width" appearance="fill">
+    <mat-form-field appearance="fill">
       <mat-label>Email:</mat-label>
       <input 
       type="text"
@@ -52,11 +48,8 @@
       id="email" 
       >
     </mat-form-field>
-    <br>
-
-
-    <br>
-    <mat-form-field class="example-full-width" appearance="fill">
+  
+    <mat-form-field appearance="fill">
       <mat-label>Password:</mat-label>
       <input 
       type="text"
@@ -67,7 +60,5 @@
       id="password" 
       >
     </mat-form-field>
-    <br>
-
     <button mat-raised-button color="primary" type="submit">Register</button>
   </form>

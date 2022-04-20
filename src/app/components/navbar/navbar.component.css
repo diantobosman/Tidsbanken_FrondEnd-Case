@@ -5,3 +5,7 @@
 .bg:hover {
     background-color: #4D707A;
 }
+
+.active {
+    background-color: #4D707A;
+}

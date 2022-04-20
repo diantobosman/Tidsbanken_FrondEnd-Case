@@ -1,10 +1,14 @@
 
-<main class="container">
-  <button mat-raised-button color="primary" (click)="navigateToNewRequest()">New Request</button>
-
-  <mat-card class="demo-inline-calendar-card">
-    <mat-calendar></mat-calendar>
-    
-  </mat-card>
+<main class="container-lg mt-5 p-5 d-flex flex-column align-items-center mainbgcolor">
+  <div>
+    <button mat-raised-button color="primary" (click)="navigateToNewRequest()">New Request</button>
+    <button mat-raised-button class="mb-3 mx-3" color="primary" (click)="navigateToNewRequest()">New Ineligable period</button>
+  </div>
+  
+  
+  <section class="w-75">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </section>
+  
 </main>
 
