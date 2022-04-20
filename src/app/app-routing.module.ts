@@ -9,6 +9,7 @@ import { VacationHistoryPage } from "./pages/vacation-history/vacation-history.p
 import { VacationRequestPage } from "./pages/vacation-request/vacation-request.page";
 import { CreateVacationPage } from "./pages/create-vacation/create-vacation.page";
 import { LoginGuard } from "./guards/login.guard";
+import { RouterLinkActive } from "@angular/router";
 
 const routes: Routes = [
     {
@@ -18,12 +19,13 @@ const routes: Routes = [
     },
     {
         path: "login",
-        component: LoginPage
+        component: LoginPage,
+        canActivate: [ LoginGuard ]
     },
     {
         path: "calendar",
         component: CalendarDashboardPage,
-        canActivate: [ LoginGuard ]
+        canActivate: [ AuthGuard ]
     },
     {
         path: "vacation-request",

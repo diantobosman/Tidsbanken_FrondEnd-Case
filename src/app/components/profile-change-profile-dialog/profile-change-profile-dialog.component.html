@@ -1,8 +1,27 @@
 
-<main class="mt-5 container d-flex justify-content-center">
+<main>
+  <h2 mat-dialog-title class="text-center">Change profile details</h2>
+  <form #editEmail="ngForm" (ngSubmit)="newEmailSubmit(editEmail)" class="mt-5 container d-flex flex-column text-center">
+    <h4>Change you email</h4>
+      <mat-form-field appearance="fill">
+        <mat-label>New email:</mat-label>
+        <input 
+        type="email"
+        ngModel
+        #password="ngModel"
+        name="email" 
+        matInput
+        id="email" 
+        >
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Submit new email</button>
+    </form>
 
-    <form #loginForm="ngForm" (ngSubmit)="newPassWordSubmit(loginForm)" class="mt-5 d-flex flex-column w-50">
-    <h3>Change you password</h3>
+
+
+
+    <form #editPassword="ngForm" (ngSubmit)="newPassWordSubmit(editPassword)" class="mt-5 container d-flex flex-column text-center">
+    <h4>Change you password</h4>
       <mat-form-field appearance="fill">
         <mat-label>New password:</mat-label>
         <input 
@@ -17,4 +36,6 @@
       <mat-checkbox (click)="togglePassword()" class="mb-2">Show Password</mat-checkbox>
       <button mat-raised-button color="primary" type="submit">Submit new password</button>
     </form>
-  </main>
+</main>
+
+  
