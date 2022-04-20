@@ -45,12 +45,8 @@ import { NewUserComponent } from './components/new-user/new-user.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NewUserDialogComponent } from './components/new-user-dialog/new-user-dialog.component';
 import { ProfileChangeProfileDialogComponent } from './components/profile-change-profile-dialog/profile-change-profile-dialog.component';
-<<<<<<< HEAD
-import { ProfileGiveAdminRightsComponent } from './components/profile-give-admin-rights/profile-give-admin-rights.component';
 import { HistoryListItemComponent } from './components/history-list-item/history-list-item.component';
-=======
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
->>>>>>> main
+
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -76,15 +72,9 @@ FullCalendarModule.registerPlugins([
     HistoryComponent,
     NewUserComponent,
     NewUserDialogComponent,
-<<<<<<< HEAD
     ProfileChangeProfileDialogComponent,
-    ProfileGiveAdminRightsComponent,
     HistoryListItemComponent
   ],
-=======
-    ProfileChangeProfileDialogComponent
-    ],
->>>>>>> main
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -108,7 +98,6 @@ FullCalendarModule.registerPlugins([
     MatCheckboxModule,
     MatSidenavModule,
     MatChipsModule,
-    MatSlideToggleModule,
     FullCalendarModule
     ],
   providers: [],
