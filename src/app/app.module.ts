@@ -45,7 +45,8 @@ import { NewUserComponent } from './components/new-user/new-user.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NewUserDialogComponent } from './components/new-user-dialog/new-user-dialog.component';
 import { ProfileChangeProfileDialogComponent } from './components/profile-change-profile-dialog/profile-change-profile-dialog.component';
-import { ProfileGiveAdminRightsComponent } from './components/profile-give-admin-rights/profile-give-admin-rights.component';
+import { HistoryListItemComponent } from './components/history-list-item/history-list-item.component';
+
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -72,7 +73,7 @@ FullCalendarModule.registerPlugins([
     NewUserComponent,
     NewUserDialogComponent,
     ProfileChangeProfileDialogComponent,
-    ProfileGiveAdminRightsComponent
+    HistoryListItemComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +98,7 @@ FullCalendarModule.registerPlugins([
     MatCheckboxModule,
     MatSidenavModule,
     MatChipsModule,
-    FullCalendarModule,
+    FullCalendarModule
     ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,14 +1,25 @@
 <main class="container mainbgcolor mt-5 p-5 d-flex flex-column text-center align-items-center">
-    <ng-container *ngIf="employee!== undefined">
-        <h2>Profile</h2>
-        
-        <p>Name: {{employee.first_name}}</p>
-        <p>Email: {{employee.emailAddress}}</p>
-        
-        <div class="row mt-3" style="width: 200px;" >
-                <button class="mb-3" mat-raised-button color="primary" (click)="openDialogChangeProfileDetails()" >Change profile details</button>
-                <button mat-raised-button color="primary" (click)="openDialogChangeAdminRights()">Give admin rights</button>
-        </div>
-        
-        </ng-container>
+  <ng-container *ngIf="employee!== undefined">
+  <h2>Profile</h2>
+
+  <p>Name: {{employee.first_name}}</p>
+  <p>Email: {{employee.emailAddress}}</p>
+
+  <button mat-raised-button (click)="openDialogChangeProfileDetails()">Change profile details</button>
+
+  <button mat-flat-button  (click)="toggleButton()" color="accent">Give user admin rights</button>
+
+  <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="adminOff">
+      <span class="material-icons mx-2">error</span>
+      <div class="mx-2">
+        The username and password you entered did not match our records. Please double-check and try again.
+      </div>
+  </div>
+
+  <div class="alert alert-success d-flex align-items-center" role="alert" *ngIf="adminOn">
+      <div>
+        An example success alert with an icon
+      </div>
+    </div>
+  </ng-container>
 </main>
