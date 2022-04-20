@@ -1,9 +1,28 @@
-<mat-selection-list #employees>
-    <mat-list-option *ngFor="let employee of typesEmployees">
-      {{employee}}
+<main class="container-lg mt-3 p-3 flex-column align-items-center mainbgcolor">
+
+<div >
+    <h1>List of users</h1>
+<mat-selection-list #names [multiple]="false">
+    <mat-list-option *ngFor="let name of _allFirstNamesOfEmployee" [value]="name">
+      {{name}}
     </mat-list-option>
   </mat-selection-list>
-  
-  <p>
-    Options selected: {{employees.selectedOptions.selected.length}}
-  </p>
+
+</div>
+
+<button mat-flat-button  (click)="toggleButton()" color="accent" class="mx-1">Give {{names.selectedOptions.selected[0]?.value}} admin rights</button>
+<button mat-flat-button color="accent">Change profile of {{names.selectedOptions.selected[0]?.value}}</button>
+
+<div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="adminOff">
+    <span class="material-icons mx-2">error</span>
+    <div class="mx-2">
+      The username and password you entered did not match our records. Please double-check and try again.
+    </div>
+</div>
+
+<div class="alert alert-success d-flex align-items-center" role="alert" *ngIf="adminOn">
+    <div>
+      An example success alert with an icon
+    </div>
+  </div>
+</main>
