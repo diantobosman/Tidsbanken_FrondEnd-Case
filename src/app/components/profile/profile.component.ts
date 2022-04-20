@@ -10,6 +10,7 @@ import { FunctionUtil } from 'src/app/utils/functions.util';
 import { StorageKeys } from 'src/app/enums/storage-keys.enum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -43,11 +44,46 @@ export class ProfileComponent {
   toggleButton() {
 
     this.admin = FunctionUtil.toggleBoolean(this.admin)
-    this.changeAdminrightsAPI(this.admin)
-
+    this.changeAdminRightsAPI(this.admin)
+    this.changeAdminRightsKeyCloak(this.admin)
   }
 
-  changeAdminrightsAPI(bool: boolean) {
+  changeAdminRightsKeyCloak(bool: boolean) {
+    // Get the mastertoken
+    const masterToken = StorageUtil.storageRead(StorageKeys.AuthKeyMaster)
+    const user = StorageUtil.storageRead<User>(StorageKeys.User) //-- Should this not be the employee?
+    
+    const id = user?.id
+    const username = user?.username
+    const groupId = "a045b089-8caa-4c96-83f0-ef77243cbd9c"
+    //-- Define the headers
+    const headers = new HttpHeaders ({
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${masterToken}`
+    })
+
+    var body = {
+      "username": username,
+      "groups": [ "admin" ]
+    }
+    
+    //-- Post the new user
+    return this.http.put<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id + `/groups/` + groupId, {headers} )
+    .subscribe({
+      next: (result) => {
+        console.log(result)
+      },
+      error: (error) => {
+      console.log(error)
+      }
+    })
+  }
+
+
+
+
+
+  changeAdminRightsAPI(bool: boolean) {
     console.log("Function is correctly called")
     console.log(bool)
     const id = this.employeeService.employee?.employeeId
