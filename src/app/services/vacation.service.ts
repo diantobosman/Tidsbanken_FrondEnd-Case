@@ -39,7 +39,7 @@ export class VacationService {
   // Fetch all vacations
   public getAllVacations(){
 
-    if(this._isLoading){
+    if(this._isLoading || !this._user){
       return
     }
 
