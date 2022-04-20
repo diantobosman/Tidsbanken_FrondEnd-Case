@@ -80,10 +80,6 @@ export class ProfileComponent {
     })
   }
 
-
-
-
-
   changeAdminRightsAPI(bool: boolean) {
     console.log("Function is correctly called")
     console.log(bool)
