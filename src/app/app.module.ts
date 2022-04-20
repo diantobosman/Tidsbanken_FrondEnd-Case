@@ -43,6 +43,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NewUserDialogComponent } from './components/new-user-dialog/new-user-dialog.component';
 import { ProfileChangeProfileDialogComponent } from './components/profile-change-profile-dialog/profile-change-profile-dialog.component';
 import { ProfileGiveAdminRightsComponent } from './components/profile-give-admin-rights/profile-give-admin-rights.component';
+import { HistoryListItemComponent } from './components/history-list-item/history-list-item.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ProfileGiveAdminRightsComponent } from './components/profile-give-admin
     NewUserComponent,
     NewUserDialogComponent,
     ProfileChangeProfileDialogComponent,
-    ProfileGiveAdminRightsComponent
+    ProfileGiveAdminRightsComponent,
+    HistoryListItemComponent
   ],
   imports: [
     BrowserModule,
