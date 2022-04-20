@@ -1,12 +1,10 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { finalize, map } from 'rxjs';
+import { finalize, map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../enums/storage-keys.enum';
-import { User } from '../models/user.model';
 import { Vacation } from '../models/vacation.model';
 import { StorageUtil } from '../utils/storage.util';
-import { UserService } from './user.service';
 
 const {APIURL} = environment;
 const token = StorageUtil.storageRead(StorageKeys.AuthKey);
@@ -18,15 +16,11 @@ const token = StorageUtil.storageRead(StorageKeys.AuthKey);
 export class VacationService {
 
   private _vacationById?: Vacation;
-  private _user?: User;
   private _isLoading: boolean = false;
   private _vacations: Vacation[] = [];
   private _error: any = '';
   
-  constructor( private readonly userService: UserService, private readonly http: HttpClient
-  ) {
-    this._user = userService.user;
-   }
+  constructor(private readonly http: HttpClient) {}
 
   get vacations(){
     return this._vacations;
@@ -36,11 +30,16 @@ export class VacationService {
     return this._vacationById;
   }
 
-  // Fetch all vacations
-  public getAllVacations(){
+  get isLoading(){
+    return this._isLoading;
+  }
 
-    if(this._isLoading || !this._user){
-      return
+  // Fetch all vacations
+  public getAllVacations() : void {
+
+
+    if(this._isLoading){
+      return;
     }
 
     const headers = new HttpHeaders ({
@@ -50,21 +49,22 @@ export class VacationService {
 
     this._isLoading = true;
 
-    this.http.get<Vacation>(`${APIURL}vacation_request/`, {headers}).
+   this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers}).
     pipe(
       map((response: any) => response),
       finalize(() => this._isLoading = false)
     ).
     subscribe({
-        next: (vacations: Vacation[]) =>{
+        next: (vacations: Vacation[]) => {
           this._vacations = vacations;
-          console.log(this._vacations);
+          return this._vacations;
         },
         error:(error: HttpErrorResponse) => {
           this._error = error.message;
         }
       }
     )
+    
   }
 
   // Fetch the vacations by vacationId
@@ -118,15 +118,3 @@ export class VacationService {
     )
   }
 }
-  // Patch the vacations certain employee
-
-
-  // Store the fetched vacation
-  // set vacation(vacation: Vacation | undefined) {
-  //   this._vacation = vacation;
-  //  }
-
-  // Get the fetched vacations
-  // get vacation(): Vacation | undefined {
-  //   return this._vacation;
-  // }

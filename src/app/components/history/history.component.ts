@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Vacation } from 'src/app/models/vacation.model';
 import { VacationService } from 'src/app/services/vacation.service';
 
@@ -10,15 +9,21 @@ import { VacationService } from 'src/app/services/vacation.service';
 })
 export class HistoryComponent implements OnInit {
 
-  get vacations(): Vacation[]{
-    return this.vacationService.vacations;
-  }
-
   constructor(private readonly vacationService: VacationService) {
    }
 
   ngOnInit(): void {
+    console.log("init called");
     this.vacationService.getAllVacations();
+  }
+
+  get vacations(): Vacation[]{
+    console.log("get called");
+    return this.vacationService.vacations;
+  }
+
+  get isLoading(): boolean{
+    return this.vacationService.isLoading;
   }
 
   //Get vacation by id on a click
