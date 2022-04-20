@@ -59,7 +59,8 @@ export class RegisterService {
       "employeeId": id,
       "first_name": firstName,
       "last_name": lastName,
-      "emailAddress": email
+      "emailAddress": email,
+      "admin": false
     }
 
     //-- Post the new user
