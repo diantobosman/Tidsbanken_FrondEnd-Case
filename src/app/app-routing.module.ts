@@ -10,6 +10,7 @@ import { VacationRequestPage } from "./pages/vacation-request/vacation-request.p
 import { CreateVacationPage } from "./pages/create-vacation/create-vacation.page";
 import { LoginGuard } from "./guards/login.guard";
 import { RouterLinkActive } from "@angular/router";
+import { ViewUsersPage } from "./pages/view-users/view-users.page";
 
 const routes: Routes = [
     {
@@ -51,6 +52,11 @@ const routes: Routes = [
     {
         path: "admin-area",
         component: AdminAreaPage,
+        canActivate: [ AuthGuard ]
+    },
+    {
+        path: "view-users",
+        component: ViewUsersPage,
         canActivate: [ AuthGuard ]
     }
 ]
