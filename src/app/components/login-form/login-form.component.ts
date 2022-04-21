@@ -9,6 +9,11 @@ import { StorageUtil } from 'src/app/utils/storage.util';
 import { StorageKeys } from 'src/app/enums/storage-keys.enum';
 import { UserService } from 'src/app/services/user.service';
 import { RegisterService } from 'src/app/services/register.service';
+import { CalendarComponent } from '../calendar/calendar.component';
+import { VacationService } from 'src/app/services/vacation.service';
+import { Vacation } from 'src/app/models/vacation.model';
+import { IneligableService } from 'src/app/services/ineligable.service';
+import { Ineligable } from 'src/app/models/ineligable.model';
 
 @Component({
   selector: 'app-login-form',
@@ -19,6 +24,7 @@ import { RegisterService } from 'src/app/services/register.service';
 export class LoginFormComponent {
 
   public error: boolean = false;
+  private eventArray: object[] = [];
 
   @Output() login: EventEmitter<void> = new EventEmitter();
 
@@ -26,7 +32,9 @@ export class LoginFormComponent {
     private readonly router: Router,
     private readonly loginService: LoginService,
     private readonly userService: UserService,
-    private readonly registerService: RegisterService
+    private readonly registerService: RegisterService,
+    private readonly vacationService: VacationService,
+    private readonly ineligableService: IneligableService,
     ) { }
 
   public togglePassword(): void {
@@ -70,6 +78,68 @@ export class LoginFormComponent {
           this.error = true;
         }
       })
+
+      //-- Get all ineligable period + in array
+      this.ineligableService.getAllIneligable()
+      .subscribe({
+        next: (events: any[]) => {
+          events.forEach((event: Ineligable) => {
+            this.eventArray.push({
+              title: "Ineligable period",
+              start: event.periodStart,
+              end: event.periodEnd,
+              color: 'black'
+            })
+          })
+        }
+      })
+
+      //-- Get all vacation + put in same array then put in storage
+      this.vacationService.getAllVacations()
+    .subscribe({
+      next: (events: any[]) => {
+        events.forEach((event: Vacation) => {
+          if (event.status === "APPROVED") {
+            this.eventArray.push({
+              allDay: true,
+              color: '#239B56',
+              end: event.periodEnd,
+              start: event.periodStart,
+              title: event.title,
+              url: 'link naar request',
+            })
+          } else if (event.status === "DENIED") {
+            this.eventArray.push({
+              allDay: true,
+              color: '#7B241C',
+              end: event.periodEnd,
+              start: event.periodStart,
+              title: event.title,
+              url: 'link naar request',
+            })
+          } else {
+            this.eventArray.push({
+              allDay: true,
+              textColor: '#17202A',
+              backgroundColor: '#CACFD2',
+              borderColor: '#239B56',
+              end: event.periodEnd,
+              start: event.periodStart,
+              title: event.title,
+              url: 'link naar request',
+            })
+          }
+          
+          
+        })
+        console.log(this.eventArray)
+        StorageUtil.storageSave(StorageKeys.Events, this.eventArray);
+       
+      }
+
+      
+    }
+    )
   }
   
 }

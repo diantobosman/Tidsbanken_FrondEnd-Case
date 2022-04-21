@@ -5,5 +5,6 @@ export enum StorageKeys {
     Vacation = "current-vacation",
     AuthKey = "authToken",
     AuthKeyMaster = "AuthTokenMaster",
-    NewUserID = "new-user-id"
+    NewUserID = "new-user-id",
+    Events = "events"
 }

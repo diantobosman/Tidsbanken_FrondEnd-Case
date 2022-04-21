@@ -35,11 +35,31 @@ export class VacationService {
   }
 
   // Fetch all vacations
-  public getAllVacations() : void {
+  public getAllVacations() : Observable<Vacation[]> {
+
+    this._isLoading = false;
+
+    const headers = new HttpHeaders ({
+      "Accept": "*/*",
+      "Authorization": `Bearer ${token}`
+      })
+
+    this._isLoading = true;
 
 
-    if(this._isLoading){
-      return;
+  return this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers})
+  .pipe(
+      map((response: any) => response),
+
+      finalize(() => this._isLoading = false)
+    )
+  }
+
+  // Fetch the vacations by vacationId
+  public getVacationByID(vacationId: number): void {
+
+    if(this._vacationById || this._isLoading){
+      return
     }
 
     const headers = new HttpHeaders ({
@@ -49,44 +69,14 @@ export class VacationService {
 
     this._isLoading = true;
 
-   this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers}).
-    pipe(
+    this.http.get<Vacation>(`${APIURL}vacation_request/${vacationId}`, {headers})
+    .pipe(
       map((response: any) => response),
-      finalize(() => this._isLoading = false)
-    ).
-    subscribe({
-        next: (vacations: Vacation[]) => {
-          this._vacations = vacations;
-          return this._vacations;
-        },
-        error:(error: HttpErrorResponse) => {
-          this._error = error.message;
-        }
-      }
-    )
-    
-  }
 
-  // Fetch the vacations by vacationId
-  public getVacationByID(vacationId: number): void {
-
-    // if(this._vacationById || this._isLoading){
-    //   return
-    // }
-
-    const headers = new HttpHeaders ({
-      "Accept": "*/*",
-      "Authorization": `Bearer ${token}`
-      })
-
-  //  this._isLoading = true;
-
-    this.http.get<Vacation>(`${APIURL}vacation_request/${vacationId}`, {headers}).
-    pipe(
-      map((response: any) => response),
       //finalize(() => this._isLoading = false)
-    ).
-    subscribe({
+    )
+    .subscribe({
+
         next: (vacation: Vacation) =>{
           this._vacationById = vacation;
           console.log(this._vacationById);
@@ -98,17 +88,38 @@ export class VacationService {
     )
   }
 
+  //Save a new Vacation request to the database
+  public saveNewVacation(vacation: any): void{
+
+    const headers = new HttpHeaders ({
+      "Accept": "*/*",
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
+      })
+
+      this.http.post(`${APIURL}vacation_request/create`, JSON.stringify(vacation), {headers}).
+      subscribe({
+        next: () => {
+          console.log('succesfully saved')
+        },
+        error:(error: HttpErrorResponse) => {
+          console.log(error.message);
+        }
+      })
+  }
+
   // Delete vacation by id
-  deleteVacationById(vacationId: number) {
+  public deleteVacationById(vacationId: number): void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
       "Authorization": `Bearer ${token}`
       })
 
-    this.http.delete<Vacation>(`${APIURL}vacation_request/delete/${vacationId}`, {headers}).
-    subscribe({
+    this.http.delete<Vacation>(`${APIURL}vacation_request/delete/${vacationId}`, {headers})
+    .subscribe({
         next: () =>{
+          //alert
           console.log(`vacation with id ${vacationId} deleted`);
         },
         error:(error: HttpErrorResponse) => {

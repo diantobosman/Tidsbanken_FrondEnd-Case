@@ -9,17 +9,29 @@ import { VacationService } from 'src/app/services/vacation.service';
 })
 export class HistoryComponent implements OnInit {
 
+  vacations: Vacation[] = [];
+
   constructor(private readonly vacationService: VacationService) {
    }
 
   ngOnInit(): void {
     console.log("init called");
-    this.vacationService.getAllVacations();
+    this.vacations = this._vacations;
   }
 
-  get vacations(): Vacation[]{
+  get _vacations(): Vacation[]{
     console.log("get called");
-    return this.vacationService.vacations;
+    this.vacationService.getAllVacations()
+    .subscribe({
+        next: (vacations: Vacation[]) => {
+          this.vacations = vacations;   
+        },
+        error: (error: any) => {
+          console.log(error.message);
+        }
+      } 
+    )
+    return this.vacations;
   }
 
   get isLoading(): boolean{
@@ -39,3 +51,4 @@ export class HistoryComponent implements OnInit {
   }
 
 }
+
