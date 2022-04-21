@@ -27,7 +27,7 @@ export class HistoryComponent implements OnInit {
           this.vacations = vacations;   
         },
         error: (error: any) => {
-          console.log(error);
+          console.log(error.message);
         }
       } 
     )
