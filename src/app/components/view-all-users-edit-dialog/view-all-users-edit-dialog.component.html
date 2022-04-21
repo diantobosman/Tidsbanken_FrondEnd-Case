@@ -1,0 +1,18 @@
+<main>
+    <h2 mat-dialog-title class="text-center">Change the email of user: {{selectedEmployee.first_name}}</h2>
+    <form #editEmail="ngForm" (ngSubmit)="newEmailSubmit(editEmail)" class="mt-5 container d-flex flex-column text-center">
+        <mat-form-field appearance="fill">
+          <mat-label>New email:</mat-label>
+          <input 
+          type="email"
+          ngModel
+          #password="ngModel"
+          name="email" 
+          matInput
+          id="email" 
+          >
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Submit new email</button>
+      </form>
+
+</main>

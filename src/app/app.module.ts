@@ -46,7 +46,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NewUserDialogComponent } from './components/new-user-dialog/new-user-dialog.component';
 import { ProfileChangeProfileDialogComponent } from './components/profile-change-profile-dialog/profile-change-profile-dialog.component';
 import { HistoryListItemComponent } from './components/history-list-item/history-list-item.component';
-
+import { ViewUsersPage } from './pages/view-users/view-users.page';
+import { ViewAllUsersComponent } from './components/view-all-users/view-all-users.component';
+import { MatListModule } from '@angular/material/list';
+import { ViewAllUsersEditDialogComponent } from './components/view-all-users-edit-dialog/view-all-users-edit-dialog.component';
+import { IneligableDialogComponent } from './components/ineligable-dialog/ineligable-dialog.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -73,8 +77,12 @@ FullCalendarModule.registerPlugins([
     NewUserComponent,
     NewUserDialogComponent,
     ProfileChangeProfileDialogComponent,
-    HistoryListItemComponent
-  ],
+    HistoryListItemComponent,
+    IneligableDialogComponent,
+    ViewUsersPage,
+    ViewAllUsersComponent,
+    ViewAllUsersEditDialogComponent
+    ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -98,7 +106,8 @@ FullCalendarModule.registerPlugins([
     MatCheckboxModule,
     MatSidenavModule,
     MatChipsModule,
-    FullCalendarModule
+    FullCalendarModule,
+    MatListModule
     ],
   providers: [],
   bootstrap: [AppComponent]

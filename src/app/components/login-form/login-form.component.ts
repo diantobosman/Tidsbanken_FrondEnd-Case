@@ -12,6 +12,8 @@ import { RegisterService } from 'src/app/services/register.service';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { VacationService } from 'src/app/services/vacation.service';
 import { Vacation } from 'src/app/models/vacation.model';
+import { IneligableService } from 'src/app/services/ineligable.service';
+import { Ineligable } from 'src/app/models/ineligable.model';
 
 @Component({
   selector: 'app-login-form',
@@ -31,7 +33,8 @@ export class LoginFormComponent {
     private readonly loginService: LoginService,
     private readonly userService: UserService,
     private readonly registerService: RegisterService,
-    private readonly vacationService: VacationService
+    private readonly vacationService: VacationService,
+    private readonly ineligableService: IneligableService,
     ) { }
 
   public togglePassword(): void {
@@ -76,13 +79,28 @@ export class LoginFormComponent {
         }
       })
 
-      //-- Get all vacation + put in storage
+      //-- Get all ineligable period + in array
+      this.ineligableService.getAllIneligable()
+      .subscribe({
+        next: (events: any[]) => {
+          events.forEach((event: Ineligable) => {
+            this.eventArray.push({
+              title: "Ineligable period",
+              start: event.periodStart,
+              end: event.periodEnd,
+              color: 'black'
+            })
+          })
+        }
+      })
+
+      //-- Get all vacation + put in same array then put in storage
       this.vacationService.getAllVacations()
     .subscribe({
       next: (events: any[]) => {
         events.forEach((event: Vacation) => {
           if (event.status === "APPROVED") {
-            this.eventArray!.push({
+            this.eventArray.push({
               allDay: true,
               color: '#239B56',
               end: event.periodEnd,
@@ -91,7 +109,7 @@ export class LoginFormComponent {
               url: 'link naar request',
             })
           } else if (event.status === "DENIED") {
-            this.eventArray!.push({
+            this.eventArray.push({
               allDay: true,
               color: '#7B241C',
               end: event.periodEnd,
@@ -100,7 +118,7 @@ export class LoginFormComponent {
               url: 'link naar request',
             })
           } else {
-            this.eventArray!.push({
+            this.eventArray.push({
               allDay: true,
               textColor: '#17202A',
               backgroundColor: '#CACFD2',
@@ -114,6 +132,7 @@ export class LoginFormComponent {
           
           
         })
+        console.log(this.eventArray)
         StorageUtil.storageSave(StorageKeys.Events, this.eventArray);
        
       }

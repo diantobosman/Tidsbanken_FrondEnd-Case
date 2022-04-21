@@ -34,7 +34,7 @@
   </div>
 
   <!--Admin link-->
-  <div class="card mx-4 m-2 bg" routerLinkActive="active" *ngIf="employee?.admin == true">
+  <div class="card mx-4 m-2 bg" routerLinkActive="active" *ngIf="employee?.admin === true">
     <a class="m-3 text-light d-flex align-items-end" routerLink="/admin-area">
       <span class="material-icons me-2">admin_panel_settings</span>
       Admin Area
