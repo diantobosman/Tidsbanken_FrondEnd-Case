@@ -9,6 +9,8 @@ import { FunctionUtil } from 'src/app/utils/functions.util';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { ViewAllUsersEditDialogComponent } from '../view-all-users-edit-dialog/view-all-users-edit-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-view-all-users',
@@ -23,12 +25,14 @@ export class ViewAllUsersComponent implements OnInit {
   color: ThemePalette = 'accent';
   public adminOn: boolean = false;
   public adminOff: boolean = false;
-  public admin: boolean = StorageUtil.storageRead<Employee>(StorageKeys.Employee)!.admin
+  public allEmployees: any;
+  public selectedEmployee: any;
 
   constructor(
     private readonly http: HttpClient,
     private readonly userService: UserService,
-    private readonly employeeService: EmployeeService
+    private readonly employeeService: EmployeeService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -43,17 +47,35 @@ export class ViewAllUsersComponent implements OnInit {
 
   //-- Functions
   public filterForFirstNames() {
-    const allEmployees  = StorageUtil.storageRead<any>(StorageKeys.Employees)
-    const allIdOfEmployees = allEmployees.map((element: { employeeId: any; }) => element.employeeId)
-    this._allFirstNamesOfEmployee = allEmployees.map((element: { first_name: any; }) => element.first_name)
-    const allLastNamesofEmployees = allEmployees.map((element: { last_name: any; }) => element.last_name)
+    this.allEmployees  = StorageUtil.storageRead<any>(StorageKeys.Employees)
+    const allIdOfEmployees = this.allEmployees.map((element: { employeeId: any; }) => element.employeeId)
+    this._allFirstNamesOfEmployee = this.allEmployees.map((element: { first_name: any; }) => element.first_name)
+    const allLastNamesofEmployees = this.allEmployees.map((element: { last_name: any; }) => element.last_name)
   
   }
 
-  public toggleButton() {
-    this.admin = FunctionUtil.toggleBoolean(this.admin)
-    this.changeAdminRightsAPI(this.admin)
-    this.changeAdminRightsKeyCloak(this.admin)
+  public giveAdminButton(selectedEmployeeName: string) {
+
+    this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
+
+    console.log(this.selectedEmployee)
+
+    this.changeAdminRightsAPI(true)
+    //this.changeAdminRightsKeyCloak(this.admin)
+  }
+
+  public revokeAdminButton(selectedEmployeeName: string) {
+
+    this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
+
+    console.log(this.selectedEmployee)
+
+    this.changeAdminRightsAPI(false)
+    //this.changeAdminRightsKeyCloak(this.admin)
+  }
+
+  public changeProfileButton(arg: string) {
+
   }
 
   //-- Get all the employees from the database
@@ -79,6 +101,17 @@ export class ViewAllUsersComponent implements OnInit {
     })
   }
 
+  openDialogEditAllUsers(selectedEmployeeName: string): void {
+    
+    this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
+    console.log(this.selectedEmployee)
+    this.dialog.open(ViewAllUsersEditDialogComponent, {
+      width: '250px',
+      backdropClass: 'custom-dialog-backdrop-class',
+      panelClass: 'custom-dialog-panel-class',
+      data: { pageValue: this.selectedEmployee }
+    })
+  }
 
 
   public changeAdminRightsKeyCloak(bool: boolean) {
@@ -114,44 +147,31 @@ export class ViewAllUsersComponent implements OnInit {
   }
 
   public changeAdminRightsAPI(bool: boolean) {
-    console.log("Function is correctly called")
-    console.log(bool)
-    const id = this.employeeService.employee?.employeeId
+
+    const id = this.selectedEmployee.employeeId
 
     // Get the mastertoken
-    const employeeToken = StorageUtil.storageRead(StorageKeys.AuthKey)
+    const selectedEmployeeToken = StorageUtil.storageRead(StorageKeys.AuthKey)
 
     //-- Define the headers
     const headers = new HttpHeaders ({
       "accept": "*/*",
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${employeeToken}`
+      "Authorization": `Bearer ${selectedEmployeeToken}`
       })
 
     var body = {
       "employeeId": id,
-      "first_name": this.employeeService.employee?.first_name,
-      "last_name": this.employeeService.employee?.last_name,
-      "emailAddress": this.employeeService?.employee?.emailAddress,
+      "first_name": this.selectedEmployee.first_name,
+      "last_name": this.selectedEmployee.last_name,
+      "emailAddress": this.selectedEmployee.emailAddress,
       "admin": bool
     }
 
     return this.http.patch<any>(environment.APIURL + `employee/update/` + id , body, {headers})
     .subscribe({
       next: (result) => {
-
-        this.employee!.admin = this.admin
-        StorageUtil.storageSave(StorageKeys.Employee, this.employee)
-
-        if(this.admin === true){
-          this.adminOn = false
-          this.adminOff = true
-        }
-        else{
-          this.adminOff = false
-          this.adminOn = true
-        }
-
+        console.log(result)
       },
       error: (error) => {
         console.log(error)
