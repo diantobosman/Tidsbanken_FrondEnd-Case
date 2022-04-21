@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CalendarOptions } from '@fullcalendar/angular';
-import { end } from '@popperjs/core';
+
+import { StorageKeys } from 'src/app/enums/storage-keys.enum';
+
+import { StorageUtil } from 'src/app/utils/storage.util';
 
 @Component({
   selector: 'app-calendar',
@@ -10,38 +12,31 @@ import { end } from '@popperjs/core';
   styleUrls: ['./calendar.component.css']
 })
 
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
+
 
   constructor(
-    private readonly router: Router
+    private readonly router: Router,
   ) {
+  }
+
+  ngOnInit(): void {
+
   }
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {start: 'title prevYear,nextYear', center: '', end: 'today prev,next'},
     initialView: 'dayGridMonth',
     dateClick: this.handleDateClick.bind(this), // bind is important!
-    events: [
-      { 
-        
-        title: 'Vacation Savannah', 
-        allDay: true,
-        start: '2022-04-01',
-        end: '2022-04-06',
-        url: 'link naar request',
-        color: '#005662'
-      },
-      
-    ]
+    events: StorageUtil.storageRead(StorageKeys.Events)
   };
 
   handleDateClick(arg: any) {
     alert('date click! ' + arg.dateStr)
   }
 
-  
 
-  public navigateToNewRequest() {
+   public navigateToNewRequest() {
     this.router.navigateByUrl("/create-vacation")
   }
 
