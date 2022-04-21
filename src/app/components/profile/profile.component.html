@@ -6,20 +6,5 @@
   <p>Email: {{employee.emailAddress}}</p>
 
   <button mat-raised-button (click)="openDialogChangeProfileDetails()">Change profile details</button>
-
-  <button mat-flat-button  (click)="toggleButton()" color="accent">Give user admin rights</button>
-
-  <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="adminOff">
-      <span class="material-icons mx-2">error</span>
-      <div class="mx-2">
-        The username and password you entered did not match our records. Please double-check and try again.
-      </div>
-  </div>
-
-  <div class="alert alert-success d-flex align-items-center" role="alert" *ngIf="adminOn">
-      <div>
-        An example success alert with an icon
-      </div>
-    </div>
   </ng-container>
 </main>
