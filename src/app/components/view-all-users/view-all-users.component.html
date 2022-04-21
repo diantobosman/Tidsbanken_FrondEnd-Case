@@ -1,7 +1,7 @@
-<main class="container-lg mt-3 p-3 flex-column align-items-center mainbgcolor">
+<main class="container mainbgcolor mt-5 p-5 text-center">
 
-<div >
-    <h1>List of users</h1>
+<div class="mb-5">
+    <h2>List of users</h2>
 <mat-selection-list #names [multiple]="false">
     <mat-list-option *ngFor="let name of _allFirstNamesOfEmployee" [value]="name">
       {{name}}
@@ -10,10 +10,10 @@
 
 </div>
 
-<button mat-flat-button (click)="giveAdminButton(names.selectedOptions.selected[0]?.value)" color="accent" class="mx-1">Give {{names.selectedOptions.selected[0]?.value}} admin rights</button>
-<button mat-flat-button (click)="revokeAdminButton(names.selectedOptions.selected[0]?.value)" color="accent" class="mx-1">Revoke {{names.selectedOptions.selected[0]?.value}} admin rights</button>
-<button mat-flat-button (click)="openDialogEditAllUsers(names.selectedOptions.selected[0]?.value)" color="accent">Change email of {{names.selectedOptions.selected[0]?.value}}</button>
-<button mat-flat-button (click)="deleteSelectedUser(names.selectedOptions.selected[0]?.value)" color="accent">Delete {{names.selectedOptions.selected[0]?.value}}</button>
+<button class="mx-2" mat-raised-button (click)="giveAdminButton(names.selectedOptions.selected[0]?.value)" color="primary">Give {{names.selectedOptions.selected[0]?.value}} admin rights</button>
+<button class="mx-2" mat-raised-button (click)="revokeAdminButton(names.selectedOptions.selected[0]?.value)" color="primary" >Revoke {{names.selectedOptions.selected[0]?.value}} admin rights</button>
+<button class="mx-2" mat-raised-button (click)="openDialogEditAllUsers(names.selectedOptions.selected[0]?.value)" color="primary">Change email of {{names.selectedOptions.selected[0]?.value}}</button>
+<button class="mx-2" mat-raised-button (click)="deleteSelectedUser(names.selectedOptions.selected[0]?.value)" color="primary">Delete {{names.selectedOptions.selected[0]?.value}}</button>
 
 
 <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="adminOff">
