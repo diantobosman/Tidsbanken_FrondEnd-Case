@@ -12,7 +12,9 @@
 
 <button mat-flat-button (click)="giveAdminButton(names.selectedOptions.selected[0]?.value)" color="accent" class="mx-1">Give {{names.selectedOptions.selected[0]?.value}} admin rights</button>
 <button mat-flat-button (click)="revokeAdminButton(names.selectedOptions.selected[0]?.value)" color="accent" class="mx-1">Revoke {{names.selectedOptions.selected[0]?.value}} admin rights</button>
-<button mat-flat-button (click)="openDialogEditAllUsers(names.selectedOptions.selected[0]?.value)" color="accent">Change profile of {{names.selectedOptions.selected[0]?.value}}</button>
+<button mat-flat-button (click)="openDialogEditAllUsers(names.selectedOptions.selected[0]?.value)" color="accent">Change email of {{names.selectedOptions.selected[0]?.value}}</button>
+<button mat-flat-button (click)="deleteSelectedUser(names.selectedOptions.selected[0]?.value)" color="accent">Delete {{names.selectedOptions.selected[0]?.value}}</button>
+
 
 <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="adminOff">
     <span class="material-icons mx-2">error</span>

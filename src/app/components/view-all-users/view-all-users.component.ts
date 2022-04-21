@@ -54,6 +54,78 @@ export class ViewAllUsersComponent implements OnInit {
   
   }
 
+  public deleteSelectedUser(selectedEmployeeName: string) {
+    this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
+
+    const id = this.selectedEmployee.employeeId
+    this.deleteSelectedUserKeycloak(id)
+
+  }
+
+
+
+  public deleteSelectedUserKeycloak(id: string) {
+
+    // Get the mastertoken
+    const masterToken = StorageUtil.storageRead(StorageKeys.AuthKeyMaster)
+    
+    //-- Define the headers
+    const headers = new HttpHeaders ({
+      "Authorization": `Bearer ${masterToken}`
+    })
+
+    //-- Post the new user
+    return this.http.delete<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id, {headers} )
+    .subscribe({
+      next: () => {
+        console.log("User succesfully deleted from keycloak")
+        this.deleteSelectedUserAPI(id)
+      },
+      error: (error) => {
+        console.log(error)
+      }
+    })
+
+  }
+  
+
+  public deleteSelectedUserAPI(id: string) {
+
+    // Get the mastertoken
+    const employeeToken = StorageUtil.storageRead(StorageKeys.AuthKey)
+    
+    //-- Define the headers
+    const headers = new HttpHeaders ({
+      "Authorization": `Bearer ${employeeToken}`
+    })
+
+    return this.http.delete<any>(environment.APIURL + `employee/delete/` + id, {headers} )
+      .subscribe({
+        next: () => {
+          console.log("Succesfully deleted from the API")
+          this.allEmployees[this.selectedEmployee] = {}
+          
+          sessionStorage.setItem(StorageKeys.Employees, this.allEmployees)
+        },
+        error: (error) => {
+          console.log("Error while deleting from the API: " + error)
+        }
+      })
+
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+
   public giveAdminButton(selectedEmployeeName: string) {
 
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
