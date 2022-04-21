@@ -9,8 +9,8 @@ import { FunctionUtil } from 'src/app/utils/functions.util';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { EmployeeService } from 'src/app/services/employee.service';
-import { ViewAllUsersEditDialogComponent } from '../view-all-users-edit-dialog/view-all-users-edit-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ViewAllUsersEditDialogComponent } from '../view-all-users-edit-dialog/view-all-users-edit-dialog.component';
 
 @Component({
   selector: 'app-view-all-users',
