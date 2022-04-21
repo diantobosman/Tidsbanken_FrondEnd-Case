@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Vacation } from 'src/app/models/vacation.model';
 import { VacationService } from 'src/app/services/vacation.service';
@@ -9,17 +10,30 @@ import { VacationService } from 'src/app/services/vacation.service';
 })
 export class HistoryComponent implements OnInit {
 
+  private _vacations: Vacation[] = [];
+
   constructor(private readonly vacationService: VacationService) {
    }
 
   ngOnInit(): void {
     console.log("init called");
-    this.vacationService.getAllVacations();
+    this._vacations = this.vacations;
   }
 
   get vacations(): Vacation[]{
     console.log("get called");
-    return this.vacationService.vacations;
+    this.vacationService.getAllVacations().
+    subscribe({
+        next: (vacations: Vacation[]) => {
+          this._vacations = vacations;
+          
+        },
+        error:(error: HttpErrorResponse) => {
+          console.log(error.message);
+        }
+      }
+    )
+    return this._vacations;
   }
 
   get isLoading(): boolean{

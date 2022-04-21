@@ -35,12 +35,14 @@ export class VacationService {
   }
 
   // Fetch all vacations
-  public getAllVacations() : void {
+  public getAllVacations() : Observable<Vacation[]> {
 
 
-    if(this._isLoading){
-      return;
-    }
+    // if(this._isLoading){
+    //   return;
+    // }
+
+    this._isLoading = false;
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
@@ -49,22 +51,11 @@ export class VacationService {
 
     this._isLoading = true;
 
-   this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers}).
+  return this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers}).
     pipe(
       map((response: any) => response),
       finalize(() => this._isLoading = false)
-    ).
-    subscribe({
-        next: (vacations: Vacation[]) => {
-          this._vacations = vacations;
-          return this._vacations;
-        },
-        error:(error: HttpErrorResponse) => {
-          this._error = error.message;
-        }
-      }
     )
-    
   }
 
   // Fetch the vacations by vacationId
