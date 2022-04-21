@@ -104,6 +104,16 @@ export class VacationService {
       })
   }
 
+  //Update an existing vacation request and save it to the database
+  public updateVacation(vacation: any): void{
+    
+    const headers = new HttpHeaders ({
+      "Accept": "*/*",
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
+      })
+  }
+
   // Delete vacation by id
   deleteVacationById(vacationId: number) {
 
