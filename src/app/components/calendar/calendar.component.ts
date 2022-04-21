@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CalendarOptions } from '@fullcalendar/angular';
 
 import { StorageKeys } from 'src/app/enums/storage-keys.enum';
 
 import { StorageUtil } from 'src/app/utils/storage.util';
+import { IneligableDialogComponent } from '../ineligable-dialog/ineligable-dialog.component';
 
 @Component({
   selector: 'app-calendar',
@@ -17,6 +19,7 @@ export class CalendarComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
+    public dialog: MatDialog
   ) {
   }
 
@@ -38,6 +41,10 @@ export class CalendarComponent implements OnInit {
 
    public navigateToNewRequest() {
     this.router.navigateByUrl("/create-vacation")
+  }
+
+  public openDialogIneligable() {
+    this.dialog.open(IneligableDialogComponent);
   }
 
 

@@ -23,7 +23,7 @@ export class IneligableService {
   ) { }
 
   //-- Get all Ineligable periods
-  public getIneligable(): Observable<Ineligable[]> {
+  public getAllIneligable(): Observable<Ineligable[]> {
     
     const headers = new HttpHeaders ({
       "Accept": "*/*",
@@ -59,6 +59,27 @@ export class IneligableService {
         this._error = error.message;
       }
     })
+  }
+
+  //-- Save new ineligable period
+  public saveNewIneligable(ineligable: any): void {
+
+    const headers = new HttpHeaders ({
+      "Accept": "*/*",
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
+      })
+
+      this.http.post(`${APIURL}ineligibleperiod/create`, JSON.stringify(ineligable), {headers})
+      .subscribe({
+        next: () => {
+          //alert
+          console.log('succesfully saved')
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        }
+      })
   }
 
 

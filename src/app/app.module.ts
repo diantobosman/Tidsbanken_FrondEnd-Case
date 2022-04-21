@@ -46,6 +46,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NewUserDialogComponent } from './components/new-user-dialog/new-user-dialog.component';
 import { ProfileChangeProfileDialogComponent } from './components/profile-change-profile-dialog/profile-change-profile-dialog.component';
 import { HistoryListItemComponent } from './components/history-list-item/history-list-item.component';
+import { IneligableDialogComponent } from './components/ineligable-dialog/ineligable-dialog.component';
 
 
 FullCalendarModule.registerPlugins([
@@ -73,7 +74,8 @@ FullCalendarModule.registerPlugins([
     NewUserComponent,
     NewUserDialogComponent,
     ProfileChangeProfileDialogComponent,
-    HistoryListItemComponent
+    HistoryListItemComponent,
+    IneligableDialogComponent
   ],
   imports: [
     BrowserModule,
