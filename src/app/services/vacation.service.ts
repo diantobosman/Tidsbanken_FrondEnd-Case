@@ -51,8 +51,8 @@ export class VacationService {
 
     this._isLoading = true;
 
-  return this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers}).
-    pipe(
+  return this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers})
+  .pipe(
       map((response: any) => response),
       finalize(() => this._isLoading = false)
     )
@@ -72,12 +72,12 @@ export class VacationService {
 
   //  this._isLoading = true;
 
-    this.http.get<Vacation>(`${APIURL}vacation_request/${vacationId}`, {headers}).
-    pipe(
+    this.http.get<Vacation>(`${APIURL}vacation_request/${vacationId}`, {headers})
+    .pipe(
       map((response: any) => response),
       //finalize(() => this._isLoading = false)
-    ).
-    subscribe({
+    )
+    .subscribe({
         next: (vacation: Vacation) =>{
           this._vacationById = vacation;
           console.log(this._vacationById);
@@ -90,16 +90,17 @@ export class VacationService {
   }
 
   // Delete vacation by id
-  deleteVacationById(vacationId: number) {
+  public deleteVacationById(vacationId: number): void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
       "Authorization": `Bearer ${token}`
       })
 
-    this.http.delete<Vacation>(`${APIURL}vacation_request/delete/${vacationId}`, {headers}).
-    subscribe({
+    this.http.delete<Vacation>(`${APIURL}vacation_request/delete/${vacationId}`, {headers})
+    .subscribe({
         next: () =>{
+          //alert
           console.log(`vacation with id ${vacationId} deleted`);
         },
         error:(error: HttpErrorResponse) => {
