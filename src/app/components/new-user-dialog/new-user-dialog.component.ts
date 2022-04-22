@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RegisterService } from 'src/app/services/register.service';
 import { FunctionUtil } from 'src/app/utils/functions.util';
 
@@ -13,7 +14,8 @@ export class NewUserDialogComponent {
   @Output() login: EventEmitter<void> = new EventEmitter();
 
   constructor( 
-    private readonly registerService: RegisterService
+    private readonly registerService: RegisterService,
+    private readonly router: Router
     ) { }
 
   //-- This function does only work once per login. This bug should be solved.
@@ -48,6 +50,14 @@ export class NewUserDialogComponent {
             const idNewEmployee = FunctionUtil.filterByValue(result, email)[0].id
 
             this.registerService.registerAPI(idNewEmployee, firstName, lastName, email)
+            //this.dialogRef.close();
+            // var txt;
+            // if (confirm("New User created!")) {
+            //   // Does not work.
+            //   this.router.navigateByUrl("/admin-area")
+            // } else {
+            //   txt = "You pressed Cancel!";
+            // }
           },
           error: (error) => {
             console.log("Error while getUserAndRegister" + error)

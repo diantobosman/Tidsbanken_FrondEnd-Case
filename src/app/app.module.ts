@@ -51,6 +51,7 @@ import { ViewAllUsersComponent } from './components/view-all-users/view-all-user
 import { MatListModule } from '@angular/material/list';
 import { ViewAllUsersEditDialogComponent } from './components/view-all-users-edit-dialog/view-all-users-edit-dialog.component';
 import { IneligableDialogComponent } from './components/ineligable-dialog/ineligable-dialog.component';
+import { AdminPendingRequestsComponent } from './components/admin-pending-requests/admin-pending-requests.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -81,8 +82,9 @@ FullCalendarModule.registerPlugins([
     IneligableDialogComponent,
     ViewUsersPage,
     ViewAllUsersComponent,
-    ViewAllUsersEditDialogComponent
-    ],
+    ViewAllUsersEditDialogComponent,
+    AdminPendingRequestsComponent
+      ],
   imports: [
     BrowserModule,
     HttpClientModule,
