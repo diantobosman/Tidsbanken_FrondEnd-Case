@@ -13,7 +13,8 @@ import { AllEmployeesService } from './all-employees.service';
 
 export class RegisterService {
 
-  constructor(private readonly http: HttpClient,
+  constructor(
+    private readonly http: HttpClient,
     private readonly router: Router,
     private readonly allEmployeeService: AllEmployeesService
     ) { }

@@ -13,8 +13,8 @@
         </section>
         <div class="col-md-4">
           <section class="card-body d-flex flex-column my-2">
-              <button class="mb-2" mat-raised-button color="primary">Approved</button>
-              <button mat-raised-button color="warn">Denied</button>
+              <button class="mb-2" mat-flat-button color="primary" (click)="approveButton(allrequest.requestId)">Approved</button>
+              <button mat-raised-button color="warn" (click)="denyButton(allrequest.requestId)">Denied</button>
           </section>
         </div>
       </div>
