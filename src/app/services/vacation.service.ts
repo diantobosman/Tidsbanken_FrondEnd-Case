@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../enums/storage-keys.enum';
 import { Vacation } from '../models/vacation.model';
 import { StorageUtil } from '../utils/storage.util';
+import { CommentService } from './comment.service';
 
 const {APIURL} = environment;
 const token = StorageUtil.storageRead(StorageKeys.AuthKey);
@@ -20,7 +21,7 @@ export class VacationService {
   private _vacations: Vacation[] = [];
   private _error: any = '';
   
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient, private readonly commentService: CommentService) {}
 
   get vacations(){
     return this._vacations;
@@ -72,11 +73,9 @@ export class VacationService {
     this.http.get<Vacation>(`${APIURL}vacation_request/${vacationId}`, {headers})
     .pipe(
       map((response: any) => response),
-
-      //finalize(() => this._isLoading = false)
+      finalize(() => this._isLoading = false)
     )
     .subscribe({
-
         next: (vacation: Vacation) =>{
           this._vacationById = vacation;
           console.log(this._vacationById);
@@ -89,7 +88,7 @@ export class VacationService {
   }
 
   //Save a new Vacation request to the database
-  public saveNewVacation(vacation: any): void{
+  public saveNewVacation(vacation: any): void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
@@ -97,10 +96,16 @@ export class VacationService {
       "Content-Type": "application/json",
       })
 
-      this.http.post(`${APIURL}vacation_request/create`, JSON.stringify(vacation), {headers}).
-      subscribe({
-        next: () => {
-          console.log('succesfully saved')
+    const comment = {
+      message: vacation.comments
+    }
+
+      this.http.post<Vacation>(`${APIURL}vacation_request/create`, JSON.stringify(vacation), {headers})
+      .subscribe({
+        next: (response: Vacation) => {
+          console.log(response)
+          
+          this.commentService.saveComment(response.requestId, comment)
         },
         error:(error: HttpErrorResponse) => {
           console.log(error.message);
@@ -120,7 +125,7 @@ export class VacationService {
     .subscribe({
         next: () =>{
           //alert
-          console.log(`vacation with id ${vacationId} deleted`);
+          alert(`vacation with id ${vacationId} deleted`);
         },
         error:(error: HttpErrorResponse) => {
           this._error = error.message;

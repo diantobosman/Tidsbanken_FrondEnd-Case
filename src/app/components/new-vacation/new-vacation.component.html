@@ -3,6 +3,13 @@
   <h2>New Vacation Request</h2>
   <form #newRequest="ngForm" (ngSubmit)="newRequestSubmit(newRequest)" class="mt-5 container d-flex flex-column align-items-center text-center">
 
+    <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="error">
+      <span class="material-icons mx-2">error</span>
+      <div class="mx-2">
+        Some necessary information seems to be missing. Please enter a title, start and end date.
+      </div>
+    </div>
+
     <mat-form-field appearance="fill" style="width: 280px;">
       <mat-label>Title:</mat-label>
       <input 
