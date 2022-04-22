@@ -25,7 +25,7 @@ export class HistoryComponent implements OnInit {
   }
 
   get isLoading(): boolean{
-    return this.vacationService.isLoading;
+    return this.vacationService.loading;
   }
 
   //Get vacation by id on a click

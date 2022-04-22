@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CalendarOptions } from '@fullcalendar/angular';
 
 import { StorageKeys } from 'src/app/enums/storage-keys.enum';
+import { Ineligible } from 'src/app/models/ineligible.model';
+import { Vacation } from 'src/app/models/vacation.model';
 
 import { StorageUtil } from 'src/app/utils/storage.util';
-import { IneligableDialogComponent } from '../ineligable-dialog/ineligable-dialog.component';
+import { IneligableDialogComponent } from '../ineligible-dialog/ineligible-dialog.component';
 
 @Component({
   selector: 'app-calendar',
@@ -16,6 +18,12 @@ import { IneligableDialogComponent } from '../ineligable-dialog/ineligable-dialo
 
 export class CalendarComponent implements OnInit {
 
+  @Input() vacations: any[] = [];
+
+  @Input() ineligibles: any[] = [];
+
+  private _eventArray: any[] = [];
+  
 
   constructor(
     private readonly router: Router,
@@ -24,14 +32,57 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //loop through vacations to make it into events
+    this.vacations.forEach((event: Vacation) => {
+      if (event.status === "APPROVED") {
+        this._eventArray.push({
+          allDay: true,
+          color: '#239B56',
+          end: event.periodEnd,
+          start: event.periodStart,
+          title: event.title,
+          url: 'link naar request',
+        })
+      } else if (event.status === "DENIED") {
+        this._eventArray.push({
+          allDay: true,
+          color: '#7B241C',
+          end: event.periodEnd,
+          start: event.periodStart,
+          title: event.title,
+          url: 'link naar request',
+        })
+      } else {
+        this._eventArray.push({
+          allDay: true,
+          textColor: '#17202A',
+          backgroundColor: '#CACFD2',
+          borderColor: '#239B56',
+          end: event.periodEnd,
+          start: event.periodStart,
+          title: event.title,
+          url: 'link naar request',
+        })
+      }
+    })
 
+    //loop through ineligibles to make it into events
+    this.ineligibles.forEach((event: Ineligible) => {
+      this._eventArray.push({
+        title: "Ineligable period",
+        start: event.periodStart,
+        end: event.periodEnd,
+        color: 'black'
+      })
+    })
   }
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {start: 'title prevYear,nextYear', center: '', end: 'today prev,next'},
     initialView: 'dayGridMonth',
     dateClick: this.handleDateClick.bind(this), // bind is important!
-    events: StorageUtil.storageRead(StorageKeys.Events)
+    weekNumbers: true,
+    events: this._eventArray,
   };
 
   handleDateClick(arg: any) {
@@ -39,7 +90,7 @@ export class CalendarComponent implements OnInit {
   }
 
 
-   public navigateToNewRequest() {
+  public navigateToNewRequest() {
     this.router.navigateByUrl("/create-vacation")
   }
 

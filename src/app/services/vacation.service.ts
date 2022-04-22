@@ -1,10 +1,11 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { finalize, map, Observable } from 'rxjs';
+import { finalize, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../enums/storage-keys.enum';
 import { Vacation } from '../models/vacation.model';
 import { StorageUtil } from '../utils/storage.util';
+import { CommentService } from './comment.service';
 
 const {APIURL} = environment;
 const token = StorageUtil.storageRead(StorageKeys.AuthKey);
@@ -16,32 +17,36 @@ const token = StorageUtil.storageRead(StorageKeys.AuthKey);
 export class VacationService {
 
   private _vacationById?: Vacation;
-  private _isLoading: boolean = false;
+  private _loading: boolean = false;
   private _vacations: Vacation[] = [];
   private _error: any = '';
   
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient, private readonly commentService: CommentService) {}
 
-  get vacations(){
+  get vacations (){
     return this._vacations;
   }
 
-  get vacationById(){
+  get vacationById (){
     return this._vacationById;
   }
 
-  get isLoading(){
-    return this._isLoading;
+  get loading (){
+    return this._loading;
+  }
+
+  get error() {
+    return this._error;
   }
 
   // Fetch all vacations
   public getAllVacations() : void {
 
-    if(this._isLoading == false){
+    if(this._loading == false){
       return;
     }
 
-    this._isLoading = true;
+    this._loading = true;
     const headers = new HttpHeaders ({
       "Accept": "*/*",
       "Authorization": `Bearer ${token}`
@@ -49,7 +54,7 @@ export class VacationService {
 
     this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers})
     .pipe(
-        finalize(() => this._isLoading = false)
+        finalize(() => this._loading = false)
       )
       .subscribe({
         next: (vacations: Vacation[]) => {
@@ -61,7 +66,7 @@ export class VacationService {
   // Fetch the vacations by vacationId
   public getVacationByID(vacationId: number): void {
 
-    if(this._vacationById || this._isLoading){
+    if(this._vacationById || this._loading){
       return
     }
 
@@ -70,16 +75,14 @@ export class VacationService {
       "Authorization": `Bearer ${token}`
       })
 
-    this._isLoading = true;
+    this._loading = true;
 
     this.http.get<Vacation>(`${APIURL}vacation_request/${vacationId}`, {headers})
     .pipe(
       map((response: any) => response),
-
-      //finalize(() => this._isLoading = false)
+      finalize(() => this._loading = false)
     )
     .subscribe({
-
         next: (vacation: Vacation) =>{
           this._vacationById = vacation;
           console.log(this._vacationById);
@@ -94,23 +97,26 @@ export class VacationService {
   //Save a new Vacation request to the database
   public saveNewVacation(vacation: any): void {
 
-
     const headers = new HttpHeaders ({
       "Accept": "*/*",
       "Authorization": `Bearer ${token}`,
       "Content-Type": "application/json",
       })
 
+    const comment = {
+      message: vacation.comments
+    }
       this.http.post<Vacation>(`${APIURL}vacation_request/create`, JSON.stringify(vacation), {headers})
-  }
+      .subscribe({
+        next: (response: Vacation) => {
+          console.log(response)
+          
+          this.commentService.saveComment(response.requestId, comment)
 
-  //Update an existing vacation request and save it to the database
-  public updateVacation(vacation: any): void{
-    
-    const headers = new HttpHeaders ({
-      "Accept": "*/*",
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json",
+        },
+        error:(error: HttpErrorResponse) => {
+          console.log(error.message);
+        }
       })
   }
 
@@ -126,7 +132,7 @@ export class VacationService {
     .subscribe({
         next: () =>{
           //alert
-          console.log(`vacation with id ${vacationId} deleted`);
+          alert(`vacation with id ${vacationId} deleted`);
         },
         error:(error: HttpErrorResponse) => {
           this._error = error.message;

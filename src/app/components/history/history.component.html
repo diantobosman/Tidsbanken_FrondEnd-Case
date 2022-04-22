@@ -1,5 +1,9 @@
+<main class="mt-5 p-5 container d-flex flex-column justify-content-center mainbgcolor">
+    <h2 class="text-center">Vacation History</h2>
+    <h3 *ngIf="isLoading">Getting vacation requests!</h3>
 
-        <h3 *ngIf="isLoading">Getting vacation requests!</h3>
-        <div class="container">
-            <app-history-list-item *ngFor="let vacation of vacations" [vacation]="vacation"></app-history-list-item>
-        </div>
+    <div *ngIf="vacations.length > 0" class="container">
+        <app-history-list-item *ngFor="let vacation of vacations" [vacation]="vacation"></app-history-list-item>
+
+    </div>
+</main>
