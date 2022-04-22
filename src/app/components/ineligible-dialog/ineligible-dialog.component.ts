@@ -34,7 +34,7 @@ export class IneligableDialogComponent implements OnInit {
     };
 
     console.log(newIneligablePeriod);
-    this.ineligibleService.saveNewIneligable(newIneligablePeriod);
+    this.ineligibleService.saveNewIneligible(newIneligablePeriod);
 
   }
 

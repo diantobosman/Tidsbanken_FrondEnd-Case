@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { StorageKeys } from 'src/app/enums/storage-keys.enum';
 import { Ineligible } from 'src/app/models/ineligible.model';
 import { Vacation } from 'src/app/models/vacation.model';
@@ -31,11 +32,11 @@ export class CalendarDashboardPage implements OnInit {
 
   constructor(
     private readonly vacationService: VacationService,
-    private readonly ineligibleService: IneligibleService
+    private readonly ineligibleService: IneligibleService,
   ) { }
 
   ngOnInit(): void {
     this.vacationService.getAllVacations();
-    this.ineligibleService.getAllIneligable();
+    this.ineligibleService.getAllIneligible();
   }
 }
