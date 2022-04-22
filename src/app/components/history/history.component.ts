@@ -1,37 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { Vacation } from 'src/app/models/vacation.model';
 import { VacationService } from 'src/app/services/vacation.service';
+import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
-  styleUrls: ['./history.component.css']
+  styleUrls: ['./history.component.css'],
+  providers: [DatePipe]
 })
 export class HistoryComponent implements OnInit {
 
-  vacations: Vacation[] = [];
 
-  constructor(private readonly vacationService: VacationService) {
+  constructor(private readonly vacationService: VacationService, private datePipe: DatePipe) {
    }
 
   ngOnInit(): void {
-    console.log("init called");
-    this.vacations = this._vacations;
+    this.vacationService.getAllVacations();
   }
 
-  get _vacations(): Vacation[]{
-    console.log("get called");
-    this.vacationService.getAllVacations()
-    // .subscribe({
-    //     next: (vacations: Vacation[]) => {
-    //       this.vacations = vacations;   
-    //     },
-    //     error: (error: any) => {
-    //       console.log(error.message);
-    //     }
-    //   } 
-    // )
-    return this.vacations;
+  //Getters
+  get vacations(): Vacation[]{
+    return this.vacationService.vacations;
   }
 
   get isLoading(): boolean{

@@ -1,0 +1,9 @@
+<main class="mt-5 p-5 container d-flex flex-column justify-content-center mainbgcolor">
+    <div class="container">
+        <p>{{vacation.title}}</p>
+        <a [href]="vacation.requestOwner">Go to employee</a><br><br>
+        <span>start date: {{vacation.periodStart}}</span> ------ <span>end date: {{vacation.periodEnd}}</span><br><br>
+        <p>Request moderated by: {{vacation.moderator}}</p>
+        <p>Date updated: {{vacation.dateUpdated}}</p>
+    </div>
+</main>
