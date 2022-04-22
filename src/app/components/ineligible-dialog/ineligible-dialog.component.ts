@@ -30,7 +30,7 @@ export class IneligibleDialogComponent implements OnInit {
 
     const newIneligablePeriod = {
       periodStart: start,
-      PeriodEnd: end
+      periodEnd: end
     };
 
     console.log(newIneligablePeriod);

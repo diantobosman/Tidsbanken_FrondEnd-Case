@@ -2,7 +2,7 @@
 
 <div class="mb-5">
     <h2>List of users</h2>
-<mat-selection-list #names [multiple]="false">
+<mat-selection-list #names [multiple]="false" class="grid">
     <mat-list-option *ngFor="let name of _allFirstNamesOfEmployee" [value]="name">
       {{name}}
     </mat-list-option>
