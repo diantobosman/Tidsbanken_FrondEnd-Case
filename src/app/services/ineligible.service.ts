@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { finalize, map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../enums/storage-keys.enum';
-import { Ineligable } from '../models/ineligable.model';
+import { Ineligible } from '../models/ineligible.model';
 import { StorageUtil } from '../utils/storage.util';
 
 const {APIURL} = environment;
@@ -12,48 +12,73 @@ const token = StorageUtil.storageRead(StorageKeys.AuthKey);
 @Injectable({
   providedIn: 'root'
 })
-export class IneligableService {
+export class IneligibleService {
 
-  private _ineligableById?: Ineligable;
-  private _isLoading: boolean = false;
+  private _ineligibleById?: Ineligible;
+  private _ineligibles: Ineligible[] = [];
+  private _loading: boolean = false;
   private _error: any = '';
 
   constructor(
     private readonly http: HttpClient
   ) { }
 
+  get ineligibles() {
+    return this._ineligibles;
+  }
+
+  get ineligiblesByID() {
+    return this._ineligibleById;
+  }
+
+  get loading() {
+    return this._loading
+  }
+
+  get error() {
+    return this._error;
+  }
+
   //-- Get all Ineligable periods
-  public getAllIneligable(): Observable<Ineligable[]> {
+  public getAllIneligable(): void {
     
     const headers = new HttpHeaders ({
       "Accept": "*/*",
       "Authorization": `Bearer ${token}`
     })
 
-    this._isLoading = true;
+    this._loading = true;
 
-    return this.http.get<Ineligable[]>(`${APIURL}ineligibleperiod/all`, {headers})
+    this.http.get<Ineligible[]>(`${APIURL}ineligibleperiod/all`, {headers})
     .pipe(
       map((response: any) => response),
-      finalize(() => this._isLoading = false)
+      finalize(() => this._loading = false)
     )
+    .subscribe({
+      next: (events: any[]) => {
+        this._ineligibles = events;
+      }
+    })
   }
 
   //-- Get Ineligable period by ID
-  public getIneligableById(ineligableId: number): void {
+  public getIneligableById(ineligibleId: number): void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
       "Authorization": `Bearer ${token}`
     })
 
-    this.http.get<Ineligable>(`${APIURL}ineligibleperiod/${ineligableId}`, {headers})
+    this._loading = true;
+
+    this.http.get<Ineligible>(`${APIURL}ineligibleperiod/${ineligibleId}`, {headers})
     .pipe(
       map((response:  any) => response),
+      finalize(() => this._loading = false)
     )
     .subscribe({
-      next: (ineligable: Ineligable) => {
-        this._ineligableById = ineligable;
+      next: (ineligible: Ineligible) => {
+        this._ineligibleById = ineligible;
       },
       error: (error: HttpErrorResponse) => {
         this._error = error.message;
@@ -62,7 +87,7 @@ export class IneligableService {
   }
 
   //-- Save new ineligable period
-  public saveNewIneligable(ineligable: any): void {
+  public saveNewIneligable(ineligible: any): void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
@@ -70,7 +95,7 @@ export class IneligableService {
       "Content-Type": "application/json",
       })
 
-      this.http.post(`${APIURL}ineligibleperiod/create`, JSON.stringify(ineligable), {headers})
+      this.http.post(`${APIURL}ineligibleperiod/create`, JSON.stringify(ineligible), {headers})
       .subscribe({
         next: () => {
           //alert
@@ -84,18 +109,18 @@ export class IneligableService {
 
 
   //-- Delete Ineligable period by ID
-  public deleteIneligable(ineligableId: number): void {
+  public deleteIneligable(ineligibleId: number): void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
       "Authorization": `Bearer ${token}`
     })
 
-    this.http.delete<Ineligable>(`${APIURL}ineligibleperiod/delete/${ineligableId}`, {headers})
+    this.http.delete<Ineligible>(`${APIURL}ineligibleperiod/delete/${ineligibleId}`, {headers})
     .subscribe({
       next: () => {
         //alert
-        console.log(`ineligable period with id ${ineligableId} deleted`);
+        console.log(`ineligible period with id ${ineligibleId} deleted`);
       },
       error: (error: HttpErrorResponse) => {
         this._error = error.message;
