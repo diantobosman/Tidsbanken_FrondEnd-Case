@@ -1,9 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../enums/storage-keys.enum';
 import { StorageUtil } from '../utils/storage.util';
+import { AllEmployeesService } from './all-employees.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,11 @@ import { StorageUtil } from '../utils/storage.util';
 
 export class RegisterService {
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(
+    private readonly http: HttpClient,
+    private readonly router: Router,
+    private readonly allEmployeeService: AllEmployeesService
+    ) { }
 
   //-- Register the user
   public async registerKeyCloak(username: string, password: string) {
@@ -66,7 +72,10 @@ export class RegisterService {
     //-- Post the new user
     return this.http.post<any>(environment.APIURL + `employee/register`, body, {headers})
     .subscribe({
-      next: (result)=>{console.log("Posted API succes: " + JSON.stringify(result))},
+      next: (result)=>{
+        //-- Add the user using concat
+        this.allEmployeeService.employees = this.allEmployeeService.employees.concat(result)
+      },
       error:(error)=> {console.log("Post API not succesfull: " + error)}
     })
   }

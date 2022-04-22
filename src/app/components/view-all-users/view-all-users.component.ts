@@ -5,12 +5,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ThemePalette } from '@angular/material/core';
 import { Employee } from 'src/app/models/employee.model';
-import { FunctionUtil } from 'src/app/utils/functions.util';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewAllUsersEditDialogComponent } from '../view-all-users-edit-dialog/view-all-users-edit-dialog.component';
+import { AllEmployeesService } from 'src/app/services/all-employees.service';
 
 @Component({
   selector: 'app-view-all-users',
@@ -32,11 +32,11 @@ export class ViewAllUsersComponent implements OnInit {
     private readonly http: HttpClient,
     private readonly userService: UserService,
     private readonly employeeService: EmployeeService,
+    private readonly allEmployeeService: AllEmployeesService,
     public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
-    this.fetchAllEmployees()
     this.filterForFirstNames()
   }
   
@@ -47,11 +47,11 @@ export class ViewAllUsersComponent implements OnInit {
 
   //-- Functions
   public filterForFirstNames() {
-    this.allEmployees  = StorageUtil.storageRead<any>(StorageKeys.Employees)
+    this.allEmployees = this.allEmployeeService.employees;
+    //this.allEmployees  = StorageUtil.storageRead<any>(StorageKeys.Employees)
     const allIdOfEmployees = this.allEmployees.map((element: { employeeId: any; }) => element.employeeId)
     this._allFirstNamesOfEmployee = this.allEmployees.map((element: { first_name: any; }) => element.first_name)
     const allLastNamesofEmployees = this.allEmployees.map((element: { last_name: any; }) => element.last_name)
-  
   }
 
   public deleteSelectedUser(selectedEmployeeName: string) {
@@ -113,15 +113,7 @@ export class ViewAllUsersComponent implements OnInit {
       })
 
 
-
-
   }
-
-
-
-
-
-
 
 
 
@@ -173,7 +165,7 @@ export class ViewAllUsersComponent implements OnInit {
     })
   }
 
-  openDialogEditAllUsers(selectedEmployeeName: string): void {
+  public openDialogEditAllUsers(selectedEmployeeName: string): void {
     
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
     console.log(this.selectedEmployee)

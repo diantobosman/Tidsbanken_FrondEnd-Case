@@ -54,6 +54,7 @@ import { VacationRequestItemComponent } from './components/vacation-request-item
 import { VacationRequestSummaryItemComponent } from './components/vacation-request-summary-item/vacation-request-summary-item.component';
 import { VacationRequestSummaryPage } from './pages/vacation-request-summary/vacation-request-summary.page';
 import { IneligibleDialogComponent } from './components/ineligible-dialog/ineligible-dialog.component';
+import { AdminPendingRequestsComponent } from './components/admin-pending-requests/admin-pending-requests.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -87,8 +88,9 @@ FullCalendarModule.registerPlugins([
     ViewAllUsersEditDialogComponent,
     VacationRequestItemComponent,
     VacationRequestSummaryItemComponent,
-    VacationRequestSummaryPage
-    ],
+    VacationRequestSummaryPage,
+    AdminPendingRequestsComponent
+      ],
   imports: [
     BrowserModule,
     HttpClientModule,
