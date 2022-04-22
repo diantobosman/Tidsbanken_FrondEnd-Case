@@ -2,13 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CalendarOptions } from '@fullcalendar/angular';
-
-import { StorageKeys } from 'src/app/enums/storage-keys.enum';
+import { Employee } from 'src/app/models/employee.model';
 import { Ineligible } from 'src/app/models/ineligible.model';
 import { Vacation } from 'src/app/models/vacation.model';
-
-import { StorageUtil } from 'src/app/utils/storage.util';
-import { IneligableDialogComponent } from '../ineligible-dialog/ineligible-dialog.component';
+import { EmployeeService } from 'src/app/services/employee.service';
+import { IneligibleDialogComponent } from '../ineligible-dialog/ineligible-dialog.component';
 
 @Component({
   selector: 'app-calendar',
@@ -23,10 +21,14 @@ export class CalendarComponent implements OnInit {
   @Input() ineligibles: any[] = [];
 
   private _eventArray: any[] = [];
-  
 
+  get employee(): Employee | undefined {
+    return this.employeeService.employee
+  }
+  
   constructor(
     private readonly router: Router,
+    private readonly employeeService: EmployeeService,
     public dialog: MatDialog
   ) {
   }
@@ -61,7 +63,7 @@ export class CalendarComponent implements OnInit {
           end: event.periodEnd,
           start: event.periodStart,
           title: event.title,
-          url: 'link naar request',
+          url: 'link naar request', // of eventclick?
         })
       }
     })
@@ -83,6 +85,7 @@ export class CalendarComponent implements OnInit {
     dateClick: this.handleDateClick.bind(this), // bind is important!
     weekNumbers: true,
     events: this._eventArray,
+    firstDay: 1
   };
 
   handleDateClick(arg: any) {
@@ -94,8 +97,8 @@ export class CalendarComponent implements OnInit {
     this.router.navigateByUrl("/create-vacation")
   }
 
-  public openDialogIneligable() {
-    this.dialog.open(IneligableDialogComponent);
+  public openDialogIneligible() {
+    this.dialog.open(IneligibleDialogComponent);
   }
 
 

@@ -27,7 +27,8 @@ export class LoginService {
     first_name: "none",
     last_name: "none",
     emailAddress: "none",
-    admin: false
+    admin: false,
+    profilePic: ''
   }
 
   constructor(
@@ -101,7 +102,8 @@ export class LoginService {
           first_name: result.first_name,
           last_name: result.last_name,
           emailAddress: result.emailAddress,
-          admin: result.admin
+          admin: result.admin,
+          profilePic: result.profilePic
          }
         
         StorageUtil.storageSave<Employee>(StorageKeys.Employee, this._employee)

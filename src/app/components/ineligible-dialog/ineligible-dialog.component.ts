@@ -9,7 +9,7 @@ import { IneligibleService } from 'src/app/services/ineligible.service';
   styleUrls: ['./ineligible-dialog.component.css'],
   providers: [DatePipe]
 })
-export class IneligableDialogComponent implements OnInit {
+export class IneligibleDialogComponent implements OnInit {
 
   constructor(
     private readonly ineligibleService: IneligibleService,
@@ -34,6 +34,7 @@ export class IneligableDialogComponent implements OnInit {
     };
 
     this.ineligibleService.saveNewIneligible(newIneligiblePeriod);
+
 
   }
 

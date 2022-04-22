@@ -50,10 +50,10 @@ import { ViewUsersPage } from './pages/view-users/view-users.page';
 import { ViewAllUsersComponent } from './components/view-all-users/view-all-users.component';
 import { MatListModule } from '@angular/material/list';
 import { ViewAllUsersEditDialogComponent } from './components/view-all-users-edit-dialog/view-all-users-edit-dialog.component';
-import { IneligableDialogComponent } from './components/ineligible-dialog/ineligible-dialog.component';
 import { VacationRequestItemComponent } from './components/vacation-request-item/vacation-request-item.component';
 import { VacationRequestSummaryItemComponent } from './components/vacation-request-summary-item/vacation-request-summary-item.component';
 import { VacationRequestSummaryPage } from './pages/vacation-request-summary/vacation-request-summary.page';
+import { IneligibleDialogComponent } from './components/ineligible-dialog/ineligible-dialog.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -81,7 +81,7 @@ FullCalendarModule.registerPlugins([
     NewUserDialogComponent,
     ProfileChangeProfileDialogComponent,
     HistoryListItemComponent,
-    IneligableDialogComponent,
+    IneligibleDialogComponent,
     ViewUsersPage,
     ViewAllUsersComponent,
     ViewAllUsersEditDialogComponent,

@@ -2,9 +2,10 @@
   <ng-container *ngIf="employee!== undefined">
   <h2>Profile</h2>
 
-  <p>Name: {{employee.first_name}}</p>
+  <img class="img-thumbnail rounded-circle m-3"  style="width:175px" src="{{employee.profilePic}}" alt="profile picture">
+  <p>Name: {{employee.first_name}} {{employee.last_name}}</p>
   <p>Email: {{employee.emailAddress}}</p>
 
-  <button mat-raised-button color="primary" (click)="openDialogChangeProfileDetails()">Change profile details</button>
+  <button class="m-5" mat-raised-button color="primary" (click)="openDialogChangeProfileDetails()">Change profile details</button>
   </ng-container>
 </main>
