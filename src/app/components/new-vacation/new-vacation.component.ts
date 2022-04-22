@@ -28,13 +28,18 @@ export class NewVacationComponent {
     const { title } = newRequest.value;
     const  start  = this.datePipe.transform(this.range.value.start , 'yyyy-MM-ddT00:00:00.000Z');
     const  end  = this.datePipe.transform(this.range.value.end , 'yyyy-MM-ddT00:00:00.000Z'); 
+    const { comment } = newRequest.value;
 
   const newVacation = {
     title: title,
     periodStart: start,
-    periodEnd: end
+    periodEnd: end,
+    comments: comment 
   };
+    
     this.vacationService.saveNewVacation(newVacation);
+
+    alert("New vacation request successfully saved!")
   }
 
 
