@@ -22,20 +22,20 @@ export class HistoryComponent implements OnInit {
   get _vacations(): Vacation[]{
     console.log("get called");
     this.vacationService.getAllVacations()
-    .subscribe({
-        next: (vacations: Vacation[]) => {
-          this.vacations = vacations;   
-        },
-        error: (error: any) => {
-          console.log(error.message);
-        }
-      } 
-    )
+    // .subscribe({
+    //     next: (vacations: Vacation[]) => {
+    //       this.vacations = vacations;   
+    //     },
+    //     error: (error: any) => {
+    //       console.log(error.message);
+    //     }
+    //   } 
+    // )
     return this.vacations;
   }
 
   get isLoading(): boolean{
-    return this.vacationService.isLoading;
+    return this.vacationService.loading;
   }
 
   //Get vacation by id on a click

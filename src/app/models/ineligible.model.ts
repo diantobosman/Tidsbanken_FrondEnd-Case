@@ -1,4 +1,4 @@
-export interface Ineligable {
+export interface Ineligible {
     requestId: number;
     periodStart: Date;
     periodEnd: Date;

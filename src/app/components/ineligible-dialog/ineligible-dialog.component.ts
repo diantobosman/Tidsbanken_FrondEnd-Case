@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { IneligableService } from 'src/app/services/ineligable.service';
+import { IneligibleService } from 'src/app/services/ineligible.service';
 
 @Component({
-  selector: 'app-ineligable-dialog',
-  templateUrl: './ineligable-dialog.component.html',
-  styleUrls: ['./ineligable-dialog.component.css'],
+  selector: 'app-ineligible-dialog',
+  templateUrl: './ineligible-dialog.component.html',
+  styleUrls: ['./ineligible-dialog.component.css'],
   providers: [DatePipe]
 })
 export class IneligableDialogComponent implements OnInit {
 
   constructor(
-    private readonly ineligableService: IneligableService,
+    private readonly ineligibleService: IneligibleService,
     private datePipe: DatePipe
   ) { }
 
@@ -34,7 +34,7 @@ export class IneligableDialogComponent implements OnInit {
     };
 
     console.log(newIneligablePeriod);
-    this.ineligableService.saveNewIneligable(newIneligablePeriod);
+    this.ineligibleService.saveNewIneligable(newIneligablePeriod);
 
   }
 

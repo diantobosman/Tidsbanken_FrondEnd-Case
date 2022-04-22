@@ -17,49 +17,54 @@ const token = StorageUtil.storageRead(StorageKeys.AuthKey);
 export class VacationService {
 
   private _vacationById?: Vacation;
-  private _isLoading: boolean = false;
+  private _loading: boolean = false;
   private _vacations: Vacation[] = [];
   private _error: any = '';
   
   constructor(private readonly http: HttpClient, private readonly commentService: CommentService) {}
 
-  get vacations(){
+  get vacations (){
     return this._vacations;
   }
 
-  get vacationById(){
+  get vacationById (){
     return this._vacationById;
   }
 
-  get isLoading(){
-    return this._isLoading;
+  get loading (){
+    return this._loading;
+  }
+
+  get error() {
+    return this._error;
   }
 
   // Fetch all vacations
-  public getAllVacations() : Observable<Vacation[]> {
-
-    this._isLoading = false;
+  public getAllVacations() : void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
       "Authorization": `Bearer ${token}`
       })
 
-    this._isLoading = true;
+    this._loading = true;
 
-
-  return this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers})
+  this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers})
   .pipe(
       map((response: any) => response),
-
-      finalize(() => this._isLoading = false)
+      finalize(() => this._loading = false)
     )
+    .subscribe({
+      next: (events: any[]) => {
+        this._vacations = events;
+      }
+    })
   }
 
   // Fetch the vacations by vacationId
   public getVacationByID(vacationId: number): void {
 
-    if(this._vacationById || this._isLoading){
+    if(this._vacationById || this._loading){
       return
     }
 
@@ -68,12 +73,12 @@ export class VacationService {
       "Authorization": `Bearer ${token}`
       })
 
-    this._isLoading = true;
+    this._loading = true;
 
     this.http.get<Vacation>(`${APIURL}vacation_request/${vacationId}`, {headers})
     .pipe(
       map((response: any) => response),
-      finalize(() => this._isLoading = false)
+      finalize(() => this._loading = false)
     )
     .subscribe({
         next: (vacation: Vacation) =>{
@@ -99,13 +104,13 @@ export class VacationService {
     const comment = {
       message: vacation.comments
     }
-
       this.http.post<Vacation>(`${APIURL}vacation_request/create`, JSON.stringify(vacation), {headers})
       .subscribe({
         next: (response: Vacation) => {
           console.log(response)
           
           this.commentService.saveComment(response.requestId, comment)
+
         },
         error:(error: HttpErrorResponse) => {
           console.log(error.message);
