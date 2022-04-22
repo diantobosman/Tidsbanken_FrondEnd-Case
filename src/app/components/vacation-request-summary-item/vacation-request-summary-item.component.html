@@ -1,0 +1,11 @@
+<main class="mt-5 p-5 container d-flex flex-column justify-content-center mainbgcolor">
+    <div class="container" *ngIf="isLoading">
+        <p>Loading....</p>
+    </div>
+    <div class="container">
+        <h2>{{vacationRequest.requestId}}</h2>
+        <h2>{{vacationRequest.title}}</h2>
+        <h3>{{vacationRequest.status}}</h3>
+    </div>
+    <button mat-raised-button color="primary" (click)="backToDashboard()">To dashboard</button>
+</main>

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { VacationService } from 'src/app/services/vacation.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-new-vacation',
   templateUrl: './new-vacation.component.html',
@@ -11,21 +12,20 @@ import { VacationService } from 'src/app/services/vacation.service';
 export class NewVacationComponent {
 
   public error: boolean = false;
-  
+
   constructor(
     private readonly vacationService: VacationService,
-    private datePipe: DatePipe
-  ) {
-    
-  }
+    private datePipe: DatePipe,
+    private readonly router: Router
+  ) {}
 
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl(),
   });
 
-
-  newRequestSubmit(newRequest: NgForm): void {
+  //Submit form and save to database
+  newRequestSubmit(newRequest: NgForm): void | undefined {
     const { title } = newRequest.value;
     const  start  = this.datePipe.transform(this.range.value.start , 'yyyy-MM-ddT00:00:00.000Z');
     const  end  = this.datePipe.transform(this.range.value.end , 'yyyy-MM-ddT00:00:00.000Z'); 
@@ -37,15 +37,20 @@ export class NewVacationComponent {
     periodEnd: end,
     comments: comment 
   };
-    
-    // check if title and periods are empty
-      if(newVacation.title == 0 || newVacation.periodStart == undefined || newVacation.periodEnd == undefined){
+
+    this.saveNewRequest(newVacation);
+  }
+
+  //Call service and save to database
+  saveNewRequest(request: any) {
+      // check if title and periods are empty
+      if(request.title == 0 || request.periodStart == undefined || request.periodEnd == undefined){
         this.error = true;
       }
       else{
       this.error = false;
-      this.vacationService.saveNewVacation(newVacation);
-      alert("New vacation request successfully saved!") 
+      this.vacationService.saveNewVacation(request);
+      this.router.navigateByUrl('/vacation-request-summary')
     }
   }
 }

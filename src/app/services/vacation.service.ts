@@ -20,6 +20,7 @@ export class VacationService {
   private _loading: boolean = false;
   private _vacations: Vacation[] = [];
   private _error: any = '';
+  private _savedVacation!: Vacation;
   
   constructor(private readonly http: HttpClient, private readonly commentService: CommentService) {}
 
@@ -39,12 +40,12 @@ export class VacationService {
     return this._error;
   }
 
+  get savedVacation(){
+    return this._savedVacation;
+  }
+
   // Fetch all vacations
   public getAllVacations() : void {
-
-    if(this._loading == false){
-      return;
-    }
 
     this._loading = true;
     const headers = new HttpHeaders ({
@@ -94,8 +95,10 @@ export class VacationService {
     )
   }
 
-  //Save a new Vacation request to the database
+  //Save a new vacation request to the database
   public saveNewVacation(vacation: any): void {
+
+    this._loading = true;
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
@@ -104,20 +107,24 @@ export class VacationService {
       })
 
     const comment = {
-      message: vacation.comments
-    }
-      this.http.post<Vacation>(`${APIURL}vacation_request/create`, JSON.stringify(vacation), {headers})
-      .subscribe({
-        next: (response: Vacation) => {
-          console.log(response)
-          
-          this.commentService.saveComment(response.requestId, comment)
+        message: vacation.comments
+      }
 
-        },
-        error:(error: HttpErrorResponse) => {
-          console.log(error.message);
+     this.http.post<Vacation>(`${APIURL}vacation_request/create`, JSON.stringify(vacation), {headers})
+     .pipe(
+       finalize(() => this._loading = false)
+     )
+     .subscribe({
+      next: (response: Vacation) => {
+        if(comment.message.length != 0){
+          this.commentService.saveComment(response.requestId, comment);
         }
-      })
+        this._savedVacation = response;
+      },
+      error:(error: HttpErrorResponse) => {
+        console.log(error.message);
+      }
+    })
   }
 
   // Delete vacation by id
