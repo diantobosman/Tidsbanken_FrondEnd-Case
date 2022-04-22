@@ -1,13 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { User } from 'src/app/models/user.model';
 import { StorageUtil } from 'src/app/utils/storage.util';
 import { StorageKeys } from 'src/app/enums/storage-keys.enum';
 import { UserService } from 'src/app/services/user.service';
-import { RegisterService } from 'src/app/services/register.service';
-import { VacationService } from 'src/app/services/vacation.service';
 
 @Component({
   selector: 'app-login-form',
@@ -18,15 +15,12 @@ import { VacationService } from 'src/app/services/vacation.service';
 export class LoginFormComponent {
 
   public error: boolean = false;
-  private eventArray: object[] = [];
 
   @Output() login: EventEmitter<void> = new EventEmitter();
 
   constructor( 
-    private readonly router: Router,
     private readonly loginService: LoginService,
     private readonly userService: UserService,
-    private readonly registerService: RegisterService,
     ) { }
 
   public togglePassword(): void {
