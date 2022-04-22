@@ -1,9 +1,5 @@
-<h3 *ngIf="isLoading">Getting vacation requests!</h3>
 
-<div *ngIf="vacations.length > 0" class="container">
-    <app-history-list-item *ngFor="let vacation of vacations" [vacation]="vacation"></app-history-list-item>
-
-    <!-- <button (click)="getVacationByID()">Get vacation by id</button>
-    <div></div>
-    <button (click)="deletVacationById()">Delete vacation by id</button> -->
-</div>
+        <h3 *ngIf="isLoading">Getting vacation requests!</h3>
+        <div class="container">
+            <app-history-list-item *ngFor="let vacation of vacations" [vacation]="vacation"></app-history-list-item>
+        </div>

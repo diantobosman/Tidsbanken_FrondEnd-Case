@@ -35,24 +35,27 @@ export class VacationService {
   }
 
   // Fetch all vacations
-  public getAllVacations() : Observable<Vacation[]> {
+  public getAllVacations() : void {
 
-    this._isLoading = false;
+    if(this._isLoading == false){
+      return;
+    }
 
+    this._isLoading = true;
     const headers = new HttpHeaders ({
       "Accept": "*/*",
       "Authorization": `Bearer ${token}`
       })
 
-    this._isLoading = true;
-
-
-  return this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers})
-  .pipe(
-      map((response: any) => response),
-
-      finalize(() => this._isLoading = false)
-    )
+    this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers})
+    .pipe(
+        finalize(() => this._isLoading = false)
+      )
+      .subscribe({
+        next: (vacations: Vacation[]) => {
+          this._vacations = vacations;
+        }
+      })
   }
 
   // Fetch the vacations by vacationId
@@ -89,7 +92,8 @@ export class VacationService {
   }
 
   //Save a new Vacation request to the database
-  public saveNewVacation(vacation: any): void{
+  public saveNewVacation(vacation: any): void {
+
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
@@ -97,15 +101,7 @@ export class VacationService {
       "Content-Type": "application/json",
       })
 
-      this.http.post(`${APIURL}vacation_request/create`, JSON.stringify(vacation), {headers}).
-      subscribe({
-        next: () => {
-          console.log('succesfully saved')
-        },
-        error:(error: HttpErrorResponse) => {
-          console.log(error.message);
-        }
-      })
+      this.http.post<Vacation>(`${APIURL}vacation_request/create`, JSON.stringify(vacation), {headers})
   }
 
   //Update an existing vacation request and save it to the database

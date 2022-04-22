@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Vacation } from 'src/app/models/vacation.model';
 
 @Component({
@@ -10,6 +11,10 @@ export class HistoryListItemComponent{
 
   @Input() vacation? : Vacation;
 
-  constructor() { }
+  constructor(private readonly router: Router) { }
+
+  goToVacationDetails(vacation: Vacation){
+    this.router.navigateByUrl("vacation-request", { state: { vacation } } )
+  }
 
 }
