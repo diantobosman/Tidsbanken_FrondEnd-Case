@@ -28,13 +28,12 @@ export class IneligableDialogComponent implements OnInit {
     const start = this.datePipe.transform(this.range.value.start , 'yyyy-MM-ddT00:00:00.000Z');
     const end = this.datePipe.transform(this.range.value.end , 'yyyy-MM-ddT00:00:00.000Z'); 
 
-    const newIneligablePeriod = {
+    const newIneligiblePeriod = {
       periodStart: start,
-      PeriodEnd: end
+      periodEnd: end
     };
 
-    console.log(newIneligablePeriod);
-    this.ineligibleService.saveNewIneligable(newIneligablePeriod);
+    this.ineligibleService.saveNewIneligible(newIneligiblePeriod);
 
   }
 

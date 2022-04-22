@@ -40,7 +40,7 @@ export class IneligibleService {
   }
 
   //-- Get all Ineligable periods
-  public getAllIneligable(): void {
+  public getAllIneligible(): void {
     
     const headers = new HttpHeaders ({
       "Accept": "*/*",
@@ -62,7 +62,7 @@ export class IneligibleService {
   }
 
   //-- Get Ineligable period by ID
-  public getIneligableById(ineligibleId: number): void {
+  public getIneligibleById(ineligibleId: number): void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
@@ -87,7 +87,7 @@ export class IneligibleService {
   }
 
   //-- Save new ineligable period
-  public saveNewIneligable(ineligible: any): void {
+  public saveNewIneligible(ineligible: any): void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
@@ -95,13 +95,14 @@ export class IneligibleService {
       "Content-Type": "application/json",
       })
 
-      this.http.post(`${APIURL}ineligibleperiod/create`, JSON.stringify(ineligible), {headers})
+  
+      this.http.post<Ineligible>(`${APIURL}ineligibleperiod/create`, JSON.stringify(ineligible), {headers})
       .subscribe({
         next: () => {
-          //alert
-          console.log('succesfully saved')
+          //alert?
+
         },
-        error: (error: HttpErrorResponse) => {
+        error:(error: HttpErrorResponse) => {
           console.log(error.message);
         }
       })
@@ -109,7 +110,7 @@ export class IneligibleService {
 
 
   //-- Delete Ineligable period by ID
-  public deleteIneligable(ineligibleId: number): void {
+  public deleteIneligible(ineligibleId: number): void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",

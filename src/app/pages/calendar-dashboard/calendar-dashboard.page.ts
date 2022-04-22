@@ -36,6 +36,6 @@ export class CalendarDashboardPage implements OnInit {
 
   ngOnInit(): void {
     this.vacationService.getAllVacations();
-    this.ineligibleService.getAllIneligable();
+    this.ineligibleService.getAllIneligible();
   }
 }
