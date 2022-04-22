@@ -6,7 +6,7 @@ import { Employee } from 'src/app/models/employee.model';
 import { Ineligible } from 'src/app/models/ineligible.model';
 import { Vacation } from 'src/app/models/vacation.model';
 import { EmployeeService } from 'src/app/services/employee.service';
-import { IneligableDialogComponent } from '../ineligible-dialog/ineligible-dialog.component';
+import { IneligibleDialogComponent } from '../ineligible-dialog/ineligible-dialog.component';
 
 @Component({
   selector: 'app-calendar',
@@ -97,8 +97,8 @@ export class CalendarComponent implements OnInit {
     this.router.navigateByUrl("/create-vacation")
   }
 
-  public openDialogIneligable() {
-    this.dialog.open(IneligableDialogComponent);
+  public openDialogIneligible() {
+    this.dialog.open(IneligibleDialogComponent);
   }
 
 
