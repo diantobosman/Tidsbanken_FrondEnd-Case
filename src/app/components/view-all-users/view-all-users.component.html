@@ -1,20 +1,22 @@
-<section class="card mb-5 text-center" style="width: 540px;">
+<section class="card mb-5 text-center" style="width: 1000px;">
 
   <h3>All the users</h3>
 
   <div class="row g-0" #employees >
     <div *ngFor="let employees of allEmployees">
-      <section class="col-md-8 my-4" >
-        Name: {{employees.first_name}}
-        Email: {{employees.emailAddress}}
+      <section class="col-md-4 my-4" >
+
+        <p class="card-text">Name: {{employees.first_name }} {{employees.last_name}}</p>
+        <p class="card-text">Email: {{employees.emailAddress}}</p>
+        <p class="card-text">Admin: {{employees.admin}}</p>
       </section>
 
-      <button mat-raised-button (click)="giveAdminButton(employees.first_name)" color="primary">Give {{employees.first_name}} admin rights</button>
-      <button mat-raised-button (click)="giveAdminButton(employees.first_name)" color="primary">Give {{employees.first_name}} admin rights</button>
-      <button mat-raised-button (click)="revokeAdminButton(employees.first_name)" color="primary" >Revoke {{employees.first_name}} admin rights</button>
-      <button mat-raised-button (click)="openDialogEditAllUsers(employees.first_name)" color="primary">Change email of {{employees.first_name}}</button>
-      <button mat-raised-button (click)="deleteSelectedUser(employees.first_name)" color="primary">Delete {{employees.first_name}}</button>
-
+      <div class="col-md-8">
+        <button class="mb-2 mx-2" mat-raised-button (click)="giveAdminButton(employees.first_name)" color="primary">Give {{employees.first_name}} admin rights</button>
+        <button class="mb-2 mx-2" mat-raised-button (click)="revokeAdminButton(employees.first_name)" color="primary" >Revoke {{employees.first_name}} admin rights</button>
+        <button class="mb-2 mx-2" mat-raised-button (click)="openDialogEditAllUsers(employees.first_name)" color="primary">Change email of {{employees.first_name}}</button>
+        <button class="mb-2 mx-2"mat-raised-button (click)="deleteSelectedUser(employees.first_name)" color="primary">Delete {{employees.first_name}}</button>
+      </div>
 
     </div>
   </div>
