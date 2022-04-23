@@ -1,18 +1,15 @@
-<section class="card mb-3 text-center" style="width: 540px;">
+<section class="card mb-5 text-center" style="width: 540px;">
     
-    <!-- <mat-list-option *ngFor="let allrequest of requests"> -->
-      
       <h3>Pending Requests</h3>
       <div class="row g-0" #allRequests >
-        
           <div *ngFor="let allrequest of requests">
             <div *ngIf="allrequest.status === 'PENDING'">
               <section class="col-md-8 my-4" >
                 <h5 class="card-title">Request Owner</h5>
                     <p class="card-text">Request title: {{allrequest.title}}</p>
-                    <p class="card-text">Date</p>
-                    <p class="card-text">Comments</p>
-                    
+                    <p class="card-text">Holiday from: {{allrequest.periodStart}} until {{allrequest.periodEnd}}</p>
+                    <p class="card-text">Comments: {{allrequest.comment}}</p>
+
               </section>
               <div class="col-md-4">
                 <section class="card-body d-flex flex-column my-2">
