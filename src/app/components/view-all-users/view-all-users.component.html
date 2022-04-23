@@ -1,31 +1,22 @@
-<main class="container mainbgcolor mt-5 p-5 text-center">
+<section class="card mb-5 text-center" style="width: 540px;">
 
-<div class="mb-5">
-    <h2>List of users</h2>
-<mat-selection-list #names [multiple]="false" class="grid">
-    <mat-list-option *ngFor="let name of _allFirstNamesOfEmployee" [value]="name">
-      {{name}}
-    </mat-list-option>
-  </mat-selection-list>
+  <h3>All the users</h3>
 
-</div>
+  <div class="row g-0" #employees >
+    <div *ngFor="let employees of allEmployees">
+      <section class="col-md-8 my-4" >
+        Name: {{employees.first_name}}
+        Email: {{employees.emailAddress}}
+      </section>
 
-<button class="mx-2" mat-raised-button (click)="giveAdminButton(names.selectedOptions.selected[0]?.value)" color="primary">Give {{names.selectedOptions.selected[0]?.value}} admin rights</button>
-<button class="mx-2" mat-raised-button (click)="revokeAdminButton(names.selectedOptions.selected[0]?.value)" color="primary" >Revoke {{names.selectedOptions.selected[0]?.value}} admin rights</button>
-<button class="mx-2" mat-raised-button (click)="openDialogEditAllUsers(names.selectedOptions.selected[0]?.value)" color="primary">Change email of {{names.selectedOptions.selected[0]?.value}}</button>
-<button class="mx-2" mat-raised-button (click)="deleteSelectedUser(names.selectedOptions.selected[0]?.value)" color="primary">Delete {{names.selectedOptions.selected[0]?.value}}</button>
+      <button mat-raised-button (click)="giveAdminButton(employees.first_name)" color="primary">Give {{employees.first_name}} admin rights</button>
+      <button mat-raised-button (click)="giveAdminButton(employees.first_name)" color="primary">Give {{employees.first_name}} admin rights</button>
+      <button mat-raised-button (click)="revokeAdminButton(employees.first_name)" color="primary" >Revoke {{employees.first_name}} admin rights</button>
+      <button mat-raised-button (click)="openDialogEditAllUsers(employees.first_name)" color="primary">Change email of {{employees.first_name}}</button>
+      <button mat-raised-button (click)="deleteSelectedUser(employees.first_name)" color="primary">Delete {{employees.first_name}}</button>
 
 
-<div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="adminOff">
-    <span class="material-icons mx-2">error</span>
-    <div class="mx-2">
-      The username and password you entered did not match our records. Please double-check and try again.
-    </div>
-</div>
-
-<div class="alert alert-success d-flex align-items-center" role="alert" *ngIf="adminOn">
-    <div>
-      An example success alert with an icon
     </div>
   </div>
-</main>
+
+

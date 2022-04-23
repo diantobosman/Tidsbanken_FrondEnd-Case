@@ -3,10 +3,8 @@ import { StorageKeys } from 'src/app/enums/storage-keys.enum';
 import { StorageUtil } from '../../utils/storage.util';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { ThemePalette } from '@angular/material/core';
 import { Employee } from 'src/app/models/employee.model';
 import { User } from 'src/app/models/user.model';
-import { UserService } from 'src/app/services/user.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewAllUsersEditDialogComponent } from '../view-all-users-edit-dialog/view-all-users-edit-dialog.component';
@@ -19,18 +17,14 @@ import { AllEmployeesService } from 'src/app/services/all-employees.service';
 })
 
 export class ViewAllUsersComponent implements OnInit {
-  public _allFirstNamesOfEmployee: string | undefined
 
-  //-- Toggle button
-  color: ThemePalette = 'accent';
-  public adminOn: boolean = false;
-  public adminOff: boolean = false;
-  public allEmployees: any;
   public selectedEmployee: any;
+  allEmployees: any;
+  public _allFirstNamesOfEmployee: any;
+  public _allEmailAdressOfEmployee: any;
 
   constructor(
     private readonly http: HttpClient,
-    private readonly userService: UserService,
     private readonly employeeService: EmployeeService,
     private readonly allEmployeeService: AllEmployeesService,
     public dialog: MatDialog,
@@ -48,10 +42,10 @@ export class ViewAllUsersComponent implements OnInit {
   //-- Functions
   public filterForFirstNames() {
     this.allEmployees = this.allEmployeeService.employees;
-    //this.allEmployees  = StorageUtil.storageRead<any>(StorageKeys.Employees)
-    const allIdOfEmployees = this.allEmployees.map((element: { employeeId: any; }) => element.employeeId)
     this._allFirstNamesOfEmployee = this.allEmployees.map((element: { first_name: any; }) => element.first_name)
-    const allLastNamesofEmployees = this.allEmployees.map((element: { last_name: any; }) => element.last_name)
+    this._allEmailAdressOfEmployee = this.allEmployees.map((element: { emailAddress: any; }) => element.emailAddress)
+
+    console.log("all" + this._allEmailAdressOfEmployee)
   }
 
   public deleteSelectedUser(selectedEmployeeName: string) {
@@ -61,8 +55,6 @@ export class ViewAllUsersComponent implements OnInit {
     this.deleteSelectedUserKeycloak(id)
 
   }
-
-
 
   public deleteSelectedUserKeycloak(id: string) {
 
@@ -111,12 +103,7 @@ export class ViewAllUsersComponent implements OnInit {
           console.log("Error while deleting from the API: " + error)
         }
       })
-
-
   }
-
-
-
 
   public giveAdminButton(selectedEmployeeName: string) {
 
@@ -132,14 +119,8 @@ export class ViewAllUsersComponent implements OnInit {
 
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
 
-    console.log(this.selectedEmployee)
-
     this.changeAdminRightsAPI(false)
     //this.changeAdminRightsKeyCloak(this.admin)
-  }
-
-  public changeProfileButton(arg: string) {
-
   }
 
   //-- Get all the employees from the database
@@ -168,7 +149,7 @@ export class ViewAllUsersComponent implements OnInit {
   public openDialogEditAllUsers(selectedEmployeeName: string): void {
     
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
-    console.log(this.selectedEmployee)
+
     this.dialog.open(ViewAllUsersEditDialogComponent, {
       width: '250px',
       backdropClass: 'custom-dialog-backdrop-class',
@@ -192,11 +173,6 @@ export class ViewAllUsersComponent implements OnInit {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${masterToken}`
     })
-
-    var body = {
-      "username": username,
-      "groups": [ "admin" ]
-    }
     
     //-- Post the new user
     return this.http.put<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id + `/groups/` + groupId, {headers} )
