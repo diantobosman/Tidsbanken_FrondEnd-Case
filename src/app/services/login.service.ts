@@ -8,6 +8,7 @@ import { StorageUtil } from '../utils/storage.util';
 import { environment } from 'src/environments/environment';
 import { RegisterService } from './register.service';
 import { Employee } from '../models/employee.model';
+import { EmployeeService } from './employee.service';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,8 @@ export class LoginService {
   constructor(
     private readonly router: Router,
     private readonly http: HttpClient,
-    private readonly registerService: RegisterService
+    private readonly registerService: RegisterService,
+    private readonly employeeService: EmployeeService
     ) { 
   }
 
@@ -106,7 +108,8 @@ export class LoginService {
           profilePic: result.profilePic
          }
         
-        StorageUtil.storageSave<Employee>(StorageKeys.Employee, this._employee)
+        this.employeeService.employee = this._employee
+        //StorageUtil.storageSave<Employee>(StorageKeys.Employee, this._employee)
       },
       error:(error)=> {
         // If the user does not exist, then register the user.
