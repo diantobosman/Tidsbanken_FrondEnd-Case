@@ -8,6 +8,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewAllUsersEditDialogComponent } from '../view-all-users-edit-dialog/view-all-users-edit-dialog.component';
 import { AllEmployeesService } from 'src/app/services/all-employees.service';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-view-all-users',
@@ -52,7 +53,6 @@ export class ViewAllUsersComponent implements OnInit {
 
     const id = this.selectedEmployee.employeeId
     this.deleteSelectedUserKeycloak(id)
-
   }
 
   public deleteSelectedUserKeycloak(id: string) {
@@ -96,10 +96,10 @@ export class ViewAllUsersComponent implements OnInit {
       .subscribe({
         next: () => {
           console.log("Succesfully deleted from the API")
-          this.allEmployees[this.selectedEmployee] = {}
-          
+
           //-- Also delete from the sessionStorage
-          sessionStorage.setItem(StorageKeys.Employees, this.allEmployees)
+          this.allEmployeeService.employees = this.allEmployees
+
         },
         error: (error) => {
           console.log("Error while deleting from the API: " + error)
@@ -111,7 +111,8 @@ export class ViewAllUsersComponent implements OnInit {
 
     //-- Changes the selected employee to the one thats clicked
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
-
+    
+    this.selectedEmployee.admin = true
     this.changeAdminRightsAPI(true)
     //this.changeAdminRightsKeyCloak(true)
   }
@@ -122,6 +123,7 @@ export class ViewAllUsersComponent implements OnInit {
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
 
     this.changeAdminRightsAPI(false)
+    this.selectedEmployee.admin = false
     //this.changeAdminRightsKeyCloak(this.admin)
   }
 

@@ -26,7 +26,6 @@ export class ViewAllUsersEditDialogComponent implements OnInit {
     return this.data.pageValue
   }
 
-
   public newEmailSubmit(loginForm: NgForm) {
     const { email } = loginForm.value
     const id = this.selectedEmployee.employeeId
@@ -50,8 +49,9 @@ export class ViewAllUsersEditDialogComponent implements OnInit {
 
     return this.http.patch<any>(environment.APIURL + `employee/update/` + id , body, {headers})
     .subscribe({
-      next: (result) => {   
-        console.log("Succesfully changed the email: " + result) 
+      next: () => {   
+        this.selectedEmployee.emailAddress = email
+        console.log("Succesfully changed the email: " + email) 
       },
       error: (error) => {
         console.log("Error: " + error)
