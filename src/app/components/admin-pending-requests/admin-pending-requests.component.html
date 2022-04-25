@@ -10,12 +10,15 @@
                 <h4 class="card-title fw-bold">Request from {{ allrequest.requestOwner.first_name }} {{ allrequest.requestOwner.last_name }}</h4>
                     <p class="card-text">{{allrequest.title}}</p>
                     <p class="card-text">From: <span class="text-decoration-underline">{{allrequest.periodStart}}</span> until <span class="text-decoration-underline">{{allrequest.periodEnd}}</span></p>
+                    
+                   
+                    <h4 class="fw-bold" *ngIf="allrequest.comment.length != 0"> Comments: </h4>
                     <div *ngFor="let allcomments of allrequest.comment">
-                    <p class="card-text">Comments: {{allcomments}}</p>
-                  </div>
+                      <p class="card-text"><span class="text-decoration-underline">{{allcomments.commentOwner}}: </span> {{allcomments.message}}</p>
+                    </div>
               </section>
               <div class="col-md-4">
-                <section class="card-body d-flex flex-column my-2">
+                <section class="card-body d-flex flex-column mt-3">
                     <button class="mb-2" mat-flat-button color="primary" (click)="approveButton(allrequest.requestId)">Approved</button>
                     <button mat-raised-button color="warn" (click)="denyButton(allrequest.requestId)">Denied</button>
                 </section>
