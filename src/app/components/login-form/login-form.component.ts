@@ -55,6 +55,7 @@ export class LoginFormComponent {
 
         //-- Navigate to the calendar page and store they the employee and the key in sessionstorage
         StorageUtil.storageSave<User>(StorageKeys.User, this.userService.user)
+        StorageUtil.storageSave<string>(StorageKeys.UserId, this.userService.user.id)
         StorageUtil.storageSave(StorageKeys.AuthKey, result.access_token)
         
         this.login.emit();

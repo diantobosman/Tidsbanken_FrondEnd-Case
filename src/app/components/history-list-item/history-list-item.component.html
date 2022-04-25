@@ -1,11 +1,13 @@
-        <ul>
-            <li *ngIf="vacation">
-                <div class="card" (click)="goToVacationDetails(vacation)">
-                    <h4>{{vacation.title}}</h4>
-                    <p><span>{{vacation.periodStart}}</span>----<span>{{vacation.periodEnd}}</span></p>
-                    <p>{{vacation.status}}</p>
-                </div>
-            </li>
-        </ul>
+<tr>
+    <td>{{vacation.requestId}}</td>
+    <td>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</td>
+    <td>{{vacation.title}}</td>
+    <td>{{vacationStartDate}}</td>
+    <td>{{vacationEndDate}}</td>
+    <td>{{vacation.status}}</td>
+    <td><button (click)="goToVacationDetails(vacation)">Update</button></td>
+    <td><button>Delete</button></td>
+</tr>
+
 
   

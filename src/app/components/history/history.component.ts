@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Vacation } from 'src/app/models/vacation.model';
 import { VacationService } from 'src/app/services/vacation.service';
 import { DatePipe } from '@angular/common'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-history',
@@ -11,21 +12,30 @@ import { DatePipe } from '@angular/common'
 })
 export class HistoryComponent implements OnInit {
 
+  vacationsList: Vacation[] = [];
 
-  constructor(private readonly vacationService: VacationService, private datePipe: DatePipe) {
+  constructor(
+    private readonly vacationService: VacationService,
+    private readonly router: Router,
+    private datePipe: DatePipe) {
    }
 
   ngOnInit(): void {
-    this.vacationService.getAllVacations();
+    this.vacationService.getVacationByEmployeeId();
   }
 
   //Getters
   get vacations(): Vacation[]{
-    return this.vacationService.vacations;
+    return this.vacationService.ownVacations.reverse();
   }
 
   get isLoading(): boolean{
     return this.vacationService.loading;
+  }
+  
+  // Navigate to vacation request details page
+  goToVacationDetails(vacation: Vacation){
+    this.router.navigateByUrl("vacation-request", { state: { vacation } } )
   }
 
   //Get vacation by id on a click

@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ViewAllUsersEditDialogComponent } from '../view-all-users-edit-dialog/view-all-users-edit-dialog.component';
 import { AllEmployeesService } from 'src/app/services/all-employees.service';
 import { ThisReceiver } from '@angular/compiler';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-all-users',
@@ -29,6 +30,7 @@ export class ViewAllUsersComponent implements OnInit {
     private readonly employeeService: EmployeeService,
     private readonly allEmployeeService: AllEmployeesService,
     public dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -99,6 +101,8 @@ export class ViewAllUsersComponent implements OnInit {
 
           //-- Also delete from the sessionStorage
           this.allEmployeeService.employees = this.allEmployees
+          window.alert("User deleted.")
+          this.router.navigateByUrl("admin-area")
 
         },
         error: (error) => {
@@ -194,8 +198,8 @@ export class ViewAllUsersComponent implements OnInit {
 
     return this.http.patch<any>(environment.APIURL + `employee/update/` + id , body, {headers})
     .subscribe({
-      next: (result) => {
-        console.log(result)
+      next: () => {
+        console.log("Succesfully changed the admin rights in the API.")
       },
       error: (error) => {
         console.log(error)
