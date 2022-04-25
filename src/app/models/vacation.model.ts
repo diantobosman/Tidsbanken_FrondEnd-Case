@@ -11,5 +11,5 @@ export interface Vacation {
     status: string;
     requestOwner: Employee;
     comment: RequestComment[];
-    moderator: Employee | undefined;
+    moderator: Employee;
 }

@@ -76,8 +76,8 @@ export class VacationService {
       .subscribe({
         next: (vacations: Vacation[]) => {
           this._vacations = vacations;
-        }
-      })
+      }
+    })
   }
 
   // Fetch all vacations of an employee
@@ -135,8 +135,19 @@ export class VacationService {
     )
     .subscribe({
         next: (vacation: Vacation) =>{
+            this.employeeService.getEmployeeById(vacation.requestOwner.toString()).subscribe(
+              employee =>{
+                vacation.requestOwner = employee;
+              }
+            )
+            if(vacation.moderator !== null){
+              this.employeeService.getEmployeeById(vacation.moderator.toString()).subscribe(
+                employee =>{
+                  vacation.requestOwner = employee;
+                }
+              )
+            }
           this._vacationById = vacation;
-          console.log(this._vacationById);
         },
         error:(error: HttpErrorResponse) => {
           this._error = error.message;
