@@ -45,7 +45,7 @@ export class CalendarComponent implements OnInit {
         this._eventArray.push({
           id: event.requestId,
           allDay: true,
-          color: '#239B56',
+          color: '#198754',
           end: event.periodEnd,
           start: event.periodStart,
           title: event.title,
@@ -54,7 +54,7 @@ export class CalendarComponent implements OnInit {
         this._eventArray.push({
           id: event.requestId,
           allDay: true,
-          color: '#7B241C',
+          color: '#DC3545',
           end: event.periodEnd,
           start: event.periodStart,
           title: event.title,
@@ -63,9 +63,8 @@ export class CalendarComponent implements OnInit {
         this._eventArray.push({
           id: event.requestId,
           allDay: true,
-          textColor: '#17202A',
-          backgroundColor: '#CACFD2',
-          borderColor: '#239B56',
+          textColor: '#FFFFFF',
+          color: '#6C757D',
           end: event.periodEnd,
           start: event.periodStart,
           title: event.title,
@@ -99,7 +98,6 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEventClick(info: any) {
-    console.log(info.event.id)
     this.vacationService.getVacationByID(info.event.id); //gaat maar 1x
 
     setTimeout( () => {

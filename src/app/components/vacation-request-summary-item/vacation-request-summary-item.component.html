@@ -1,27 +1,32 @@
-<main class="mt-5 p-5 container d-flex flex-column justify-content-center mainbgcolor">
+<main class="mt-5 p-5 container d-flex flex-column align-items-center mainbgcolor">
     <div class="container" *ngIf="isLoading">
         <p>Loading....</p>
     </div>
     <div>
         <div class="container" *ngIf="vacationRequest">
-            <h2>{{vacationRequest.requestId}}</h2>
-            <h2>{{vacationRequest.title}}</h2>
-            <h3>{{vacationRequest.status}}</h3>
+            <h2 class="mb-5">{{vacationRequest.title}}</h2>
+            <h3 class="badge bg-success" *ngIf="vacation.status === 'APPROVED'">{{vacation.status}}</h3>
+            <h3 class="badge bg-secondary" role="alert" *ngIf="vacation.status === 'PENDING'">{{vacation.status}}</h3>
+            <h3 class="badge bg-danger" role="alert" *ngIf="vacation.status === 'DENIED'">{{vacation.status}}</h3>
+            <h2 class="mt-3">{{vacationRequest.requestId}}</h2>
             <ul>
                 <li *ngFor="let comment of vacationRequest.comment">{{comment.commentOwner}}: {{comment.message}}</li>
             </ul>
         </div>
-        <div class="container" *ngIf="vacation">
-            <h2>{{vacation.title}}</h2>
-            <h2>{{vacation.status}}</h2>
-            <h3>Request id: {{vacation.requestId}}</h3>
-            <h4>Start date: {{periodStart}}</h4>
-            <h4>End date: {{periodEnd}}</h4>
+
+        <div class="text-center" *ngIf="vacation">
+            <h2 class="mb-5">{{vacation.title}}</h2>
+            <h3 class="badge bg-success" *ngIf="vacation.status === 'APPROVED'">{{vacation.status}}</h3>
+            <h3 class="badge bg-secondary" role="alert" *ngIf="vacation.status === 'PENDING'">{{vacation.status}}</h3>
+            <h3 class="badge bg-danger" role="alert" *ngIf="vacation.status === 'DENIED'">{{vacation.status}}</h3>
+            <p class="mt-3">Request id: {{vacation.requestId}}</p>
+            <p>Start date: {{periodStart}}</p>
+            <p>End date: {{periodEnd}}</p>
             <ul>
                 <li *ngFor="let comment of vacation.comment">{{comment.dateCreated}}, {{comment.commentOwner}}: {{comment.message}}</li>
             </ul>
         </div>
     </div>
     
-    <button mat-raised-button color="primary" (click)="backToDashboard()">To dashboard</button>
+    <button  class="m-3" mat-raised-button color="primary" (click)="backToDashboard()">To dashboard</button>
 </main>
