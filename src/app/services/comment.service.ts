@@ -3,6 +3,8 @@ import { StorageUtil } from 'src/app/utils/storage.util';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { RequestComment } from '../models/request-comment.model';
 
 const {APIURL} = environment;
 const token = StorageUtil.storageRead(StorageKeys.AuthKey);
@@ -33,6 +35,16 @@ export class CommentService {
           console.log(error.message);
         }
       })
+  }
 
+  //Get all comments of a requestId
+  public getComments(requestId: number): Observable<RequestComment[]>{
+
+    const headers = new HttpHeaders ({
+      "Accept": "*/*",
+      "Authorization": `Bearer ${token}`
+      })
+
+      return this.http.get<RequestComment[]>(`${APIURL}request/${requestId}/comment`, {headers})
   }
 }

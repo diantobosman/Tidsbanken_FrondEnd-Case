@@ -1,14 +1,16 @@
+import { Employee } from 'src/app/models/employee.model';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { finalize, map } from 'rxjs';
+import { finalize, map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageKeys } from '../enums/storage-keys.enum';
 import { Vacation } from '../models/vacation.model';
 import { StorageUtil } from '../utils/storage.util';
 import { CommentService } from './comment.service';
+import { EmployeeService } from './employee.service';
 
 const {APIURL} = environment;
-const token = StorageUtil.storageRead(StorageKeys.AuthKey);
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +21,27 @@ export class VacationService {
   private _vacationById?: Vacation;
   private _loading: boolean = false;
   private _vacations: Vacation[] = [];
+  private _ownVacations: Vacation[] = [];
   private _error: any = '';
   private _savedVacation!: Vacation;
+  private _updatedVacation!: Vacation;
+  private _token?: string = "";
+  private _employeeId?: string = "";
   
-  constructor(private readonly http: HttpClient, private readonly commentService: CommentService) {}
+  constructor(
+    private readonly http: HttpClient, 
+    private readonly commentService: CommentService,
+    private readonly employeeService: EmployeeService) {
+      this._token = StorageUtil.storageRead(StorageKeys.AuthKey);
+      this._employeeId = StorageUtil.storageRead(StorageKeys.UserId);
+    }
 
   get vacations (){
     return this._vacations;
+  }
+
+  get ownVacations (){
+    return this._ownVacations;
   }
 
   get vacationById (){
@@ -50,7 +66,7 @@ export class VacationService {
     this._loading = true;
     const headers = new HttpHeaders ({
       "Accept": "*/*",
-      "Authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${this._token}`
       })
 
     this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers})
@@ -64,6 +80,40 @@ export class VacationService {
       })
   }
 
+  // Fetch all vacations of an employee
+  public getVacationByEmployeeId(): void{
+
+    const headers = new HttpHeaders ({
+      "Accept": "*/*",
+      "Authorization": `Bearer ${this._token}`
+      })
+
+      this._loading = true;
+
+      this.http.get<Vacation[]>(`${APIURL}employee/${this._employeeId}/requests?limit=50`, {headers})
+      .pipe(
+        finalize(() => this._loading = false)
+      )
+      .subscribe({
+        next: (vacations: Vacation[]) => {
+          this._ownVacations = [];
+          vacations.forEach((vacation) => {
+            this.employeeService.getEmployeeById(vacation.requestOwner.toString()).subscribe(
+              employee =>{
+                vacation.requestOwner = employee;
+              }
+            )
+            this.commentService.getComments(vacation.requestId).subscribe(
+              comments =>{
+                vacation.comment = comments
+              }
+            )
+            this._ownVacations.push(vacation);
+          })
+        }
+      })
+  }
+
   // Fetch the vacations by vacationId
   public getVacationByID(vacationId: number): void {
 
@@ -73,7 +123,7 @@ export class VacationService {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
-      "Authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${this._token}`
       })
 
     this._loading = true;
@@ -102,7 +152,7 @@ export class VacationService {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${this._token}`,
       "Content-Type": "application/json",
       })
 
@@ -127,12 +177,44 @@ export class VacationService {
     })
   }
 
+    //Update vacation request to the database
+    public updateVacation(vacation: any): void {
+
+      this._loading = true;
+  
+      const headers = new HttpHeaders ({
+        "Accept": "*/*",
+        "Authorization": `Bearer ${this._token}`,
+        "Content-Type": "application/json",
+        })
+  
+      const comment = {
+          message: vacation.comments
+        }
+  
+       this.http.post<Vacation>(`${APIURL}vacation_request/update/${vacation.requestId}`, JSON.stringify(vacation), {headers})
+       .pipe(
+         finalize(() => this._loading = false)
+       )
+       .subscribe({
+        next: (response: Vacation) => {
+          if(comment.message.length != 0){
+            this.commentService.saveComment(vacation.requestId, comment);
+          }
+          this._updatedVacation = response;
+        },
+        error:(error: HttpErrorResponse) => {
+          console.log(error.message);
+        }
+      })
+    }
+
   // Delete vacation by id
   public deleteVacationById(vacationId: number): void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
-      "Authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${this._token}`
       })
 
     this.http.delete<Vacation>(`${APIURL}vacation_request/delete/${vacationId}`, {headers})
