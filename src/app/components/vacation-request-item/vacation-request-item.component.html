@@ -27,33 +27,8 @@
     </mat-form-field>
 
     <ul>
-        <li *ngFor="let comment of vacationComments">{{comment.message}}, {{comment.commentOwner}}</li>
+        <li *ngFor="let comment of vacationComments">{{comment.commentOwner}}: {{comment.message}}</li>
     </ul>
-
-    <!-- <mat-form-field appearance="fill">
-      <mat-label>Comments:</mat-label>
-      <input 
-      type="text"
-      [ngModel]="vacationModerator"
-      name="moderator" 
-      matInput placeholder="moderator"
-      id="moderator" 
-      >
-    </mat-form-field> -->
-
-<!-- 
-    <mat-form-field appearance="fill">
-      <mat-label>Date updated:</mat-label>
-      <input 
-      readonly
-      type="text"
-      [ngModel]="vacationUpdatedDate"
-      name="dateUpdated" 
-      matInput placeholder="Date updated"
-      id="dateUpdated" 
-      >
-    </mat-form-field> -->
-  
     <button mat-raised-button color="primary" type="submit">Save changes</button>
   </form>
 </main>

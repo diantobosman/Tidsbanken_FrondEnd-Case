@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Vacation } from 'src/app/models/vacation.model';
 
 @Component({
   selector: 'app-vacation-request-summary',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VacationRequestSummaryPage implements OnInit {
 
+  vacation!: Vacation;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.vacation = history.state.vacation;
   }
-
 }
