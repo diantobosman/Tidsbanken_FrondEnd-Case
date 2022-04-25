@@ -34,8 +34,12 @@ export class HistoryComponent implements OnInit {
   }
   
   // Navigate to vacation request details page
-  goToVacationDetails(vacation: Vacation){
+  goToVacationUpdate(vacation: Vacation){
     this.router.navigateByUrl("vacation-request", { state: { vacation } } )
+  }
+
+  goToVacationSummary(vacation: Vacation){
+    this.router.navigateByUrl("vacation-request-summary", { state: { vacation } } )
   }
 
   //Get vacation by id on a click
@@ -45,9 +49,9 @@ export class HistoryComponent implements OnInit {
   }
 
   //Delete vacation by id on a click
-  deletVacationById(){
-    console.log("delete works");
-    this.vacationService.deleteVacationById(3);
+  deleteVacationById(vacationId: number){
+    console.log(vacationId);
+    //this.vacationService.deleteVacationById(vacationId);
   }
 
 }
