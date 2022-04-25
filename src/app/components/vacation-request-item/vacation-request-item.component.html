@@ -26,9 +26,13 @@
         <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
     </mat-form-field>
 
-    <ul>
+    <section>
+      <button class="addComment"><span class="material-icons md-24 mycyan m-0">add</span>comment</button>
+      <ul>
         <li *ngFor="let comment of vacationComments">{{comment.commentOwner}}: {{comment.message}}</li>
-    </ul>
+      </ul>
+    </section>
+
     <button mat-raised-button color="primary" type="submit">Save changes</button>
   </form>
 </main>
