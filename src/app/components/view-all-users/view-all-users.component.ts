@@ -118,7 +118,7 @@ export class ViewAllUsersComponent implements OnInit {
     
     this.selectedEmployee.admin = true
     this.changeAdminRightsAPI(true)
-    //this.changeAdminRightsKeyCloak(true)
+    this.changeAdminRightsKeyCloak(true)
   }
 
   public revokeAdminButton(selectedEmployeeName: string) {

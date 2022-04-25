@@ -89,7 +89,7 @@ FullCalendarModule.registerPlugins([
     VacationRequestItemComponent,
     VacationRequestSummaryItemComponent,
     VacationRequestSummaryPage,
-    AdminPendingRequestsComponent
+    AdminPendingRequestsComponent,
       ],
   imports: [
     BrowserModule,
@@ -116,7 +116,7 @@ FullCalendarModule.registerPlugins([
     MatChipsModule,
     FullCalendarModule,
     MatListModule
-    ],
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
