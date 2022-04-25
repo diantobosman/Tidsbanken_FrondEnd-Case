@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { IneligibleService } from 'src/app/services/ineligible.service';
 
 @Component({
@@ -11,9 +12,12 @@ import { IneligibleService } from 'src/app/services/ineligible.service';
 })
 export class IneligibleDialogComponent implements OnInit {
 
+  public error!: boolean;
+
   constructor(
     private readonly ineligibleService: IneligibleService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public dialogRef: MatDialogRef<IneligibleDialogComponent>,
   ) { }
 
   ngOnInit(): void {
@@ -24,7 +28,7 @@ export class IneligibleDialogComponent implements OnInit {
       end: new FormControl(),
   });
 
-  public registerPeriod(newPeriod: NgForm):void {
+  public registerPeriod(newPeriod: NgForm): void {
     const start = this.datePipe.transform(this.range.value.start , 'yyyy-MM-ddT00:00:00.000Z');
     const end = this.datePipe.transform(this.range.value.end , 'yyyy-MM-ddT00:00:00.000Z'); 
 
@@ -33,9 +37,20 @@ export class IneligibleDialogComponent implements OnInit {
       periodEnd: end
     };
 
-    this.ineligibleService.saveNewIneligible(newIneligiblePeriod);
+    try {
+      this.ineligibleService.saveNewIneligible(newIneligiblePeriod);
 
+      this.error = false
 
+      setTimeout(() => {
+        this.dialogRef.close()
+      }, 2000)
+      
+    } catch (error) {
+      
+      this.error = true;
+
+    }
   }
 
 }

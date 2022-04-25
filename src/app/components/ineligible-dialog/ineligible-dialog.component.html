@@ -1,6 +1,20 @@
 <main>
     <h2 mat-dialog-title class="text-center">Create New Ineligible Period</h2>
 
+    <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="error">
+        <span class="material-icons mx-2">error</span>
+        <div class="mx-2">
+          Something went wrong! Please try again.
+        </div>
+      </div>
+
+      <div class="alert alert-success d-flex align-items-center" role="alert" *ngIf="error === false">
+        <span class="material-icons mx-2">error</span>
+        <div class="mx-2">
+          The ineligible period has been added!
+        </div>
+      </div>
+
     <form class="container d-flex flex-column" #ineligibleForm="ngForm" (ngSubmit)="registerPeriod(ineligibleForm)">
 
         <mat-form-field appearance="fill" style="width: 280px;">

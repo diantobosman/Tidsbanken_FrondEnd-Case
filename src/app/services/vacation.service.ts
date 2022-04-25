@@ -16,7 +16,7 @@ const token = StorageUtil.storageRead(StorageKeys.AuthKey);
 
 export class VacationService {
 
-  private _vacationById?: Vacation;
+  private _vacationById!: Vacation;
   private _loading: boolean = false;
   private _vacations: Vacation[] = [];
   private _error: any = '';
@@ -67,7 +67,7 @@ export class VacationService {
   // Fetch the vacations by vacationId
   public getVacationByID(vacationId: number): void {
 
-    if(this._vacationById || this._loading){
+    if(this._loading){
       return
     }
 
