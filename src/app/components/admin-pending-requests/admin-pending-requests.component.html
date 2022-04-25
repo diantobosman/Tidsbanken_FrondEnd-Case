@@ -3,13 +3,16 @@
       <h3>Pending Requests</h3>
       <div class="row g-0" #allRequests >
           <div *ngFor="let allrequest of requests">
+            
             <div *ngIf="allrequest.status === 'PENDING'">
-              <section class="col-md-8 my-4" >
+              
+              <section class="col-md-8 my-4">
                 <h5 class="card-title">Request Owner</h5>
                     <p class="card-text">Request title: {{allrequest.title}}</p>
                     <p class="card-text">Holiday from: {{allrequest.periodStart}} until {{allrequest.periodEnd}}</p>
-                    <p class="card-text">Comments: {{allrequest.comment}}</p>
-
+                    <div *ngFor="let allcomments of allrequest.comment">
+                    <p class="card-text">Comments: {{allcomments}}</p>
+                  </div>
               </section>
               <div class="col-md-4">
                 <section class="card-body d-flex flex-column my-2">
@@ -18,6 +21,7 @@
                 </section>
               </div>
             </div>
+            
           </div>
 
       </div>

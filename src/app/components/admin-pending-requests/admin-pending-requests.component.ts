@@ -52,6 +52,7 @@ export class AdminPendingRequestsComponent {
 
         //-- Change that index using the result of the fetch
         this.requests[objIndex] = JSON.stringify(result)
+        window.alert("Approved the vacation request.")
 
       },
       error:(error)=> {console.log("Post API not succesfull: " + error)}
@@ -87,6 +88,7 @@ export class AdminPendingRequestsComponent {
 
         //-- Change that index using the result of the fetch
         this.requests[objIndex] = JSON.stringify(result)
+        window.alert("Denied the vacation request.")
 
       },
       error:(error)=> {console.log("Post API not succesfull: " + error)}
