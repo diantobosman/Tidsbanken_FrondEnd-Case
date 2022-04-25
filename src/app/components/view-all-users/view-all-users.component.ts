@@ -3,14 +3,13 @@ import { StorageKeys } from 'src/app/enums/storage-keys.enum';
 import { StorageUtil } from '../../utils/storage.util';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { ThemePalette } from '@angular/material/core';
 import { Employee } from 'src/app/models/employee.model';
-import { User } from 'src/app/models/user.model';
-import { UserService } from 'src/app/services/user.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewAllUsersEditDialogComponent } from '../view-all-users-edit-dialog/view-all-users-edit-dialog.component';
 import { AllEmployeesService } from 'src/app/services/all-employees.service';
+import { ThisReceiver } from '@angular/compiler';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-all-users',
@@ -19,21 +18,19 @@ import { AllEmployeesService } from 'src/app/services/all-employees.service';
 })
 
 export class ViewAllUsersComponent implements OnInit {
-  public _allFirstNamesOfEmployee: string | undefined
 
-  //-- Toggle button
-  color: ThemePalette = 'accent';
-  public adminOn: boolean = false;
-  public adminOff: boolean = false;
-  public allEmployees: any;
+  //-- Initialize 
   public selectedEmployee: any;
+  public allEmployees: any;
+  public _allFirstNamesOfEmployee: any;
+  public _allEmailAdressOfEmployee: any;
 
   constructor(
     private readonly http: HttpClient,
-    private readonly userService: UserService,
     private readonly employeeService: EmployeeService,
     private readonly allEmployeeService: AllEmployeesService,
     public dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -48,21 +45,17 @@ export class ViewAllUsersComponent implements OnInit {
   //-- Functions
   public filterForFirstNames() {
     this.allEmployees = this.allEmployeeService.employees;
-    //this.allEmployees  = StorageUtil.storageRead<any>(StorageKeys.Employees)
-    const allIdOfEmployees = this.allEmployees.map((element: { employeeId: any; }) => element.employeeId)
     this._allFirstNamesOfEmployee = this.allEmployees.map((element: { first_name: any; }) => element.first_name)
-    const allLastNamesofEmployees = this.allEmployees.map((element: { last_name: any; }) => element.last_name)
+    this._allEmailAdressOfEmployee = this.allEmployees.map((element: { emailAddress: any; }) => element.emailAddress)
   }
 
+  //-- Function called by the delete button
   public deleteSelectedUser(selectedEmployeeName: string) {
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
 
     const id = this.selectedEmployee.employeeId
     this.deleteSelectedUserKeycloak(id)
-
   }
-
-
 
   public deleteSelectedUserKeycloak(id: string) {
 
@@ -74,18 +67,19 @@ export class ViewAllUsersComponent implements OnInit {
       "Authorization": `Bearer ${masterToken}`
     })
 
-    //-- Post the new user
+    //-- Delete the user
     return this.http.delete<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id, {headers} )
     .subscribe({
       next: () => {
         console.log("User succesfully deleted from keycloak")
+
+        //-- Also delete from the API
         this.deleteSelectedUserAPI(id)
       },
       error: (error) => {
         console.log(error)
       }
     })
-
   }
   
 
@@ -99,76 +93,50 @@ export class ViewAllUsersComponent implements OnInit {
       "Authorization": `Bearer ${employeeToken}`
     })
 
+    //-- Delete from API
     return this.http.delete<any>(environment.APIURL + `employee/delete/` + id, {headers} )
       .subscribe({
         next: () => {
           console.log("Succesfully deleted from the API")
-          this.allEmployees[this.selectedEmployee] = {}
-          
-          sessionStorage.setItem(StorageKeys.Employees, this.allEmployees)
+
+          //-- Also delete from the sessionStorage
+          this.allEmployeeService.employees = this.allEmployees
+          window.alert("User deleted.")
+          this.router.navigateByUrl("admin-area")
+
         },
         error: (error) => {
           console.log("Error while deleting from the API: " + error)
         }
       })
-
-
   }
-
-
-
 
   public giveAdminButton(selectedEmployeeName: string) {
 
+    //-- Changes the selected employee to the one thats clicked
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
-
-    console.log(this.selectedEmployee)
-
+    
+    this.selectedEmployee.admin = true
     this.changeAdminRightsAPI(true)
-    //this.changeAdminRightsKeyCloak(this.admin)
+    //this.changeAdminRightsKeyCloak(true)
   }
 
   public revokeAdminButton(selectedEmployeeName: string) {
 
+    //-- Changes the selected employee to the one thats clicked
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
 
-    console.log(this.selectedEmployee)
-
     this.changeAdminRightsAPI(false)
+    this.selectedEmployee.admin = false
     //this.changeAdminRightsKeyCloak(this.admin)
-  }
-
-  public changeProfileButton(arg: string) {
-
-  }
-
-  //-- Get all the employees from the database
-  public fetchAllEmployees() {
-
-    const employeeToken = StorageUtil.storageRead(StorageKeys.AuthKey)
-
-    //-- Define the headers
-    const headers = new HttpHeaders ({
-      "accept": "*/*",
-      "Authorization": `Bearer ${employeeToken}`
-    })
-    this.http.get<any>(environment.APIURL + `employee/all`, {headers})
-    .subscribe({
-      next: (result) => {
-        console.log(result)
-
-        StorageUtil.storageSave(StorageKeys.Employees, result)
-      },
-      error: (error) => {
-        console.log(error)
-      }
-    })
   }
 
   public openDialogEditAllUsers(selectedEmployeeName: string): void {
     
+    //-- Change the selected employee to the one clicked 
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
-    console.log(this.selectedEmployee)
+
+    //-- Open the dialog and pass the selectedEmployee
     this.dialog.open(ViewAllUsersEditDialogComponent, {
       width: '250px',
       backdropClass: 'custom-dialog-backdrop-class',
@@ -177,29 +145,25 @@ export class ViewAllUsersComponent implements OnInit {
     })
   }
 
-
   public changeAdminRightsKeyCloak(bool: boolean) {
     // Get the mastertoken
     const masterToken = StorageUtil.storageRead(StorageKeys.AuthKeyMaster)
-    const user = StorageUtil.storageRead<User>(StorageKeys.User) //-- Should this not be the employee?
     
-    const id = user?.id
-    const username = user?.username
-    const groupId = "a045b089-8caa-4c96-83f0-ef77243cbd9c"
+    //const user = StorageUtil.storageRead<User>(StorageKeys.User) 
     
-    //-- Define the headers
-    const headers = new HttpHeaders ({
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${masterToken}`
+    const id = "44a78e86-4130-4543-915b-a34bd3e5f8b4"
+    const groupId = "686e663c-c36a-4fa5-8bde-79bba14acd7b"
+    
+    const headers = new HttpHeaders({
+      "Content-Type": "application/x-www-form-urlencoded"
     })
 
-    var body = {
-      "username": username,
-      "groups": [ "admin" ]
-    }
-    
+    var urlencoded = new URLSearchParams();
+
+    urlencoded.append("Authorization", `Bearer ${masterToken}`); 
+
     //-- Post the new user
-    return this.http.put<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id + `/groups/` + groupId, {headers} )
+    return this.http.put<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id + `/groups/` + groupId, urlencoded, {headers} )
     .subscribe({
       next: (result) => {
         console.log(result)
@@ -234,8 +198,8 @@ export class ViewAllUsersComponent implements OnInit {
 
     return this.http.patch<any>(environment.APIURL + `employee/update/` + id , body, {headers})
     .subscribe({
-      next: (result) => {
-        console.log(result)
+      next: () => {
+        console.log("Succesfully changed the admin rights in the API.")
       },
       error: (error) => {
         console.log(error)
