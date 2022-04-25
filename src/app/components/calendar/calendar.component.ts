@@ -109,8 +109,8 @@ export class CalendarComponent implements OnInit {
   }
 
 
-  public redirect(vacation: Vacation) { //vacation-request-summary
-    this.router.navigateByUrl("vacation-request",{ state: { vacation }})
+  public redirect(vacation: Vacation) {
+    this.router.navigateByUrl("vacation-request-summary",{ state: { vacation }})
   }
 
   public navigateToNewRequest() {
