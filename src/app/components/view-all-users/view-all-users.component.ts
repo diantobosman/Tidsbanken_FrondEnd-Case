@@ -118,7 +118,7 @@ export class ViewAllUsersComponent implements OnInit {
     
     this.selectedEmployee.admin = true
     this.changeAdminRightsAPI(true)
-    this.changeAdminRightsKeyCloak(true)
+    //this.changeAdminRightsKeyCloak(true)
   }
 
   public revokeAdminButton(selectedEmployeeName: string) {
@@ -151,19 +151,16 @@ export class ViewAllUsersComponent implements OnInit {
     
     //const user = StorageUtil.storageRead<User>(StorageKeys.User) 
     
-    const id = "44a78e86-4130-4543-915b-a34bd3e5f8b4"
+    const id = "2d781a19-bab5-414b-ae36-2ee92c3170f4"
     const groupId = "686e663c-c36a-4fa5-8bde-79bba14acd7b"
     
-    const headers = new HttpHeaders({
-      "Content-Type": "application/x-www-form-urlencoded"
-    })
+     //-- Define the headers
+     const headers = new HttpHeaders ({
+      "Accept": "*/*",
+      "Authorization": `Bearer ${masterToken}`
+      })
 
-    var urlencoded = new URLSearchParams();
-
-    urlencoded.append("Authorization", `Bearer ${masterToken}`); 
-
-    //-- Post the new user
-    return this.http.put<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id + `/groups/` + groupId, urlencoded, {headers} )
+    return this.http.put<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id + `/groups/` + groupId, {headers} )
     .subscribe({
       next: (result) => {
         console.log(result)
