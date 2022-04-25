@@ -9,9 +9,6 @@
                 <th>Employee</th>
                 <th>Title</th>
                 <th>Status</th>
-                <th style="text-align:center">Details</th>
-                <th style="text-align:center">Update</th>
-                <th style="text-align:center">Delete</th>
             </tr>
         </thead>
         <tbody *ngFor="let vacation of vacations">
@@ -20,7 +17,7 @@
                 <td>{{vacation.title}}</td>
                 <td>{{vacation.status}}</td>
                 <td style="text-align:center"><button (click)="goToVacationSummary(vacation)"><span class="material-icons md-24 mycyan m-0">info</span></button></td>
-                <td style="text-align:center"><button (click)="goToVacationUpdate(vacation)"><span class="material-icons md-24 mycyan m-0">edit</span></button></td>
+                <td *ngIf="vacation.status === 'PENDING'" style="text-align:center"><button (click)="goToVacationUpdate(vacation)"><span class="material-icons md-24 mycyan m-0">edit</span></button></td>
                 <td style="text-align:center"><button (click)="deleteVacationById(vacation.requestId)"><span class="material-icons md-24 mycyan m-0">delete</span></button></td>
         </tbody>
     </table>
