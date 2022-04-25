@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { CalendarOptions } from '@fullcalendar/angular';
 import { Employee } from 'src/app/models/employee.model';
 import { Ineligible } from 'src/app/models/ineligible.model';
-import { Vacation } from 'src/app/models/vacation.model';
+import { VacationService } from '../../services/vacation.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { IneligibleDialogComponent } from '../ineligible-dialog/ineligible-dialog.component';
+import { Vacation } from 'src/app/models/vacation.model';
 
 @Component({
   selector: 'app-calendar',
@@ -22,6 +23,9 @@ export class CalendarComponent implements OnInit {
 
   private _eventArray: any[] = [];
 
+  public vacation!: Vacation;
+
+
   get employee(): Employee | undefined {
     return this.employeeService.employee
   }
@@ -29,6 +33,7 @@ export class CalendarComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly employeeService: EmployeeService,
+    private readonly vacationService: VacationService,
     public dialog: MatDialog
   ) {
   }
@@ -38,24 +43,25 @@ export class CalendarComponent implements OnInit {
     this.vacations.forEach((event: Vacation) => {
       if (event.status === "APPROVED") {
         this._eventArray.push({
+          id: event.requestId,
           allDay: true,
           color: '#239B56',
           end: event.periodEnd,
           start: event.periodStart,
           title: event.title,
-          url: 'link naar request',
         })
       } else if (event.status === "DENIED") {
         this._eventArray.push({
+          id: event.requestId,
           allDay: true,
           color: '#7B241C',
           end: event.periodEnd,
           start: event.periodStart,
           title: event.title,
-          url: 'link naar request',
         })
       } else {
         this._eventArray.push({
+          id: event.requestId,
           allDay: true,
           textColor: '#17202A',
           backgroundColor: '#CACFD2',
@@ -63,7 +69,6 @@ export class CalendarComponent implements OnInit {
           end: event.periodEnd,
           start: event.periodStart,
           title: event.title,
-          url: 'link naar request', // of eventclick?
         })
       }
     })
@@ -83,6 +88,7 @@ export class CalendarComponent implements OnInit {
     headerToolbar: {start: 'title prevYear,nextYear', center: '', end: 'today prev,next'},
     initialView: 'dayGridMonth',
     dateClick: this.handleDateClick.bind(this), // bind is important!
+    eventClick: this.handleEventClick.bind(this),
     weekNumbers: true,
     events: this._eventArray,
     firstDay: 1
@@ -92,6 +98,20 @@ export class CalendarComponent implements OnInit {
     alert('date click! ' + arg.dateStr)
   }
 
+  handleEventClick(info: any) {
+    console.log(info.event.id)
+    this.vacationService.getVacationByID(info.event.id); //gaat maar 1x
+
+    setTimeout( () => {
+      this.vacation = this.vacationService.vacationById;
+      this.redirect(this.vacation)
+    }, 500);
+  }
+
+
+  public redirect(vacation: Vacation) { //vacation-request-summary
+    this.router.navigateByUrl("vacation-request",{ state: { vacation }})
+  }
 
   public navigateToNewRequest() {
     this.router.navigateByUrl("/create-vacation")

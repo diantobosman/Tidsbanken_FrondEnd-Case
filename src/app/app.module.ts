@@ -27,7 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction'
+import interactionPlugin from '@fullcalendar/interaction';
 
 import { CreateVacationPage } from './pages/create-vacation/create-vacation.page';
 import { CalendarComponent } from './components/calendar/calendar.component';
