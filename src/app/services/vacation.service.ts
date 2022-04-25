@@ -189,7 +189,7 @@ export class VacationService {
   }
 
     //Update vacation request to the database
-    public updateVacation(vacation: any): void {
+    public updateVacation(vacation: any, commentMessage: string): void {
 
       this._loading = true;
   
@@ -200,17 +200,18 @@ export class VacationService {
         })
   
       const comment = {
-          message: vacation.comments
+          message: commentMessage
         }
   
-       this.http.post<Vacation>(`${APIURL}vacation_request/update/${vacation.requestId}`, JSON.stringify(vacation), {headers})
+       this.http.patch<Vacation>(`${APIURL}vacation_request/update/${vacation.requestId}`, JSON.stringify(vacation), {headers})
        .pipe(
          finalize(() => this._loading = false)
        )
        .subscribe({
         next: (response: Vacation) => {
-          if(comment.message.length != 0){
-            this.commentService.saveComment(vacation.requestId, comment);
+          console.log(comment);
+          if(comment){
+            this.commentService.saveComment(vacation.requestId, comment)
           }
           this._updatedVacation = response;
         },

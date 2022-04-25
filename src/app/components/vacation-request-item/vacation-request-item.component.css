@@ -4,6 +4,11 @@ section{
 
 .addComment{
     float: right;
-    margin: 10px 0px 10px 0px;
+    margin: 10px auto 10px auto;
     border: none;
+}
+
+.inputCommentMessage{
+    margin-top: 10px;
+    width: 75%;
 }

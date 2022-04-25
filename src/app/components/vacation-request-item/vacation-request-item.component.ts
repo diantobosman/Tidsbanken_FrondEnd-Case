@@ -4,6 +4,7 @@ import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { Employee } from 'src/app/models/employee.model';
 import { RequestComment } from 'src/app/models/request-comment.model';
 import { Vacation } from 'src/app/models/vacation.model';
+import { VacationService } from 'src/app/services/vacation.service';
 
 @Component({
   selector: 'app-vacation-request-item',
@@ -21,9 +22,10 @@ export class VacationRequestItemComponent implements OnInit {
   vacationModerator?: Employee;
   vacationUpdatedDate?: Date;
   _newVacation: Object = Object;
-  vacationComments: RequestComment[] = [];
+  vacationComments: any[] = [];
+  commentMessage: string = "";
 
-  constructor(private datePipe: DatePipe) { }
+  constructor(private datePipe: DatePipe, private readonly vacationService: VacationService) { }
 
   range = new FormGroup({
     start: new FormControl(),
@@ -39,19 +41,32 @@ export class VacationRequestItemComponent implements OnInit {
     this.vacationComments = this.vacation.comment;
   }
 
+  addNewComment(){
+      console.log(this.commentMessage);
+      const comment ={
+        message: this.commentMessage
+      }
+      if(this.commentMessage.length > 0){
+        this.vacationComments.push(comment);
+      }
+  }
+
   saveChangesSubmit(_updateVacationRequestForm: NgForm){
     const  start  = this.datePipe.transform(this.range.value.start , 'yyyy-MM-ddT00:00:00.000Z');
     const  end  = this.datePipe.transform(this.range.value.end , 'yyyy-MM-ddT00:00:00.000Z');
 
     this._newVacation = {
+      requestId: this.vacation.requestId,
       title: this.vacationTitle,
       periodStart: start,
-      periodEnd: end,
-      comment: this.vacationComments
+      periodEnd: end
     }
 
     console.log(this.vacation);
     console.log(this._newVacation);
+
+    this.vacationService.updateVacation(this._newVacation, this.commentMessage);
+    this.commentMessage = "";
 
   }
 

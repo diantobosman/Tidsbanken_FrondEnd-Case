@@ -25,15 +25,22 @@
         <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">Invalid start date</mat-error>
         <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
     </mat-form-field>
-
-    <section>
-      <button class="addComment"><span class="material-icons md-24 mycyan m-0">add</span>comment</button>
-      <ul>
-        <li *ngFor="let comment of vacationComments">{{comment.commentOwner}}: {{comment.message}}</li>
-      </ul>
-    </section>
-
-    <button mat-raised-button color="primary" type="submit">Save changes</button>
   </form>
+
+  <section>
+      <input class="inputCommentMessage"
+      type="text" 
+      [(ngModel)]="commentMessage"
+      name="commentMessage"
+      placeholder="typ your comment"
+      id="commentMessage">
+    
+    <button class="addComment" (click)="addNewComment()">comment<span class="material-icons md-24 mycyan m-0">add</span></button>
+    <ul>
+      <li *ngFor="let comment of vacationComments">{{comment.commentOwner}}: {{comment.message}}</li>
+    </ul>
+  </section>
+
+  <button mat-raised-button color="primary" type="submit" (click)="saveChangesSubmit(updateVacationRequestForm)">Save changes</button>
 </main>
 
