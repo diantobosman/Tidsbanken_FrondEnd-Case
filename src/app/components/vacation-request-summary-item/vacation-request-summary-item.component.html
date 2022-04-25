@@ -9,6 +9,7 @@
             <h3 class="badge bg-secondary" role="alert" *ngIf="vacation.status === 'PENDING'">{{vacation.status}}</h3>
             <h3 class="badge bg-danger" role="alert" *ngIf="vacation.status === 'DENIED'">{{vacation.status}}</h3>
             <h2 class="mt-3">{{vacationRequest.requestId}}</h2>
+            <p>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</p>
             <ul>
                 <li *ngFor="let comment of vacationRequest.comment">{{comment.commentOwner}}: {{comment.message}}</li>
             </ul>
@@ -20,6 +21,7 @@
             <h3 class="badge bg-secondary" role="alert" *ngIf="vacation.status === 'PENDING'">{{vacation.status}}</h3>
             <h3 class="badge bg-danger" role="alert" *ngIf="vacation.status === 'DENIED'">{{vacation.status}}</h3>
             <p class="mt-3">Request id: {{vacation.requestId}}</p>
+            <p>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</p>
             <p>Start date: {{periodStart}}</p>
             <p>End date: {{periodEnd}}</p>
             <ul>

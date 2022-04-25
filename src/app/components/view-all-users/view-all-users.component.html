@@ -1,24 +1,24 @@
-<section class="card mb-5 text-center" style="width: 1000px;">
+<section class="mt-5 p-5 container mainbgcolor mb-5 text-center" style="width: 1000px;">
 
-  <h3>All the users</h3>
+  <h2>All users</h2>
 
-  <div class="row g-0" #employees>
-    <div *ngFor="let employees of allEmployees">
-      <section class="col-md-4 my-4">
-
-        <p class="card-text">Name: {{employees.first_name }} {{employees.last_name}}</p>
-        <p class="card-text">Email: {{employees.emailAddress}}</p>
+  <div class="row g-0 grid" #employees>
+    <div *ngFor="let employees of allEmployees" class="card d-flex flex-column align-items-center">
+      <section class="mb-4">
+        <img class="img-thumbnail rounded-circle my-3" style="width:175px" src="{{ employees.profilePic }}" alt="profile pic">
+        <p class="card-text">{{employees.first_name }} {{employees.last_name}}</p>
+        <p class="card-text">{{employees.emailAddress}}</p>
         <p class="card-text">Admin: {{employees.admin}}</p>
       </section>
-
-      <div class="col-md-8">
-        <button class="mb-2 mx-2" mat-raised-button (click)="giveAdminButton(employees.first_name)" color="primary">Give {{employees.first_name}} admin rights</button>
-        <button class="mb-2 mx-2" mat-raised-button (click)="revokeAdminButton(employees.first_name)" color="primary" >Revoke {{employees.first_name}} admin rights</button>
-        <button class="mb-2 mx-2" mat-raised-button (click)="openDialogEditAllUsers(employees.first_name)" color="primary">Change email of {{employees.first_name}}</button>
-        <button class="mb-2 mx-2"mat-raised-button (click)="deleteSelectedUser(employees.first_name)" color="primary">Delete {{employees.first_name}}</button>
+      <div class="mb-4">
+        <button class="m-2" mat-raised-button (click)="giveAdminButton(employees.first_name)" color="primary"><span class="material-icons md-24 mywhite m-0">verified_user</span></button>
+        <button class="m-2" mat-raised-button (click)="revokeAdminButton(employees.first_name)" color="primary"><span class="material-icons md-24 mywhite m-0">shield</span></button>
+        <button class="m-2" mat-raised-button (click)="openDialogEditAllUsers(employees.first_name)" color="primary"><span class="material-icons md-24 mywhite m-0">edit</span></button>
+        <button class="m-2" mat-raised-button (click)="deleteSelectedUser(employees.first_name)" color="primary"><span class="material-icons md-24 mywhite m-0">delete</span></button>
       </div>
-
     </div>
   </div>
+
+  </section>
 
 

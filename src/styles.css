@@ -12,6 +12,7 @@
 
 .material-icons.mycyan { color: #005662; }
 .material-icons.mygrey { color: #4D707A; }
+.material-icons.mywhite { color: #FFFFFF; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
