@@ -30,7 +30,7 @@ export class NewUserDialogComponent {
     const { lastName } = loginForm.value;
     const { firstName } = loginForm.value;
     const { password } = loginForm.value;
-
+    const { pictureURL } = loginForm.value;
 
     (await this.registerService.registerKeyCloak(username, password))
       .subscribe({
@@ -38,7 +38,7 @@ export class NewUserDialogComponent {
 
           console.log("Registering the user in keycloak...")
           await new Promise(resolve => setTimeout(resolve, 500));
-          this.getUserAndRegister(firstName, lastName, email, username)
+          this.getUserAndRegister(firstName, lastName, email, username, pictureURL)
         },
         error: (error) => {
           console.log("Error while registering in keycloak:" + error)
@@ -46,7 +46,7 @@ export class NewUserDialogComponent {
       })
     }
   
-    public async getUserAndRegister(firstName: string, lastName: string, email: string, username: string) {
+    public async getUserAndRegister(firstName: string, lastName: string, email: string, username: string, pictureURL: string) {
       this.registerService.getUserByAnyKeycloak()
         .subscribe({
           next: async (result) => {
@@ -55,8 +55,7 @@ export class NewUserDialogComponent {
 
             const idNewEmployee = FunctionUtil.filterByValue(result, username)[0].id
             
-
-            this.registerService.registerAPI(idNewEmployee, firstName, lastName, email)
+            this.registerService.registerAPI(idNewEmployee, firstName, lastName, email, pictureURL)
             
             this.error = false
 

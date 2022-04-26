@@ -49,7 +49,7 @@ export class RegisterService {
   }
 
   //-- Register the employee in the API storage
-  public async registerAPI(id: string, firstName: string, lastName: string, email: string) {
+  public async registerAPI(id: string, firstName: string, lastName: string, email: string, pictureURL: string) {
     console.log("The new ID is: " + id)
     // Get the mastertoken
     const employeeToken = StorageUtil.storageRead(StorageKeys.AuthKey)
@@ -66,7 +66,8 @@ export class RegisterService {
       "first_name": firstName,
       "last_name": lastName,
       "emailAddress": email,
-      "admin": false
+      "admin": false,
+      "profilePic": pictureURL
     }
 
     //-- Post the new user

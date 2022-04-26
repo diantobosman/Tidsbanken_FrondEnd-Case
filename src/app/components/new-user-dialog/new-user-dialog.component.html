@@ -65,6 +65,18 @@
     </mat-form-field>
   
     <mat-form-field appearance="fill">
+      <mat-label>Profile picture url:</mat-label>
+      <input 
+      type="text"
+      ngModel
+      #pictureURL="ngModel"
+      name="pictureURL" 
+      matInput placeholder="pictureURL"
+      id="pictureURL" 
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
       <mat-label>Password:</mat-label>
       <input 
       type="text"

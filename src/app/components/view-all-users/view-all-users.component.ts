@@ -54,7 +54,9 @@ export class ViewAllUsersComponent implements OnInit {
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
 
     const id = this.selectedEmployee.employeeId
-    this.deleteSelectedUserKeycloak(id)
+
+    //-- First delete from the API (because its possible that it exists there but not in keycloak)
+    this.deleteSelectedUserAPI(id)
   }
 
   public deleteSelectedUserKeycloak(id: string) {
@@ -71,16 +73,20 @@ export class ViewAllUsersComponent implements OnInit {
     return this.http.delete<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id, {headers} )
     .subscribe({
       next: () => {
-        //-- Also delete from the API
-        this.deleteSelectedUserAPI(id)
+        console.log("The user is deleted from HEROKU.")
+
+        window.alert("User deleted.")
+        this.router.navigateByUrl("admin-area")
       },
       error: (error) => {
         console.log(error)
+
+        window.alert("User deleted.")
+        this.router.navigateByUrl("admin-area")
       }
     })
   }
   
-
   public deleteSelectedUserAPI(id: string) {
 
     // Get the mastertoken
@@ -97,9 +103,7 @@ export class ViewAllUsersComponent implements OnInit {
         next: () => {
           //-- Also delete from the sessionStorage
           this.allEmployeeService.employees = this.allEmployees
-          window.alert("User deleted.")
-          this.router.navigateByUrl("admin-area")
-
+          this.deleteSelectedUserKeycloak(id)
         },
         error: (error) => {
           console.log("Error while deleting from the API: " + error)
