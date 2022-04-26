@@ -4,7 +4,6 @@ import { VacationService } from 'src/app/services/vacation.service';
 import { DatePipe } from '@angular/common'
 import { Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
-import { Employee } from 'src/app/models/employee.model';
 
 @Component({
   selector: 'app-history',
@@ -63,7 +62,6 @@ export class HistoryComponent implements OnInit {
 
   //Delete vacation by id on a click
   deleteVacationById(vacationId: number){
-    console.log(vacationId);
     try{
       this.vacationService.deleteVacationById(vacationId).subscribe(
         {

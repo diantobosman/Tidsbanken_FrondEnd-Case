@@ -54,7 +54,9 @@ export class ViewAllUsersComponent implements OnInit {
     this.selectedEmployee = this.allEmployees.find((x: { first_name: string; }) => x.first_name === selectedEmployeeName);
 
     const id = this.selectedEmployee.employeeId
-    this.deleteSelectedUserKeycloak(id)
+
+    //-- First delete from the API (because its possible that it exists there but not in keycloak)
+    this.deleteSelectedUserAPI(id)
   }
 
   public deleteSelectedUserKeycloak(id: string) {
@@ -71,18 +73,20 @@ export class ViewAllUsersComponent implements OnInit {
     return this.http.delete<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id, {headers} )
     .subscribe({
       next: () => {
-        console.log("User succesfully deleted from keycloak")
+        console.log("The user is deleted from HEROKU.")
 
-        //-- Also delete from the API
-        this.deleteSelectedUserAPI(id)
+        window.alert("User deleted.")
+        this.router.navigateByUrl("admin-area")
       },
       error: (error) => {
         console.log(error)
+
+        window.alert("User deleted.")
+        this.router.navigateByUrl("admin-area")
       }
     })
   }
   
-
   public deleteSelectedUserAPI(id: string) {
 
     // Get the mastertoken
@@ -97,13 +101,9 @@ export class ViewAllUsersComponent implements OnInit {
     return this.http.delete<any>(environment.APIURL + `employee/delete/` + id, {headers} )
       .subscribe({
         next: () => {
-          console.log("Succesfully deleted from the API")
-
           //-- Also delete from the sessionStorage
           this.allEmployeeService.employees = this.allEmployees
-          window.alert("User deleted.")
-          this.router.navigateByUrl("admin-area")
-
+          this.deleteSelectedUserKeycloak(id)
         },
         error: (error) => {
           console.log("Error while deleting from the API: " + error)
@@ -163,7 +163,6 @@ export class ViewAllUsersComponent implements OnInit {
     return this.http.put<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id + `/groups/` + groupId, {headers} )
     .subscribe({
       next: (result) => {
-        console.log(result)
       },
       error: (error) => {
       console.log(error)
@@ -196,7 +195,6 @@ export class ViewAllUsersComponent implements OnInit {
     return this.http.patch<any>(environment.APIURL + `employee/update/` + id , body, {headers})
     .subscribe({
       next: () => {
-        console.log("Succesfully changed the admin rights in the API.")
       },
       error: (error) => {
         console.log(error)

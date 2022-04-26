@@ -106,7 +106,7 @@ export class IneligibleService {
 
         },
         error:(error: HttpErrorResponse) => {
-          console.log(error.message);
+          this._error = error.message;
         }
       })
   }
