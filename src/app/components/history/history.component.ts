@@ -59,6 +59,7 @@ export class HistoryComponent implements OnInit {
   deleteVacationById(vacationId: number){
     console.log(vacationId);
     this.vacationService.deleteVacationById(vacationId);
+    window.location.reload();
   }
 
 }
