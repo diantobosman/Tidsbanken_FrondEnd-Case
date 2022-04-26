@@ -25,7 +25,10 @@ export class VacationRequestItemComponent implements OnInit {
   vacationComments: any[] = [];
   commentMessage: string = "";
 
-  constructor(private datePipe: DatePipe, private readonly vacationService: VacationService, private readonly router: Router) { }
+  constructor(
+    private datePipe: DatePipe, 
+    private readonly vacationService: VacationService,
+    private readonly router: Router) { }
 
   range = new FormGroup({
     start: new FormControl(),
@@ -42,10 +45,10 @@ export class VacationRequestItemComponent implements OnInit {
   }
 
   addNewComment(){
-      console.log(this.commentMessage);
       const comment ={
         message: this.commentMessage
       }
+      console.log(this.commentMessage.length);
       if(this.commentMessage.length > 0){
         this.vacationComments.push(comment);
       }
@@ -61,9 +64,6 @@ export class VacationRequestItemComponent implements OnInit {
       periodStart: start,
       periodEnd: end
     }
-
-    console.log(this.vacation);
-    console.log(this._newVacation);
 
     try{
       this.vacationService.updateVacation(this._newVacation, this.commentMessage);

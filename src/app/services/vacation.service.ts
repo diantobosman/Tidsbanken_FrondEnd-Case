@@ -223,7 +223,7 @@ export class VacationService {
        .subscribe({
         next: (response: Vacation) => {
           console.log(comment);
-          if(comment){
+          if(comment.message.length > 0){
             this.commentService.saveComment(vacation.requestId, comment)
           }
           this._updatedVacation = response;
