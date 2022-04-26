@@ -57,6 +57,7 @@ import { IneligibleDialogComponent } from './components/ineligible-dialog/inelig
 import { AdminPendingRequestsComponent } from './components/admin-pending-requests/admin-pending-requests.component';
 import { VacationNewRequestSummaryPage } from './pages/vacation-new-request-summary/vacation-new-request-summary.page';
 import { VacationNewRequestSummaryItemComponent } from './components/vacation-new-request-summary-item/vacation-new-request-summary-item.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -119,7 +120,8 @@ FullCalendarModule.registerPlugins([
     MatSidenavModule,
     MatChipsModule,
     FullCalendarModule,
-    MatListModule
+    MatListModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

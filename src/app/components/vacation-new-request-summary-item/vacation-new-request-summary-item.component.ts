@@ -18,7 +18,6 @@ export class VacationNewRequestSummaryItemComponent implements OnInit {
   }
 
   get vacationRequest(): Vacation{
-    console.log(this.vacationService.savedVacation);
     return this.vacationService.savedVacation;
   }
 

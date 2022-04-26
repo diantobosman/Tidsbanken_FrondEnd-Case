@@ -3,6 +3,8 @@ import { Vacation } from 'src/app/models/vacation.model';
 import { VacationService } from 'src/app/services/vacation.service';
 import { DatePipe } from '@angular/common'
 import { Router } from '@angular/router';
+import { EmployeeService } from 'src/app/services/employee.service';
+import { Employee } from 'src/app/models/employee.model';
 
 @Component({
   selector: 'app-history',
@@ -13,8 +15,10 @@ import { Router } from '@angular/router';
 export class HistoryComponent implements OnInit {
 
   vacationsList: Vacation[] = [];
+  showAllVacationRequests: boolean = false;
 
   constructor(
+    private readonly employeeService: EmployeeService,
     private readonly vacationService: VacationService,
     private readonly router: Router,
     private datePipe: DatePipe) {
@@ -22,6 +26,7 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.vacationService.getVacationByEmployeeId();
+    this.vacationService.getAllVacations();
   }
 
   //Getters
@@ -31,6 +36,20 @@ export class HistoryComponent implements OnInit {
 
   get isLoading(): boolean{
     return this.vacationService.loading;
+  }
+
+  get allVacations(){
+      return this.vacationService.vacations.reverse();
+  }
+
+  get employee(){
+    return this.employeeService.employee;
+  }
+
+  //Toggle showAllVacationRequests
+  toggleShowAllVacationRequests(event: any){
+    event.source.value = this.showAllVacationRequests;
+    console.log(this.showAllVacationRequests)
   }
   
   // Navigate to vacation request details page
@@ -42,25 +61,20 @@ export class HistoryComponent implements OnInit {
     this.router.navigateByUrl("vacation-request-summary", { state: { vacation } } )
   }
 
-  //Get vacation by id on a click
-  getVacationByID(){
-    console.log("get by id works");
-    this.vacationService.getVacationByID(3);
-  }
-
-  reloadComponent() {
-    let currentUrl = this.router.url;
-        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        this.router.onSameUrlNavigation = 'reload';
-        this.router.navigate([currentUrl]);
-    }
-
   //Delete vacation by id on a click
   deleteVacationById(vacationId: number){
     console.log(vacationId);
-    this.vacationService.deleteVacationById(vacationId);
-    window.location.reload();
+    try{
+      this.vacationService.deleteVacationById(vacationId).subscribe(
+        {
+          next: () => {
+            window.location.reload();
+          }
+        }
+      )
+    }catch(error: any){
+      console.log(error.message)
+    }
   }
-
 }
 

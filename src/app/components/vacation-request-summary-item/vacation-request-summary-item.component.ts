@@ -31,8 +31,4 @@ export class VacationRequestSummaryItemComponent implements OnInit {
     return this.vacationService.loading;
   }
 
-  backToDashboard(){
-    this.router.navigateByUrl("calendar")
-  }
-
 }

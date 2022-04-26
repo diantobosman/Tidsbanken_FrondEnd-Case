@@ -8,14 +8,28 @@
             <h3 class="badge bg-success" *ngIf="vacation.status === 'APPROVED'">{{vacation.status}}</h3>
             <h3 class="badge bg-secondary" role="alert" *ngIf="vacation.status === 'PENDING'">{{vacation.status}}</h3>
             <h3 class="badge bg-danger" role="alert" *ngIf="vacation.status === 'DENIED'">{{vacation.status}}</h3>
-            <p>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</p>
-            <p>From: {{periodStart}}</p>
-            <p>Until: {{periodEnd}}</p>
-            <ul>
-                <li *ngFor="let comment of vacation.comment">{{comment.dateCreated}}, {{comment.commentOwner}}: {{comment.message}}</li>
-            </ul>
         </div>
+            <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>From</th>
+                            <th>Until</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</td>
+                            <td>{{periodStart}}</td>
+                            <td>{{periodEnd}}</td>
+                        </tr>
+                    </tbody>
+            </table>
+            <section class="commentsSection">
+                <h4><strong>Comments</strong></h4>
+                <ul>
+                    <li *ngFor="let comment of vacation.comment">{{comment.commentOwner}} wrote: {{comment.message}}</li>
+                </ul>
+            </section>
     </div>
-    
-    <button  class="m-3" mat-raised-button color="primary" (click)="backToDashboard()">To dashboard</button>
 </main>

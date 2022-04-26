@@ -30,7 +30,6 @@ export class EmployeeService {
 
   constructor(private readonly http: HttpClient) { 
     this.employee = StorageUtil.storageRead<Employee>(StorageKeys.Employee);
-    this._token = StorageUtil.storageRead(StorageKeys.AuthKey);
   }
 
   public getEmployeeById(employeeId: string, token: string): Observable<Employee> {

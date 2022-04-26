@@ -1,6 +1,39 @@
 <main class="mt-5 p-5 container d-flex flex-column justify-content-center mainbgcolor">
     <h2 class="mb-5 text-center">Vacation History</h2>
     <h3 *ngIf="isLoading">Getting vacation requests!</h3>
+        <mat-slide-toggle 
+        *ngIf="employee?.admin"
+    [(ngModel)]="showAllVacationRequests"
+    color="primary"
+    (change) = "toggleShowAllVacationRequests($event)">
+        show all
+    </mat-slide-toggle>
+    
+    <table *ngIf="showAllVacationRequests; else showOwnVacations">
+        <caption class="text-center">History of vacation requests</caption>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Employee</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Details</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+            <tbody *ngFor="let vacation of allVacations">
+                <td>{{vacation.requestId}}</td>
+                <td>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</td>
+                <td>{{vacation.title}}</td>
+                <td>{{vacation.status}}</td>
+                <td style="text-align: center"><button (click)="goToVacationSummary(vacation)"><span class="material-icons md-24 mycyan m-0">info</span></button></td>
+                <td style="text-align: center"><button *ngIf="vacation.status === 'PENDING'" (click)="goToVacationUpdate(vacation)"><span class="material-icons md-24 mycyan m-0">edit</span></button></td>
+                <td style="text-align: center"><button (click)="deleteVacationById(vacation.requestId)"><span class="material-icons md-24 mycyan m-0">delete</span></button></td>
+            </tbody>
+    </table>
+
+    <ng-template #showOwnVacations>
     <table>
         <caption class="text-center">History of vacation requests</caption>
         <thead>
@@ -9,16 +42,20 @@
                 <th>Employee</th>
                 <th>Title</th>
                 <th>Status</th>
+                <th>Details</th>
+                <th>Update</th>
+                <th *ngIf="employee?.admin">Delete</th>
             </tr>
         </thead>
-        <tbody *ngFor="let vacation of vacations">
+            <tbody *ngFor="let vacation of vacations">
                 <td>{{vacation.requestId}}</td>
                 <td>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</td>
                 <td>{{vacation.title}}</td>
                 <td>{{vacation.status}}</td>
-                <td style="text-align:center"><button (click)="goToVacationSummary(vacation)"><span class="material-icons md-24 mycyan m-0">info</span></button></td>
-                <td *ngIf="vacation.status === 'PENDING'" style="text-align:center"><button (click)="goToVacationUpdate(vacation)"><span class="material-icons md-24 mycyan m-0">edit</span></button></td>
-                <td style="text-align:center"><button (click)="deleteVacationById(vacation.requestId)"><span class="material-icons md-24 mycyan m-0">delete</span></button></td>
-        </tbody>
-    </table>
+                <td style="text-align: center"><button (click)="goToVacationSummary(vacation)"><span class="material-icons md-24 mycyan m-0">info</span></button></td>
+                <td style="text-align: center"><button *ngIf="vacation.status === 'PENDING'" (click)="goToVacationUpdate(vacation)"><span class="material-icons md-24 mycyan m-0">edit</span></button></td>
+                <td style="text-align: center"><button *ngIf="employee?.admin" (click)="deleteVacationById(vacation.requestId)"><span class="material-icons md-24 mycyan m-0">delete</span></button></td>
+            </tbody>
+        </table>
+    </ng-template>
 </main>

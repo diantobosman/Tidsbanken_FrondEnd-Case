@@ -75,7 +75,20 @@ export class VacationService {
       )
       .subscribe({
         next: (vacations: Vacation[]) => {
-          this._vacations = vacations;
+          this._vacations = [];
+          vacations.forEach((vacation) => {
+            this.employeeService.getEmployeeById(vacation.requestOwner.toString(), this._token).subscribe(
+              employee =>{
+                vacation.requestOwner = employee;
+              }
+            )
+            this.commentService.getComments(vacation.requestId).subscribe(
+              comments =>{
+                vacation.comment = comments
+              }
+            )
+            this._vacations.push(vacation);
+          })
       }
     })
   }
@@ -222,23 +235,13 @@ export class VacationService {
     }
 
   // Delete vacation by id
-  public deleteVacationById(vacationId: number): void {
+  public deleteVacationById(vacationId: number): any {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
       "Authorization": `Bearer ${this._token}`
       })
 
-    this.http.delete<Vacation>(`${APIURL}vacation_request/delete/${vacationId}`, {headers})
-    .subscribe({
-        next: () =>{
-          //alert
-          alert(`vacation with id ${vacationId} deleted`);
-        },
-        error:(error: HttpErrorResponse) => {
-          this._error = error.message;
-        }
-      }
-    )
+    return this.http.delete<string>(`${APIURL}vacation_request/delete/${vacationId}`, {headers});
   }
 }
