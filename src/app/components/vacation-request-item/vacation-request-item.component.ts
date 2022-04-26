@@ -1,8 +1,8 @@
+import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { Employee } from 'src/app/models/employee.model';
-import { RequestComment } from 'src/app/models/request-comment.model';
 import { Vacation } from 'src/app/models/vacation.model';
 import { VacationService } from 'src/app/services/vacation.service';
 
@@ -25,7 +25,7 @@ export class VacationRequestItemComponent implements OnInit {
   vacationComments: any[] = [];
   commentMessage: string = "";
 
-  constructor(private datePipe: DatePipe, private readonly vacationService: VacationService) { }
+  constructor(private datePipe: DatePipe, private readonly vacationService: VacationService, private readonly router: Router) { }
 
   range = new FormGroup({
     start: new FormControl(),
@@ -65,8 +65,18 @@ export class VacationRequestItemComponent implements OnInit {
     console.log(this.vacation);
     console.log(this._newVacation);
 
-    this.vacationService.updateVacation(this._newVacation, this.commentMessage);
-    this.commentMessage = "";
+    try{
+      this.vacationService.updateVacation(this._newVacation, this.commentMessage);
+      this.commentMessage = "";
+      this.router.navigateByUrl("calendar");
+    }catch (error: any) {
+      
+      alert(error.message);
+  
+    }
+    
+
+    
 
   }
 

@@ -27,11 +27,6 @@ export class VacationRequestSummaryItemComponent implements OnInit {
     this.periodEnd = this.datePipe.transform(this.vacation.periodEnd, 'dd-MM-yyyy');
   }
 
-
-  get vacationRequest(): Vacation{
-    return this.vacationService.savedVacation;
-  }
-
   get isLoading(): boolean{
     return this.vacationService.loading;
   }

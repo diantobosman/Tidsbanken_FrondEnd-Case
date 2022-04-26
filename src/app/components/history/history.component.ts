@@ -48,10 +48,17 @@ export class HistoryComponent implements OnInit {
     this.vacationService.getVacationByID(3);
   }
 
+  reloadComponent() {
+    let currentUrl = this.router.url;
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([currentUrl]);
+    }
+
   //Delete vacation by id on a click
   deleteVacationById(vacationId: number){
     console.log(vacationId);
-    //this.vacationService.deleteVacationById(vacationId);
+    this.vacationService.deleteVacationById(vacationId);
   }
 
 }

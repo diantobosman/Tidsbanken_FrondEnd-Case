@@ -50,7 +50,7 @@ export class NewVacationComponent {
       else{
       this.error = false;
       this.vacationService.saveNewVacation(request);
-      this.router.navigateByUrl('/vacation-request-summary')
+      this.router.navigateByUrl('vacation-new-request-summary')
     }
   }
 }

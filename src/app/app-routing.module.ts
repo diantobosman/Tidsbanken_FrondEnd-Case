@@ -12,6 +12,7 @@ import { LoginGuard } from "./guards/login.guard";
 import { RouterLinkActive } from "@angular/router";
 import { ViewUsersPage } from "./pages/view-users/view-users.page";
 import { VacationRequestSummaryPage } from "./pages/vacation-request-summary/vacation-request-summary.page";
+import { VacationNewRequestSummaryPage } from "./pages/vacation-new-request-summary/vacation-new-request-summary.page";
 
 const routes: Routes = [
     {
@@ -42,6 +43,12 @@ const routes: Routes = [
     {
         path: "create-vacation",
         component: CreateVacationPage,
+        canActivate: [ AuthGuard ]
+
+    },
+    {
+        path: "vacation-new-request-summary",
+        component: VacationNewRequestSummaryPage,
         canActivate: [ AuthGuard ]
 
     },
