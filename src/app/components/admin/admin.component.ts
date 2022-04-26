@@ -20,6 +20,7 @@ export class AdminComponent implements OnInit {
 
   private _requests: any[] = [];
   private _requestDates: any[] | undefined;
+  private _token: string = "";
 
   get requests() {
     return this._requests;
@@ -30,8 +31,9 @@ export class AdminComponent implements OnInit {
     private readonly allEmployeesService: AllEmployeesService,
     private readonly employeeService: EmployeeService,
     private readonly commentService: CommentService,
-    private datePipe: DatePipe
-    ) { }
+    private datePipe: DatePipe,
+  
+    ) { this._token = StorageUtil.storageRead(StorageKeys.AuthKey)!;}
 
   ngOnInit(): void {
     this.fetchAllEmployees()
@@ -64,12 +66,12 @@ export class AdminComponent implements OnInit {
 
   public fetchAllRequests() {
     
-    const employeeToken = StorageUtil.storageRead(StorageKeys.AuthKey)
+    
 
     //-- Define the headers
     const headers = new HttpHeaders ({
       "accept": "*/*",
-      "Authorization": `Bearer ${employeeToken}`
+      "Authorization": `Bearer ${this._token}`
     })
 
     this.http.get<any>(environment.APIURL + `vacation_request/`, {headers})
@@ -77,7 +79,7 @@ export class AdminComponent implements OnInit {
       next: (result: Vacation[]) => {
         this._requests = [];
           result.forEach((vacation) => {
-            this.employeeService.getEmployeeById(vacation.requestOwner.toString()).subscribe(
+            this.employeeService.getEmployeeById(vacation.requestOwner.toString(), this._token).subscribe(
               employee =>{
                 vacation.requestOwner = employee;
               }
