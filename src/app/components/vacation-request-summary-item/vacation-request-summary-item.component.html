@@ -25,7 +25,7 @@
                         </tr>
                     </tbody>
             </table>
-            <section class="commentsSection">
+            <section *ngIf="vacation.comment.length > 0" class="commentsSection">
                 <h4><strong>Comments</strong></h4>
                 <ul>
                     <li *ngFor="let comment of vacation.comment">{{comment.commentOwner}} wrote: {{comment.message}}</li>
