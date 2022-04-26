@@ -57,7 +57,6 @@ export class ProfileChangeProfileDialogComponent {
       next: (result) => {   
         this.employeeService.employee!.emailAddress =  email 
         StorageUtil.storageSave(StorageKeys.Employee, this.employeeService.employee)
-        console.log("Succesfully changed the email: " + result) 
       },
       error: (error) => {
         console.log("Error: " + error)

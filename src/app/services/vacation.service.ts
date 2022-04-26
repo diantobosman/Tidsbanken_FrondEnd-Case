@@ -183,7 +183,7 @@ export class VacationService {
         this._savedVacation = response;
       },
       error:(error: HttpErrorResponse) => {
-        console.log(error.message);
+        this._error = error.message;
       }
     })
   }
@@ -216,7 +216,7 @@ export class VacationService {
           this._updatedVacation = response;
         },
         error:(error: HttpErrorResponse) => {
-          console.log(error.message);
+          this._error = error.message;
         }
       })
     }
