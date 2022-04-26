@@ -1,0 +1,20 @@
+<main class="mt-5 p-5 container d-flex flex-column align-items-center mainbgcolor">
+    <div class="container" *ngIf="isLoading">
+        <p>Loading....</p>
+    </div>
+    <div>
+        <div class="text-center" *ngIf="vacationRequest">
+            <h2 class="mb-5">{{vacationRequest.title}}</h2>
+            <h3 class="badge bg-secondary" role="alert" *ngIf="vacationRequest.status === 'PENDING'">{{vacationRequest.status}}</h3>
+            <p>Owner id: {{vacationRequest.requestOwner}}</p>
+            <!-- <p>{{vacationRequest.requestOwner.first_name}} {{vacationRequest.requestOwner.last_name}}</p> -->
+            <p>From: {{vacationRequest.periodStart}}</p>
+            <p>Until: {{vacationRequest.periodEnd}}</p>
+            <ul>
+                <li *ngFor="let comment of vacationRequest.comment">{{comment.commentOwner}}: {{comment.message}}</li>
+            </ul>
+        </div>
+    </div>
+    
+    <button  class="m-3" mat-raised-button color="primary" (click)="backToHistory()">To your history page</button>
+</main>

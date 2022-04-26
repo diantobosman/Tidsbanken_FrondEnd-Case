@@ -3,17 +3,6 @@
         <p>Loading....</p>
     </div>
     <div>
-        <div class="container" *ngIf="vacationRequest">
-            <h2 class="mb-5">{{vacationRequest.title}}</h2>
-            <h3 class="badge bg-success" *ngIf="vacation.status === 'APPROVED'">{{vacation.status}}</h3>
-            <h3 class="badge bg-secondary" role="alert" *ngIf="vacation.status === 'PENDING'">{{vacation.status}}</h3>
-            <h3 class="badge bg-danger" role="alert" *ngIf="vacation.status === 'DENIED'">{{vacation.status}}</h3>
-            <p>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</p>
-            <ul>
-                <li *ngFor="let comment of vacationRequest.comment">{{comment.commentOwner}}: {{comment.message}}</li>
-            </ul>
-        </div>
-
         <div class="text-center" *ngIf="vacation">
             <h2 class="mb-5">{{vacation.title}}</h2>
             <h3 class="badge bg-success" *ngIf="vacation.status === 'APPROVED'">{{vacation.status}}</h3>

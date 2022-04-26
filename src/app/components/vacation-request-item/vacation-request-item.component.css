@@ -1,5 +1,9 @@
 section{ 
     border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    margin-bottom: 20px;
+    padding: 10px;
+
 }
 
 .addComment{
@@ -11,4 +15,9 @@ section{
 .inputCommentMessage{
     margin-top: 10px;
     width: 75%;
+}
+
+ul{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
