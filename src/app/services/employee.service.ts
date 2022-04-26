@@ -33,11 +33,11 @@ export class EmployeeService {
     this._token = StorageUtil.storageRead(StorageKeys.AuthKey);
   }
 
-  public getEmployeeById(employeeId: string): Observable<Employee> {
+  public getEmployeeById(employeeId: string, token: string): Observable<Employee> {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
-      "Authorization": `Bearer ${this._token}`
+      "Authorization": `Bearer ${token}`
       })
 
     return this.http.get<Employee>(`${APIURL}employee/${employeeId}`, {headers});
