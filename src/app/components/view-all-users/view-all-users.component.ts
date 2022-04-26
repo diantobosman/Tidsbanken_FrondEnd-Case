@@ -71,8 +71,6 @@ export class ViewAllUsersComponent implements OnInit {
     return this.http.delete<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id, {headers} )
     .subscribe({
       next: () => {
-        console.log("User succesfully deleted from keycloak")
-
         //-- Also delete from the API
         this.deleteSelectedUserAPI(id)
       },
@@ -97,8 +95,6 @@ export class ViewAllUsersComponent implements OnInit {
     return this.http.delete<any>(environment.APIURL + `employee/delete/` + id, {headers} )
       .subscribe({
         next: () => {
-          console.log("Succesfully deleted from the API")
-
           //-- Also delete from the sessionStorage
           this.allEmployeeService.employees = this.allEmployees
           window.alert("User deleted.")
@@ -163,7 +159,6 @@ export class ViewAllUsersComponent implements OnInit {
     return this.http.put<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id + `/groups/` + groupId, {headers} )
     .subscribe({
       next: (result) => {
-        console.log(result)
       },
       error: (error) => {
       console.log(error)
@@ -196,7 +191,6 @@ export class ViewAllUsersComponent implements OnInit {
     return this.http.patch<any>(environment.APIURL + `employee/update/` + id , body, {headers})
     .subscribe({
       next: () => {
-        console.log("Succesfully changed the admin rights in the API.")
       },
       error: (error) => {
         console.log(error)

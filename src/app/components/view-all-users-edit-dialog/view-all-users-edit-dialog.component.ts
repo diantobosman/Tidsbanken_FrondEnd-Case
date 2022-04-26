@@ -19,7 +19,6 @@ export class ViewAllUsersEditDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data)
   }
 
   get selectedEmployee() {
@@ -51,7 +50,6 @@ export class ViewAllUsersEditDialogComponent implements OnInit {
     .subscribe({
       next: () => {   
         this.selectedEmployee.emailAddress = email
-        console.log("Succesfully changed the email: " + email) 
       },
       error: (error) => {
         console.log("Error: " + error)

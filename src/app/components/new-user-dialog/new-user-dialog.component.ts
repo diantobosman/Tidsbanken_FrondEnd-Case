@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterService } from 'src/app/services/register.service';
 import { FunctionUtil } from 'src/app/utils/functions.util';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { IneligibleDialogComponent } from '../ineligible-dialog/ineligible-dialog.component';
 
 @Component({
   selector: 'app-new-user-dialog',
@@ -13,9 +15,12 @@ export class NewUserDialogComponent {
 
   @Output() login: EventEmitter<void> = new EventEmitter();
 
+  public error!: boolean;
+
   constructor( 
     private readonly registerService: RegisterService,
-    private readonly router: Router
+    private readonly router: Router,
+    public dialogRef: MatDialogRef<IneligibleDialogComponent>,
     ) { }
 
   //-- This function does only work once per login. This bug should be solved.
@@ -50,17 +55,15 @@ export class NewUserDialogComponent {
             const idNewEmployee = FunctionUtil.filterByValue(result, email)[0].id
 
             this.registerService.registerAPI(idNewEmployee, firstName, lastName, email)
-            //this.dialogRef.close();
-            // var txt;
-            // if (confirm("New User created!")) {
-            //   // Does not work.
-            //   this.router.navigateByUrl("/admin-area")
-            // } else {
-            //   txt = "You pressed Cancel!";
-            // }
+            
+            this.error = false
+
+            setTimeout(() => {
+              this.dialogRef.close()
+            }, 2000)
           },
           error: (error) => {
-            console.log("Error while getUserAndRegister" + error)
+            this.error = true;
           }
         })
     }

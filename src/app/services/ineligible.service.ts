@@ -7,7 +7,7 @@ import { Ineligible } from '../models/ineligible.model';
 import { StorageUtil } from '../utils/storage.util';
 
 const {APIURL} = environment;
-const token = StorageUtil.storageRead(StorageKeys.AuthKey);
+//const token = StorageUtil.storageRead(StorageKeys.AuthKey);
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +18,13 @@ export class IneligibleService {
   private _ineligibles: Ineligible[] = [];
   private _loading: boolean = false;
   private _error: any = '';
+  private _token?: string = "";
 
   constructor(
-    private readonly http: HttpClient
-  ) { }
+    private readonly http: HttpClient,
+    ) {
+      this._token = StorageUtil.storageRead(StorageKeys.AuthKey);
+    }
 
   get ineligibles() {
     return this._ineligibles;
@@ -44,7 +47,7 @@ export class IneligibleService {
     
     const headers = new HttpHeaders ({
       "Accept": "*/*",
-      "Authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${this._token}`
     })
 
     this._loading = true;
@@ -66,7 +69,7 @@ export class IneligibleService {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
-      "Authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${this._token}`
     })
 
     this._loading = true;
@@ -91,7 +94,7 @@ export class IneligibleService {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${this._token}`,
       "Content-Type": "application/json",
       })
 
@@ -103,7 +106,7 @@ export class IneligibleService {
 
         },
         error:(error: HttpErrorResponse) => {
-          console.log(error.message);
+          this._error = error.message;
         }
       })
   }
@@ -114,7 +117,7 @@ export class IneligibleService {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
-      "Authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${this._token}`
     })
 
     this.http.delete<Ineligible>(`${APIURL}ineligibleperiod/delete/${ineligibleId}`, {headers})

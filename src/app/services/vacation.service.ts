@@ -25,14 +25,14 @@ export class VacationService {
   private _error: any = '';
   private _savedVacation!: Vacation;
   private _updatedVacation!: Vacation;
-  private _token?: string = "";
+  private _token: string = "";
   private _employeeId?: string = "";
   
   constructor(
     private readonly http: HttpClient, 
     private readonly commentService: CommentService,
     private readonly employeeService: EmployeeService) {
-      this._token = StorageUtil.storageRead(StorageKeys.AuthKey);
+      this._token = StorageUtil.storageRead(StorageKeys.AuthKey)!;
       this._employeeId = StorageUtil.storageRead(StorageKeys.UserId);
     }
 
@@ -98,7 +98,7 @@ export class VacationService {
         next: (vacations: Vacation[]) => {
           this._ownVacations = [];
           vacations.forEach((vacation) => {
-            this.employeeService.getEmployeeById(vacation.requestOwner.toString()).subscribe(
+            this.employeeService.getEmployeeById(vacation.requestOwner.toString(), this._token).subscribe(
               employee =>{
                 vacation.requestOwner = employee;
               }
@@ -135,13 +135,13 @@ export class VacationService {
     )
     .subscribe({
         next: (vacation: Vacation) =>{
-            this.employeeService.getEmployeeById(vacation.requestOwner.toString()).subscribe(
+            this.employeeService.getEmployeeById(vacation.requestOwner.toString(), this._token).subscribe(
               employee =>{
                 vacation.requestOwner = employee;
               }
             )
             if(vacation.moderator !== null){
-              this.employeeService.getEmployeeById(vacation.moderator.toString()).subscribe(
+              this.employeeService.getEmployeeById(vacation.moderator.toString(), this._token).subscribe(
                 employee =>{
                   vacation.requestOwner = employee;
                 }
@@ -183,7 +183,7 @@ export class VacationService {
         this._savedVacation = response;
       },
       error:(error: HttpErrorResponse) => {
-        console.log(error.message);
+        this._error = error.message;
       }
     })
   }
@@ -216,7 +216,7 @@ export class VacationService {
           this._updatedVacation = response;
         },
         error:(error: HttpErrorResponse) => {
-          console.log(error.message);
+          this._error = error.message;
         }
       })
     }

@@ -57,7 +57,6 @@ export class HistoryComponent implements OnInit {
 
   //Delete vacation by id on a click
   deleteVacationById(vacationId: number){
-    console.log(vacationId);
     this.vacationService.deleteVacationById(vacationId);
   }
 
