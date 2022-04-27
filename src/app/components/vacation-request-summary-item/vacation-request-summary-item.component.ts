@@ -31,4 +31,12 @@ export class VacationRequestSummaryItemComponent implements OnInit {
     return this.vacationService.loading;
   }
 
+  // helper method to check whether vacation has comments
+  isString(val: any): boolean { 
+    if(this.vacation.comment.length > 0){
+      return typeof val === 'object'; 
+    }
+    return false;
+  }
+
 }

@@ -82,7 +82,14 @@ export class VacationService {
                 vacation.requestOwner = employee;
               }
             )
-            this.commentService.getComments(vacation.requestId).subscribe(
+            if(vacation.moderator !== null){
+              this.employeeService.getEmployeeById(vacation.moderator.toString(), this._token).subscribe(
+                employee =>{
+                  vacation.moderator = employee;
+                }
+              )
+            }
+            this.commentService.getComments(vacation.requestId, this._token).subscribe(
               comments =>{
                 vacation.comment = comments
               }
@@ -116,7 +123,14 @@ export class VacationService {
                 vacation.requestOwner = employee;
               }
             )
-            this.commentService.getComments(vacation.requestId).subscribe(
+            if(vacation.moderator !== null){
+              this.employeeService.getEmployeeById(vacation.moderator.toString(), this._token).subscribe(
+                employee =>{
+                  vacation.moderator = employee;
+                }
+              )
+            }
+            this.commentService.getComments(vacation.requestId, this._token).subscribe(
               comments =>{
                 vacation.comment = comments
               }
@@ -156,7 +170,7 @@ export class VacationService {
             if(vacation.moderator !== null){
               this.employeeService.getEmployeeById(vacation.moderator.toString(), this._token).subscribe(
                 employee =>{
-                  vacation.requestOwner = employee;
+                  vacation.moderator = employee;
                 }
               )
             }
@@ -191,8 +205,18 @@ export class VacationService {
      .subscribe({
       next: (response: Vacation) => {
         if(comment.message.length != 0){
-          this.commentService.saveComment(response.requestId, comment);
+          this.commentService.saveComment(response.requestId, comment, this._token);
         }
+        this.employeeService.getEmployeeById(response.requestOwner.toString(), this._token).subscribe(
+          employee =>{
+            response.requestOwner = employee;
+          }
+        )
+        this.commentService.getComments(response.requestId, this._token).subscribe(
+          comments =>{
+            response.comment = comments
+          }
+        )
         this._savedVacation = response;
       },
       error:(error: HttpErrorResponse) => {
@@ -224,7 +248,7 @@ export class VacationService {
         next: (response: Vacation) => {
           console.log(comment);
           if(comment.message.length > 0){
-            this.commentService.saveComment(vacation.requestId, comment)
+            this.commentService.saveComment(vacation.requestId, comment, this._token)
           }
           this._updatedVacation = response;
         },

@@ -108,11 +108,12 @@ export class CalendarComponent implements OnInit {
 
 
   public redirect(vacation: Vacation) {
-    this.router.navigateByUrl("vacation-request-summary",{ state: { vacation }})
+    console.log(vacation);
+    this.router.navigateByUrl("vacation-request-summary",{ state: { vacation }});
   }
 
   public navigateToNewRequest() {
-    this.router.navigateByUrl("/create-vacation")
+    this.router.navigateByUrl("/create-vacation");
   }
 
   public openDialogIneligible() {

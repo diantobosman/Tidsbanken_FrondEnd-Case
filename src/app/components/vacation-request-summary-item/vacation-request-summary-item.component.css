@@ -9,3 +9,7 @@ th, td{
 th, h4{
     text-decoration: underline;
 }
+
+.sectionModerator{
+    margin: 20px;
+}

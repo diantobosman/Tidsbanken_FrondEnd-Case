@@ -48,7 +48,6 @@ export class HistoryComponent implements OnInit {
   //Toggle showAllVacationRequests
   toggleShowAllVacationRequests(event: any){
     event.source.value = this.showAllVacationRequests;
-    console.log(this.showAllVacationRequests)
   }
   
   // Navigate to vacation request details page
@@ -56,6 +55,7 @@ export class HistoryComponent implements OnInit {
     this.router.navigateByUrl("vacation-request", { state: { vacation } } )
   }
 
+  // Navigate to vacation request summary page
   goToVacationSummary(vacation: Vacation){
     this.router.navigateByUrl("vacation-request-summary", { state: { vacation } } )
   }
@@ -66,6 +66,7 @@ export class HistoryComponent implements OnInit {
       this.vacationService.deleteVacationById(vacationId).subscribe(
         {
           next: () => {
+            //refresh the page and list
             window.location.reload();
           }
         }

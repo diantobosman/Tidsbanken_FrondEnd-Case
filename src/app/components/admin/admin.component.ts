@@ -84,7 +84,7 @@ export class AdminComponent implements OnInit {
                 vacation.requestOwner = employee;
               }
             )
-            this.commentService.getComments(vacation.requestId).subscribe(
+            this.commentService.getComments(vacation.requestId, this._token).subscribe(
               comments =>{
                 vacation.comment = comments
               }

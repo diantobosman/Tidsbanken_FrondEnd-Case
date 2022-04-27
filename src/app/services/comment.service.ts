@@ -1,5 +1,3 @@
-import { StorageKeys } from 'src/app/enums/storage-keys.enum';
-import { StorageUtil } from 'src/app/utils/storage.util';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
@@ -13,19 +11,16 @@ const {APIURL} = environment;
   providedIn: 'root'
 })
 export class CommentService {
-  private _token?: string = "";
 
   constructor(private readonly http: HttpClient) {
-    this._token = StorageUtil.storageRead(StorageKeys.AuthKey);
    }
 
-
   //Save comment with requestId and comment
-  public saveComment(requestId: number, comment: any): void {
+  public saveComment(requestId: number, comment: any, token: string): void {
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
-      "Authorization": `Bearer ${this._token}`,
+      "Authorization": `Bearer ${token}`,
       "Content-Type": "application/json",
       })
 
@@ -41,11 +36,11 @@ export class CommentService {
   }
 
   //Get all comments of a requestId
-  public getComments(requestId: number): Observable<RequestComment[]>{
+  public getComments(requestId: number, token: string): Observable<RequestComment[]>{
 
     const headers = new HttpHeaders ({
       "Accept": "*/*",
-      "Authorization": `Bearer ${this._token}`
+      "Authorization": `Bearer ${token}`
       })
 
       return this.http.get<RequestComment[]>(`${APIURL}request/${requestId}/comment`, {headers})

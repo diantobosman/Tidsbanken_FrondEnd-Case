@@ -1,0 +1,11 @@
+table{
+    margin: 30px;
+}
+
+th, td{
+    padding-right: 30px;
+}
+
+th, h4{
+    text-decoration: underline;
+}

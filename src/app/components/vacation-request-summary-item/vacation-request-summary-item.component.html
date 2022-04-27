@@ -1,15 +1,20 @@
 <main class="mt-5 p-5 container d-flex flex-column align-items-center mainbgcolor">
-    <div class="container" *ngIf="isLoading">
-        <p>Loading....</p>
-    </div>
-    <div>
-        <div class="text-center" *ngIf="vacation">
-            <h2 class="mb-5">{{vacation.title}}</h2>
-            <h3 class="badge bg-success" *ngIf="vacation.status === 'APPROVED'">{{vacation.status}}</h3>
-            <h3 class="badge bg-secondary" role="alert" *ngIf="vacation.status === 'PENDING'">{{vacation.status}}</h3>
-            <h3 class="badge bg-danger" role="alert" *ngIf="vacation.status === 'DENIED'">{{vacation.status}}</h3>
-        </div>
-            <table>
+    
+    <section class="w-60 text-center" *ngIf="isLoading; then showLoading; else showRequest"></section>
+    <ng-template #showLoading>
+            <p>Loading....</p>
+    </ng-template>
+    
+    <ng-template #showRequest>
+        <div>
+            <div class="text-center">
+                <h2 class="mb-5">{{vacation.title}}</h2>
+                <h3 class="badge bg-success" *ngIf="vacation.status === 'APPROVED'">{{vacation.status}}</h3>
+                <h3 class="badge bg-secondary" role="alert" *ngIf="vacation.status === 'PENDING'">{{vacation.status}}</h3>
+                <h3 class="badge bg-danger" role="alert" *ngIf="vacation.status === 'DENIED'">{{vacation.status}}</h3>
+            </div>
+            <div class="text-left">
+                <table>
                     <thead>
                         <tr>
                             <th>Employee</th>
@@ -24,12 +29,17 @@
                             <td>{{periodEnd}}</td>
                         </tr>
                     </tbody>
-            </table>
-            <section *ngIf="vacation.comment.length > 0" class="commentsSection">
+                </table>
+                <div class="sectionModerator">
+                    <p *ngIf="vacation.moderator">Your request has been moderated by: {{vacation.moderator.first_name}} {{vacation.moderator.last_name}}</p>
+                </div>
+            </div>
+            <section *ngIf="isString(vacation.comment[0])" class="commentsSection text-left">
                 <h4><strong>Comments</strong></h4>
                 <ul>
                     <li *ngFor="let comment of vacation.comment">{{comment.commentOwner}} wrote: {{comment.message}}</li>
                 </ul>
-            </section>
-    </div>
+             </section>
+        </div>
+    </ng-template> 
 </main>

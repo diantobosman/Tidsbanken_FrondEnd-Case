@@ -1,20 +1,41 @@
 <main class="mt-5 p-5 container d-flex flex-column align-items-center mainbgcolor">
-    <div class="container" *ngIf="isLoading">
+
+    <section  class="w-60 text-cente" *ngIf="isLoading; then showLoading; else showRequest"></section>  
+    <ng-template #showLoading>
         <p>Loading....</p>
-    </div>
-    <div>
-        <div class="text-center" *ngIf="vacationRequest">
-            <h2 class="mb-5">{{vacationRequest.title}}</h2>
-            <h3 class="badge bg-secondary" role="alert" *ngIf="vacationRequest.status === 'PENDING'">{{vacationRequest.status}}</h3>
-            <p>Owner id: {{vacationRequest.requestOwner}}</p>
-            <!-- <p>{{vacationRequest.requestOwner.first_name}} {{vacationRequest.requestOwner.last_name}}</p> -->
-            <p>From: {{vacationRequest.periodStart}}</p>
-            <p>Until: {{vacationRequest.periodEnd}}</p>
-            <ul>
-                <li *ngFor="let comment of vacationRequest.comment">{{comment.commentOwner}}: {{comment.message}}</li>
-            </ul>
+    </ng-template>
+
+    <ng-template #showRequest>
+        <div>
+            <div class="text-center">
+                <h2 class="mb-5">{{vacationRequest.title}}</h2>
+                <h3 class="badge bg-secondary" role="alert" *ngIf="vacationRequest.status === 'PENDING'">{{vacationRequest.status}}</h3>
+            </div>  
+            <div class="text-left">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>From</th>
+                            <th>Until</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{vacationRequest.requestOwner.first_name}} {{vacationRequest.requestOwner.last_name}}</td>
+                            <td>{{vacationRequest.periodStart}}</td>
+                            <td>{{vacationRequest.periodEnd}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <section class="text-left">
+                <h4><strong>Comments</strong></h4>
+                <ul>
+                    <li *ngFor="let comment of vacationRequest.comment">{{comment.commentOwner}}: {{comment.message}}</li>
+                </ul>
+            </section> 
         </div>
-    </div>
-    
+    </ng-template>    
     <button  class="m-3" mat-raised-button color="primary" (click)="backToHistory()">To your history page</button>
 </main>
