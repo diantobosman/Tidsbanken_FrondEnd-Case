@@ -13,9 +13,29 @@ Both the front-end and back-end are uploaded on heroku. This repository is the f
 [Noroff Bootcamp Tidsbanken Case API](https://github.com/savannah-borst/Tidsbanken-case-API)
 
 ## How To Use
-This repository can be cloned using:
+The above also requires the back-end api. Click the above link for futher instructions to set that up. This repository can be cloned using: <br />
 
 ```git clone https://github.com/diantobosman/Tidsbanken_FrontEnd-Case.git```
+
+The front-end needs npm to run: <br />
+```npm install```
+
+
+To run the application one can use the command: <br />
+```ng serve```
+<br />
+<br />
+
+The user can login as user with <br />
+Username: testuser
+Password: 1234
+
+<br />
+<br />
+
+And as admin as: <br />
+Username: testadmin
+Password: 12345
 
 ## Future
 Future work may include:
