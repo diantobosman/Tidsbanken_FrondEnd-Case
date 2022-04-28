@@ -45,8 +45,6 @@ export class AdminPendingRequestsComponent {
     return this.http.patch<any>(environment.APIURL + `vacation_request/update/` + requestId, body, {headers})
     .subscribe({
       next: (result)=>{
-        console.log("The request is succesfully approved")
-
         //-- Find the index of the request
         let objIndex = this.requests.findIndex((obj => obj.requestId === result.requestId));
 
@@ -82,7 +80,6 @@ export class AdminPendingRequestsComponent {
     return this.http.patch<any>(environment.APIURL + `vacation_request/update/` + requestId, body, {headers})
     .subscribe({
       next: (result)=>{
-        console.log("The request is succesfully denied")
         //-- Find the index of the request
         let objIndex = this.requests.findIndex((obj => obj.requestId === result.requestId));
 

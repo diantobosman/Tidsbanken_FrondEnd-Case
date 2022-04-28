@@ -148,7 +148,7 @@ export class LoginService {
         //-- Put masterToken in session storage
         StorageUtil.storageSave(StorageKeys.AuthKeyMaster, result.access_token)
        },
-       error:(error) => {console.log("hello", error)}
+       error:(error) => {console.log(error)}
      })
   }
 

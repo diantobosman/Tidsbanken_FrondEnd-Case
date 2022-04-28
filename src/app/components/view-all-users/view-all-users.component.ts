@@ -73,8 +73,6 @@ export class ViewAllUsersComponent implements OnInit {
     return this.http.delete<any>(environment.herokuURL + `auth/admin/realms/tidsbankencase/users/` + id, {headers} )
     .subscribe({
       next: () => {
-        console.log("The user is deleted from HEROKU.")
-
         window.alert("User deleted.")
         this.router.navigateByUrl("admin-area")
       },
