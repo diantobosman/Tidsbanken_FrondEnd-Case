@@ -1,6 +1,6 @@
 
 # Noroff Bootcamp Tidsbanken Case Project: Vacation management system.
-[![web](https://tidsbanken-case.herokuapp.com/login)]()
+[![web](https://img.shields.io/static/v1?logo=heroku&message=Online&label=Heroku&color=430098)](https://tidsbanken-case.herokuapp.com/login)
 
 ## Assignment
 Tidsbanken have approached the candidates and requested that a solution for managing
