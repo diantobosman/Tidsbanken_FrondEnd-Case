@@ -27,9 +27,9 @@
                 <td>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</td>
                 <td>{{vacation.title}}</td>
                 <td>{{vacation.status}}</td>
-                <td style="text-align: center"><button (click)="goToVacationSummary(vacation)"><span class="material-icons md-24 mycyan m-0">info</span></button></td>
-                <td style="text-align: center"><button *ngIf="vacation.status === 'PENDING'" (click)="goToVacationUpdate(vacation)"><span class="material-icons md-24 mycyan m-0">edit</span></button></td>
-                <td style="text-align: center"><button (click)="deleteVacationById(vacation.requestId)"><span class="material-icons md-24 mycyan m-0">delete</span></button></td>
+                <td><button (click)="goToVacationSummary(vacation)"><span class="material-icons md-24 mycyan m-0">info</span></button></td>
+                <td><button *ngIf="vacation.status === 'PENDING'" (click)="goToVacationUpdate(vacation)"><span class="material-icons md-24 mycyan m-0">edit</span></button></td>
+                <td><button (click)="deleteVacationById(vacation.requestId)"><span class="material-icons md-24 mycyan m-0">delete</span></button></td>
             </tbody>
     </table>
 
