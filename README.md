@@ -7,7 +7,7 @@ Tidsbanken have approached the candidates and requested that a solution for mana
 requests for vacation time for their employees. The application serves a dual purpose.
 Firstly, it serves to manage the request and approval process of vacation days for employees and ease the burden of communication. Secondly, the application serves to inform employees about each other’s approved vacation days so that teams may adequately plan for periods of absence.
 
-## How it works
+## How It Works
 Both the front-end and back-end are uploaded on heroku. This repository is the front-end part of the product. It uses the API-endpoints of the repository below:
 
 [Noroff Bootcamp Tidsbanken Case API](https://github.com/savannah-borst/Tidsbanken-case-API)
@@ -18,23 +18,20 @@ The above also requires the back-end api. Click the above link for futher instru
 ```git clone https://github.com/diantobosman/Tidsbanken_FrontEnd-Case.git```
 
 The front-end needs npm to run: <br />
-```npm install```
-
+```npm install``` <br />
 
 To run the application one can use the command: <br />
 ```ng serve```
-<br />
-<br />
 
-The user can login as user with <br />
-Username: testuser
+
+## How To Login
+
+The user can login as user with: <br />
+Username: testuser <br />
 Password: 1234
 
-<br />
-<br />
-
-And as admin as: <br />
-Username: testadmin
+And as admin using: <br />
+Username: testadmin <br />
 Password: 12345
 
 ## Future
