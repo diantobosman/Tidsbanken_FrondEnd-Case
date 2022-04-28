@@ -25,14 +25,12 @@
                     <tbody>
                         <tr>
                             <td>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</td>
-                            <td>{{periodStart}}</td>
-                            <td>{{periodEnd}}</td>
+                            <td>{{vacation.periodStart}}</td>
+                            <td>{{vacation.periodEnd}}</td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="sectionModerator">
-                    <p *ngIf="vacation.moderator">Your request has been moderated by: {{vacation.moderator.first_name}} {{vacation.moderator.last_name}}</p>
-                </div>
+                
             </div>
             <section *ngIf="isString(vacation.comment[0])" class="commentsSection text-left">
                 <h4><strong>Comments</strong></h4>

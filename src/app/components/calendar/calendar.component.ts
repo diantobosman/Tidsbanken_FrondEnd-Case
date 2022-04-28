@@ -8,6 +8,7 @@ import { VacationService } from '../../services/vacation.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { IneligibleDialogComponent } from '../ineligible-dialog/ineligible-dialog.component';
 import { Vacation } from 'src/app/models/vacation.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-calendar',
@@ -34,6 +35,7 @@ export class CalendarComponent implements OnInit {
     private readonly router: Router,
     private readonly employeeService: EmployeeService,
     private readonly vacationService: VacationService,
+    private datePipe: DatePipe,
     public dialog: MatDialog
   ) {
   }
@@ -102,8 +104,24 @@ export class CalendarComponent implements OnInit {
   }
 
 
-  public redirect(vacation: Vacation) {
+  public redirect(oldVacation: Vacation) {
+    
+
+    const vacation = {
+      requestId: oldVacation.requestId,
+      title: oldVacation.title,
+      periodStart: this.datePipe.transform(oldVacation.periodStart, 'dd-MM-yyyy'),
+      periodEnd: this.datePipe.transform(oldVacation.periodEnd, 'dd-MM-yyyy'),
+      dateCreated: oldVacation.dateCreated,
+      dateUpdated: oldVacation.dateUpdated,
+      moderator: oldVacation.moderator,
+      requestOwner: oldVacation.requestOwner,
+      status: oldVacation.status,
+      comment: oldVacation.comment
+    }
+
     console.log(vacation);
+
     this.router.navigateByUrl("vacation-request-summary",{ state: { vacation }});
   }
 
