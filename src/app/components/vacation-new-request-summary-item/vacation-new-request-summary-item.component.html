@@ -29,7 +29,7 @@
                     </tbody>
                 </table>
             </div>
-            <section class="text-left">
+            <section class="text-left" *ngIf="vacationRequest.comment.length > 0">
                 <h4><strong>Comments</strong></h4>
                 <ul>
                     <li *ngFor="let comment of vacationRequest.comment">{{comment.commentOwner}}: {{comment.message}}</li>

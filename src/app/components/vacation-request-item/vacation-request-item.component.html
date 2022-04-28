@@ -37,10 +37,15 @@
       id="commentMessage" 
       ></textarea>
     </mat-form-field> 
-    <button class="addComment" (click)="addNewComment()">comment<span class="material-icons md-24 mycyan m-0">add</span></button>
-    <ul>
-      <li *ngFor="let comment of vacationComments">{{comment.commentOwner}}: {{comment.message}}</li>
-    </ul>
+    <button mat-raised-button color="primary" class="addComment" (click)="addNewComment()"><span class="material-icons md-24 white m-0" >add</span></button>
+    
+    <section *ngIf="vacationComments.length > 0">
+      <h4><strong>Comments</strong></h4>
+      <ul>
+        <li *ngFor="let comment of vacationComments">{{comment.commentOwner}}: {{comment.message}}</li>
+      </ul>
+    </section>
+
   </section>
 
   <button mat-raised-button color="primary" type="submit" (click)="saveChangesSubmit(updateVacationRequestForm)">Save changes</button>

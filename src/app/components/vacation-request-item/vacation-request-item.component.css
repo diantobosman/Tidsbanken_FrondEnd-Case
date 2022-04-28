@@ -5,9 +5,8 @@ section{
 }
 
 .addComment{
-    float: right;
-    margin: 10px auto 10px auto;
-    border: none;
+    float: center;
+    margin-left: 20px;
 }
 
 ul{

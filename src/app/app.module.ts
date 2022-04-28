@@ -58,6 +58,7 @@ import { AdminPendingRequestsComponent } from './components/admin-pending-reques
 import { VacationNewRequestSummaryPage } from './pages/vacation-new-request-summary/vacation-new-request-summary.page';
 import { VacationNewRequestSummaryItemComponent } from './components/vacation-new-request-summary-item/vacation-new-request-summary-item.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { DatePipe } from '@angular/common';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -123,7 +124,7 @@ FullCalendarModule.registerPlugins([
     MatListModule,
     MatSlideToggleModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

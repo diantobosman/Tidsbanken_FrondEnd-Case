@@ -8,6 +8,7 @@ import { Vacation } from '../models/vacation.model';
 import { StorageUtil } from '../utils/storage.util';
 import { CommentService } from './comment.service';
 import { EmployeeService } from './employee.service';
+import { DatePipe } from '@angular/common';
 
 const {APIURL} = environment;
 
@@ -23,7 +24,7 @@ export class VacationService {
   private _vacations: Vacation[] = [];
   private _ownVacations: Vacation[] = [];
   private _error: any = '';
-  private _savedVacation!: Vacation;
+  private _savedVacation!: any;
   private _updatedVacation!: Vacation;
   private _token: string = "";
   private _employeeId?: string = "";
@@ -31,7 +32,8 @@ export class VacationService {
   constructor(
     private readonly http: HttpClient, 
     private readonly commentService: CommentService,
-    private readonly employeeService: EmployeeService) {
+    private readonly employeeService: EmployeeService,
+    private datePipe: DatePipe) {
       this._token = StorageUtil.storageRead(StorageKeys.AuthKey)!;
       this._employeeId = StorageUtil.storageRead(StorageKeys.UserId);
     }
@@ -200,10 +202,10 @@ export class VacationService {
 
      this.http.post<Vacation>(`${APIURL}vacation_request/create`, JSON.stringify(vacation), {headers})
      .pipe(
-       finalize(() => this._loading = false)
+      finalize(() => this._loading = false)
      )
      .subscribe({
-      next: (response: Vacation) => {
+      next: (response: any) => {
         if(comment.message.length != 0){
           this.commentService.saveComment(response.requestId, comment, this._token);
         }
@@ -217,6 +219,8 @@ export class VacationService {
             response.comment = comments
           }
         )
+        response.periodStart = this.datePipe.transform(response.periodStart, 'dd-MM-yyyy');
+        response.periodEnd = this.datePipe.transform(response.periodEnd, 'dd-MM-yyyy');
         this._savedVacation = response;
       },
       error:(error: HttpErrorResponse) => {
