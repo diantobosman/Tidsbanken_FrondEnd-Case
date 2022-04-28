@@ -50,7 +50,7 @@
                 <th>Status</th>
                 <th>Details</th>
                 <th>Update</th>
-                <th>Delete</th>
+                <th *ngIf="employee?.admin ">Delete</th>
             </tr>
         </thead>
             <tbody *ngFor="let vacation of vacations">
@@ -62,7 +62,7 @@
                 <td>{{vacation.status}}</td>
                 <td><button (click)="goToVacationSummary(vacation)"><span class="material-icons md-24 mycyan m-0">info</span></button></td>
                 <td><button *ngIf="vacation.status === 'PENDING'" (click)="goToVacationUpdate(vacation)"><span class="material-icons md-24 mycyan m-0">edit</span></button></td>
-                <td><button *ngIf="employee?.admin || vacation.status === 'PENDING'" (click)="deleteVacationById(vacation.requestId)"><span class="material-icons md-24 mycyan m-0">delete</span></button></td>
+                <td><button *ngIf="employee?.admin" (click)="deleteVacationById(vacation.requestId)"><span class="material-icons md-24 mycyan m-0">delete</span></button></td>
             </tbody>
         </table>
     </ng-template>
