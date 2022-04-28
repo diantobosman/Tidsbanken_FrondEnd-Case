@@ -15,7 +15,7 @@ import { StorageUtil } from 'src/app/utils/storage.util';
 export class CalendarDashboardPage implements OnInit {
 
   get vacations(): Vacation[] {
-    return this.vacationService.vacations;
+    return this.vacationService.events;
   } 
 
   get ineligibles(): Ineligible[] {
@@ -26,7 +26,7 @@ export class CalendarDashboardPage implements OnInit {
     return this.vacationService.loading;
   }
 
-  get error(): String {
+  get error(): string {
     return this.vacationService.error;
   }
 
@@ -36,7 +36,7 @@ export class CalendarDashboardPage implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.vacationService.getAllVacations();
+    this.vacationService.getAllCalendarEvents();
     this.ineligibleService.getAllIneligible();
   }
 }

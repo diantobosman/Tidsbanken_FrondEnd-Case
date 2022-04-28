@@ -22,6 +22,7 @@ export class VacationService {
   private _vacationById!: Vacation;
   private _loading: boolean = false;
   private _vacations: Vacation[] = [];
+  private _events: Vacation[] = [];
   private _ownVacations: Vacation[] = [];
   private _error: any = '';
   private _savedVacation!: any;
@@ -40,6 +41,10 @@ export class VacationService {
 
   get vacations (){
     return this._vacations;
+  }
+
+  get events (){
+    return this._events;
   }
 
   get ownVacations (){
@@ -99,6 +104,46 @@ export class VacationService {
             vacation.periodStart = this.datePipe.transform(vacation.periodStart, 'dd-MM-yyyy');
             vacation.periodEnd = this.datePipe.transform(vacation.periodEnd, 'dd-MM-yyyy');
             this._vacations.push(vacation);
+          })
+      }
+    })
+  }
+
+   // Fetch all vacations for calendar
+   public getAllCalendarEvents() : void {
+
+    this._loading = true;
+    const headers = new HttpHeaders ({
+      "Accept": "*/*",
+      "Authorization": `Bearer ${this._token}`
+      })
+
+    this.http.get<Vacation[]>(`${APIURL}vacation_request/`, {headers})
+    .pipe(
+        finalize(() => this._loading = false)
+      )
+      .subscribe({
+        next: (vacations: Vacation[]) => {
+          this._events = [];
+          vacations.forEach((vacation: Vacation) => {
+            this.employeeService.getEmployeeById(vacation.requestOwner.toString(), this._token).subscribe(
+              employee =>{
+                vacation.requestOwner = employee;
+              }
+            )
+            if(vacation.moderator !== null){
+              this.employeeService.getEmployeeById(vacation.moderator.toString(), this._token).subscribe(
+                employee =>{
+                  vacation.moderator = employee;
+                }
+              )
+            }
+            this.commentService.getComments(vacation.requestId, this._token).subscribe(
+              comments =>{
+                vacation.comment = comments
+              }
+            )
+            this._events.push(vacation);
           })
       }
     })
