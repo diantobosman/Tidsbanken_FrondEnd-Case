@@ -24,8 +24,8 @@ export class CommentService {
       "Content-Type": "application/json",
       })
 
-      this.http.post(`${APIURL}request/${requestId}/comment/add`, JSON.stringify(comment), {headers}).
-      subscribe({
+      this.http.post(`${APIURL}request/${requestId}/comment/add`, JSON.stringify(comment), {headers})
+      .subscribe({
         next: () => {
           console.log('comment succesfully saved')
         },

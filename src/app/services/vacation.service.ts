@@ -206,7 +206,7 @@ export class VacationService {
      )
      .subscribe({
       next: (response: any) => {
-        if(comment.message.length != 0){
+        if(comment.message.length > 0){
           this.commentService.saveComment(response.requestId, comment, this._token);
         }
         this.employeeService.getEmployeeById(response.requestOwner.toString(), this._token).subscribe(
