@@ -16,6 +16,8 @@
                 <th>Id</th>
                 <th>Employee</th>
                 <th>Title</th>
+                <th>From</th>
+                <th>Until</th>
                 <th>Status</th>
                 <th>Details</th>
                 <th>Update</th>
@@ -26,6 +28,8 @@
                 <td>{{vacation.requestId}}</td>
                 <td>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</td>
                 <td>{{vacation.title}}</td>
+                <td>{{vacation.periodStart}}</td>
+                <td>{{vacation.periodEnd}}</td>
                 <td>{{vacation.status}}</td>
                 <td><button (click)="goToVacationSummary(vacation)"><span class="material-icons md-24 mycyan m-0">info</span></button></td>
                 <td><button *ngIf="vacation.status === 'PENDING'" (click)="goToVacationUpdate(vacation)"><span class="material-icons md-24 mycyan m-0">edit</span></button></td>
@@ -41,16 +45,20 @@
                 <th>Id</th>
                 <th>Employee</th>
                 <th>Title</th>
+                <th>From</th>
+                <th>Until</th>
                 <th>Status</th>
                 <th>Details</th>
                 <th>Update</th>
-                <th *ngIf="employee?.admin">Delete</th>
+                <th *ngIf="employee?.admin ">Delete</th>
             </tr>
         </thead>
             <tbody *ngFor="let vacation of vacations">
                 <td>{{vacation.requestId}}</td>
                 <td>{{vacation.requestOwner.first_name}} {{vacation.requestOwner.last_name}}</td>
                 <td>{{vacation.title}}</td>
+                <td>{{vacation.periodStart}}</td>
+                <td>{{vacation.periodEnd}}</td>
                 <td>{{vacation.status}}</td>
                 <td><button (click)="goToVacationSummary(vacation)"><span class="material-icons md-24 mycyan m-0">info</span></button></td>
                 <td><button *ngIf="vacation.status === 'PENDING'" (click)="goToVacationUpdate(vacation)"><span class="material-icons md-24 mycyan m-0">edit</span></button></td>

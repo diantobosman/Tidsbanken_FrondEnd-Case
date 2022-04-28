@@ -78,7 +78,7 @@ export class VacationService {
       .subscribe({
         next: (vacations: Vacation[]) => {
           this._vacations = [];
-          vacations.forEach((vacation) => {
+          vacations.forEach((vacation: any) => {
             this.employeeService.getEmployeeById(vacation.requestOwner.toString(), this._token).subscribe(
               employee =>{
                 vacation.requestOwner = employee;
@@ -96,6 +96,8 @@ export class VacationService {
                 vacation.comment = comments
               }
             )
+            vacation.periodStart = this.datePipe.transform(vacation.periodStart, 'dd-MM-yyyy');
+            vacation.periodEnd = this.datePipe.transform(vacation.periodEnd, 'dd-MM-yyyy');
             this._vacations.push(vacation);
           })
       }
@@ -119,7 +121,7 @@ export class VacationService {
       .subscribe({
         next: (vacations: Vacation[]) => {
           this._ownVacations = [];
-          vacations.forEach((vacation) => {
+          vacations.forEach((vacation: any) => {
             this.employeeService.getEmployeeById(vacation.requestOwner.toString(), this._token).subscribe(
               employee =>{
                 vacation.requestOwner = employee;
@@ -137,6 +139,8 @@ export class VacationService {
                 vacation.comment = comments
               }
             )
+            vacation.periodStart = this.datePipe.transform(vacation.periodStart, 'dd-MM-yyyy');
+            vacation.periodEnd = this.datePipe.transform(vacation.periodEnd, 'dd-MM-yyyy');
             this._ownVacations.push(vacation);
           })
         }
