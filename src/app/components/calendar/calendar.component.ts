@@ -86,19 +86,14 @@ export class CalendarComponent implements OnInit {
   calendarOptions: CalendarOptions = {
     headerToolbar: {start: 'title prevYear,nextYear', center: '', end: 'today prev,next'},
     initialView: 'dayGridMonth',
-    dateClick: this.handleDateClick.bind(this), // bind is important!
     eventClick: this.handleEventClick.bind(this),
     weekNumbers: true,
     events: this._eventArray,
     firstDay: 1
   };
 
-  handleDateClick(arg: any) {
-    alert('date click! ' + arg.dateStr)
-  }
-
   handleEventClick(info: any) {
-    this.vacationService.getVacationByID(info.event.id); //gaat maar 1x
+    this.vacationService.getVacationByID(info.event.id);
 
     setTimeout( () => {
       this.vacation = this.vacationService.vacationById;
