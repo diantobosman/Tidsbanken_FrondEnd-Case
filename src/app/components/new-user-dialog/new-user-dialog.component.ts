@@ -35,8 +35,6 @@ export class NewUserDialogComponent {
     (await this.registerService.registerKeyCloak(username, password))
       .subscribe({
         next: async () => {
-
-          console.log("Registering the user in keycloak...")
           await new Promise(resolve => setTimeout(resolve, 500));
           this.getUserAndRegister(firstName, lastName, email, username, pictureURL)
         },
@@ -50,9 +48,7 @@ export class NewUserDialogComponent {
       this.registerService.getUserByAnyKeycloak()
         .subscribe({
           next: async (result) => {
-            console.log("Registered succesfully... Register in the API now...")
             //-- Get the id of the employee and then register in the API
-
             const idNewEmployee = FunctionUtil.filterByValue(result, username)[0].id
             
             this.registerService.registerAPI(idNewEmployee, firstName, lastName, email, pictureURL)
