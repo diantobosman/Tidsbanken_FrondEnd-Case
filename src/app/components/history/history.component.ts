@@ -30,7 +30,7 @@ export class HistoryComponent implements OnInit {
 
   //Getters
   get vacations(): Vacation[]{
-    return this.vacationService.ownVacations.reverse();
+    return this.vacationService.ownVacations;
   }
 
   get isLoading(): boolean{
@@ -38,7 +38,7 @@ export class HistoryComponent implements OnInit {
   }
 
   get allVacations(){
-      return this.vacationService.vacations.reverse();
+      return this.vacationService.vacations;
   }
 
   get employee(){
