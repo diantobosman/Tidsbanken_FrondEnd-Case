@@ -10,7 +10,7 @@ Firstly, it serves to manage the request and approval process of vacation days f
 ## How it works
 Both the front-end and back-end are uploaded on heroku. This repository is the front-end part of the product. It uses the API-endpoints of the repository below:
 
-[Back-end](https://github.com/savannah-borst/Tidsbanken-case-API)
+[Noroff Bootcamp Tidsbanken Case API](https://github.com/savannah-borst/Tidsbanken-case-API)
 
 ## How To Use
 This repository can be cloned using:
