@@ -41,6 +41,9 @@ Future work may include:
 - Solving the bug that the calendar has to be reloaded in order to see the vacations
 - Use the settings from the created API in the front-end, to create a maximum number of vacation per employee and also to add the constraint of a maximum of contiguous days of vacation.
 
+## Documentation
+Further documentation such as wireframes, diagrams and component tree can be found in de src/assets/exports folder of the application.
+
 ## Built With
 [IntelliJ IDEA](https://www.jetbrains.com/idea/)
 
